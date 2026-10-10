@@ -4,6 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <meta name="theme-color" content="#130f0e">
+  <meta name="description" content="Пепел Королевства — мрачная средневековая RPG. Исследуй руины, сражайся с чудовищами и выбирай судьбу.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Пепел Королевства">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <meta name="color-scheme" content="dark">
   <title>Пепел Королевства — Dark Fantasy RPG: Rune Edition</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -17,6 +24,7 @@
         <div class="stat"><span><svg class="ui-icon"><use href="assets/icons.svg#coin"/></svg></span><div><small>Золото</small><strong id="top-gold">—</strong></div></div>
         <div class="stat"><span><svg class="ui-icon"><use href="assets/icons.svg#sword"/></svg></span><div><small>Уровень</small><strong id="top-level">—</strong></div></div>
         <div class="stat"><span><svg class="ui-icon"><use href="assets/icons.svg#balance"/></svg></span><div><small>Карма</small><strong id="top-karma">—</strong></div></div>
+        <button id="install-app" class="btn btn-ghost install-app" hidden>Установить</button>
       </div>
     </header>
 
@@ -56,19 +64,19 @@
         <section class="content-area">
           <div class="scene-header">
             <div><p class="eyebrow" id="scene-eyebrow">ЗЕМЛИ СЕВЕРА</p><h2 id="scene-title">Перекрёсток судьбы</h2></div>
-            <div class="weather">☾ <span>Луна кровавого пепла</span></div>
+            <div class="weather"><svg class="ui-icon"><use href="assets/icons.svg#sigil"/></svg> <span id="phase-label">Луна кровавого пепла</span></div>
           </div>
           <div id="tab-world" class="tab-view">
             <div class="world-banner panel">
-              <div class="banner-copy"><p class="eyebrow">ТВОЯ ИСТОРИЯ НАЧИНАЕТСЯ</p><h3>Дорога помнит каждый шаг</h3><p>Впереди — забытые руины, опасные тропы и люди, чьи улыбки стоят дороже стали.</p><button id="travel-btn" class="btn btn-gold">Отправиться в путь →</button></div>
+              <div class="banner-copy"><p class="eyebrow">ТВОЯ ИСТОРИЯ НАЧИНАЕТСЯ</p><h3>Дорога помнит каждый шаг</h3><p>Впереди — забытые руины, опасные тропы и люди, чьи улыбки стоят дороже стали.</p><button id="travel-btn" class="btn btn-gold">Отправиться в путь <svg class="ui-icon"><use href="assets/icons.svg#compass"/></svg></button></div>
               <div class="moon-art"><div class="moon"></div><div class="tower tower-a"></div><div class="tower tower-b"></div></div>
             </div>
             <div class="section-heading"><h3>Последние вести</h3><span class="muted">Слухи и знамения</span></div>
             <div id="event-feed" class="event-feed"></div>
             <div class="world-actions">
               <button class="action-card" data-action="hunt"><span><svg class="ui-icon"><use href="assets/icons.svg#sword"/></svg></span><strong>Охота на дороге</strong><small>Найти добычу и опыт</small></button>
-              <button class="action-card" data-action="search"><span>⌖</span><strong>Осмотреть руины</strong><small>Рискнуть ради сокровищ</small></button>
-              <button class="action-card" data-action="pray"><span>☼</span><strong>Молиться у святилища</strong><small>Испытать милость судьбы</small></button>
+              <button class="action-card" data-action="search"><span><svg class="ui-icon"><use href="assets/icons.svg#compass"/></svg></span><strong>Осмотреть руины</strong><small>Рискнуть ради сокровищ</small></button>
+              <button class="action-card" data-action="pray"><span><svg class="ui-icon"><use href="assets/icons.svg#sun"/></svg></span><strong>Молиться у святилища</strong><small>Испытать милость судьбы</small></button>
             </div>
           </div>
 
@@ -76,12 +84,12 @@
             <div class="arena panel">
               <div class="arena-top"><div><p class="eyebrow">ПОШАГОВОЕ СРАЖЕНИЕ</p><h3 id="arena-title">На арене тихо</h3></div><span class="arena-status" id="arena-status">ОЖИДАНИЕ</span></div>
               <div class="combatants">
-                <div id="player-combatant" class="combatant player-combatant"><div class="fighter-icon">♙</div><strong id="fighter-player-name">Странник</strong><div class="combat-hp"><i id="fighter-player-hp"></i></div><small id="fighter-player-hp-text">—</small></div>
+                <div id="player-combatant" class="combatant player-combatant"><div class="fighter-icon"><svg class="ui-icon fighter-svg"><use href="assets/icons.svg#profile"/></svg></div><strong id="fighter-player-name">Странник</strong><div class="combat-hp"><i id="fighter-player-hp"></i></div><small id="fighter-player-hp-text">—</small></div>
                 <div class="versus">VS</div>
-                <div id="enemy-combatant" class="combatant enemy-combatant"><div id="enemy-icon" class="fighter-icon">☠</div><strong id="enemy-name">Враг</strong><div class="combat-hp"><i id="enemy-hp"></i></div><small id="enemy-hp-text">—</small></div>
+                <div id="enemy-combatant" class="combatant enemy-combatant"><div id="enemy-icon" class="fighter-icon"><svg class="ui-icon fighter-svg"><use href="assets/icons.svg#skull"/></svg></div><strong id="enemy-name">Враг</strong><div class="combat-hp"><i id="enemy-hp"></i></div><small id="enemy-hp-text">—</small></div>
               </div>
               <div id="combat-log" class="combat-log"><p class="muted">Враги не появляются без причины. Найди их на дороге.</p></div>
-              <div class="combat-actions"><button id="attack-btn" class="btn btn-danger" disabled>⚔ Атаковать</button><button id="potion-btn" class="btn btn-ghost" disabled>✚ Зелье (<span id="potion-count">0</span>)</button><button id="flee-btn" class="btn btn-ghost" disabled>↗ Отступить</button></div>
+              <div class="combat-actions"><button id="attack-btn" class="btn btn-danger" disabled><svg class="ui-icon"><use href="assets/icons.svg#sword"/></svg> Атаковать</button><button id="potion-btn" class="btn btn-ghost" disabled><svg class="ui-icon"><use href="assets/icons.svg#potion"/></svg> Зелье (<span id="potion-count">0</span>)</button><button id="flee-btn" class="btn btn-ghost" disabled><svg class="ui-icon"><use href="assets/icons.svg#boot"/></svg> Отступить</button></div>
             </div>
           </div>
 
@@ -106,9 +114,9 @@
       <nav class="bottom-nav">
         <button class="nav-tab active" data-tab="world"><span>⌖</span><small>Мир и события</small></button>
         <button class="nav-tab" data-tab="arena"><span><svg class="ui-icon"><use href="assets/icons.svg#sword"/></svg></span><small>Арена боя</small></button>
-        <button class="nav-tab" data-tab="inventory"><span>♜</span><small>Инвентарь</small></button>
-        <button class="nav-tab" data-tab="profile"><span>♙</span><small>Профиль</small></button>
-        <button class="nav-tab" data-tab="tavern"><span>♨</span><small>Таверна</small></button>
+        <button class="nav-tab" data-tab="inventory"><span><svg class="ui-icon"><use href="assets/icons.svg#chest"/></svg></span><small>Инвентарь</small></button>
+        <button class="nav-tab" data-tab="profile"><span><svg class="ui-icon"><use href="assets/icons.svg#profile"/></svg></span><small>Профиль</small></button>
+        <button class="nav-tab" data-tab="tavern"><span><svg class="ui-icon"><use href="assets/icons.svg#mug"/></svg></span><small>Таверна</small></button>
       </nav>
     </section>
     <div id="toast" class="toast" role="status"></div>
@@ -116,5 +124,6 @@
   </main>
   <script src="database.js"></script>
   <script src="game.js"></script>
+  <script>if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {})); }</script>
 </body>
 </html>

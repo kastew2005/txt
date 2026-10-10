@@ -8,3 +8,27 @@
 /* Rune Edition: custom SVG icons and carved-metal controls */
 .ui-icon,.item-svg,.event-svg,.fighter-svg,.medallion-svg{display:inline-block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;filter:drop-shadow(0 0 4px #c69b3c22)}.ui-icon{width:1.15em;height:1.15em}.sigil-icon{width:112px;height:112px;stroke-width:.8}.item-svg{width:1.2em;height:1.2em;color:#c9a15f}.race-icon .item-svg{width:24px;height:24px}.item-cell .item-svg{width:27px;height:27px}.event-svg{width:20px;height:20px;color:#c9a15f}.fighter-svg{width:52px;height:52px}.medallion-svg{width:36px;height:36px;color:var(--gold2)}.btn,.action-card,.nav-tab,.race-option{position:relative;isolation:isolate;overflow:hidden;border-radius:2px}.btn{text-transform:uppercase;letter-spacing:1px;box-shadow:inset 0 1px #ffffff12,inset 0 -3px #0004,0 5px 16px #0003}.btn:after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,#fff2 48%,transparent 70%);transform:translateX(-130%);transition:transform .55s;pointer-events:none}.btn:hover:not(:disabled):after{transform:translateX(130%)}.btn:active:not(:disabled){transform:translateY(2px) scale(.99);box-shadow:inset 0 3px 10px #0008}.btn-gold{background:linear-gradient(135deg,#c3a066,#8e6535 48%,#b88c4b);box-shadow:inset 0 1px #fff3,inset 0 -3px #50331a66,0 0 0 1px #2a1c10,0 0 18px #c3954010}.btn-gold:hover:not(:disabled){box-shadow:inset 0 1px #fff5,0 0 22px #d2a34b30;border-color:#ffe2a0}.btn-ghost{background:linear-gradient(145deg,#29221e,#13100f)}.btn-ghost:hover:not(:disabled){border-color:#c29b58;color:#f2dba8;box-shadow:inset 0 0 20px #c99a3814,0 0 14px #c99a3810}.race-option.selected{box-shadow:inset 0 0 24px #bc8a3215,0 0 15px #c69b3c12}.nav-tab{background:linear-gradient(180deg,#1b1512,#100d0c)}.nav-tab.active{box-shadow:inset 0 -2px var(--gold),inset 0 0 20px #b88a3612}.nav-tab .ui-icon{width:22px;height:22px}.action-card>span .ui-icon{width:27px;height:27px;color:var(--gold)}.panel{box-shadow:0 16px 50px #0005,inset 0 1px #ffffff05}.event-entry{background:linear-gradient(110deg,#211914,#15100e);border-left:2px solid #71502d}.hero-medallion{animation:runePulse 4s ease-in-out infinite}.tab-view:not(.hidden){animation:fadeScale .28s ease both}@keyframes runePulse{0%,100%{box-shadow:inset 0 0 24px #b68c3b18,0 0 12px #b68c3b08}50%{box-shadow:inset 0 0 30px #b68c3b30,0 0 25px #b68c3b20}}@keyframes fadeScale{from{opacity:0;transform:translateY(5px) scale(.995)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media(max-width:600px){.fighter-svg{width:40px;height:40px}}
+
+/* PWA + adaptive finishing pass */
+:root{--safe-bottom:env(safe-area-inset-bottom,0px);--safe-top:env(safe-area-inset-top,0px)}
+html{min-height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%;scrollbar-color:#72532d #100d0c}
+body{min-height:100dvh;overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;transition:background-color .6s ease,color .6s ease}
+.app-shell{width:min(100%,1440px);padding-bottom:calc(28px + var(--safe-bottom))}
+button,.btn,.action-card,.nav-tab,.race-option,.item-cell{touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;min-height:38px}
+.btn,.action-card,.nav-tab,.race-option,.item-cell,.modal-close{border:1px solid #74552f;transition:transform .16s ease,filter .2s ease,box-shadow .2s ease,border-color .2s ease}
+.btn{background-image:linear-gradient(135deg,#44301d 0%,#211711 42%,#47301b 100%);color:#f1dba8;text-shadow:0 1px 1px #000,0 0 10px #d4ad6220;padding:12px 17px}
+.btn:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.14);box-shadow:inset 0 0 18px #d7b76b20,0 7px 18px #0008}
+.btn:disabled{filter:grayscale(.8) brightness(.55);border-color:#392e27;background-image:linear-gradient(135deg,#292421,#151312);text-decoration:line-through;text-decoration-color:#6d5146}
+.install-app{white-space:nowrap;padding:9px 12px;font-size:10px}
+.weather{display:flex;align-items:center;gap:7px}
+.night-phase{--gold:#b8a0e8;--gold2:#dfd0ff;--line:#4a355c;background:radial-gradient(ellipse at 50% -15%,#241b3d 0,#120f1b 43%,#09080e 85%)}
+.night-phase .ambient-two{background:#7754bd;opacity:.13}
+.night-phase .event-entry{border-left-color:#9e77dc}
+.holy-path{--gold:#d5bd74;--gold2:#fff0b5}
+.holy-path .hero-medallion{filter:drop-shadow(0 0 12px #e9d27a66)}
+.corrupt-path{--gold:#b67be0;--gold2:#e0b6ff;--line:#57355f}
+.corrupt-path .hero-medallion{filter:drop-shadow(0 0 14px #a44be766)}
+.corrupt-path .event-entry{border-left-color:#9c55c5}
+@media(min-width:1600px){.app-shell{max-width:1440px}.topbar{padding-block:clamp(22px,2vh,34px)}}
+@media(max-width:380px){.app-shell{padding-left:7px;padding-right:7px}.brand{gap:8px}.brand strong{font-size:10px;letter-spacing:1px}.brand-mark{width:34px;height:34px}.top-stats{flex-wrap:wrap;row-gap:9px}.stat{flex:1 1 28%}.install-app{flex:1}.race-grid{gap:6px}.race-option{padding:10px 5px}.bottom-nav{padding-bottom:var(--safe-bottom)}.nav-tab small{font-size:7px}.combat-actions .btn{font-size:9px;letter-spacing:.4px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
