@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Пепел Королевства — Dark Fantasy RPG v10.0",
-  "short_name": "Пепел v10.0",
-  "description": "Интерактивная карта путешествий, динамическая погода, Цитадель и полностью офлайн Dark Fantasy RPG.",
+  "name": "Пепел Королевства — Ultimate Dark Fantasy RPG v12.0",
+  "short_name": "Пепел v12.0",
+  "description": "Полностью локальная Dark Fantasy RPG: интерактивная карта, пошаговый бой, сохранения и офлайн PWA.",
   "lang": "ru",
   "start_url": "./index.html",
   "scope": "./",
