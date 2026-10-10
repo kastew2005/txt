@@ -441,3 +441,69 @@ button,.btn,.action-card,.nav-tab,.map-location,.map-node,.spell-card,.item-cell
 button:disabled{cursor:not-allowed;filter:saturate(.55);opacity:.62}.combat-actions button,.spell-card,.nav-tab,.action-card,.more-menu-item{touch-action:manipulation;min-height:44px}
 html,body{height:100%;height:100dvh;overflow:hidden}.start-screen{overflow:hidden!important}.start-panel{overflow-y:auto!important;overscroll-behavior:contain;scrollbar-width:thin}.tutorial-highlight{position:relative!important;z-index:100000!important;outline:2px solid #f4d98b!important;outline-offset:4px;box-shadow:0 0 0 9999px rgba(0,0,0,.82),0 0 24px #f3ca67!important}
 @media(max-width:760px){.tutorial-optin{padding:8px 10px!important;margin:7px 0!important}.tutorial-optin small{font-size:12px}.start-panel .wide{min-height:44px}.btn-execute{min-height:44px}}
+
+/* v14.0 Master Edition: readable mobile controls, focus map and working sound toggle. */
+:root{--master-text:16px;--master-heading:clamp(20px,2.4vw,22px);--master-touch:48px}
+html,body,#app{width:100%;height:100%;height:100dvh;min-height:0;max-height:100dvh;overflow:hidden;overscroll-behavior:none}
+body{font-size:var(--master-text);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+button,input,textarea,select{font:inherit}
+button,.btn,.nav-tab,.action-card,.map-location,.race-option,.more-menu-item{touch-action:manipulation}
+p,.muted,label,input,textarea,.feature-card p,.feature-card small,.profile-grid,.event-entry,.map-footer,.map-weather-chip,.race-option small,.race-detail,.tutorial-card p,.start-panel>p:not(.eyebrow){font-size:16px;line-height:1.4}
+h1,h2,h3,h4,.scene-title{font-size:var(--master-heading)}
+.eyebrow{font-size:14px;letter-spacing:1.5px}
+.btn,.action-card,.race-option,.more-menu-item{min-height:var(--master-touch);font-size:16px}
+.bottom-nav{min-height:72px;gap:7px;padding:7px 6px calc(7px + var(--safe-bottom,0px));background:linear-gradient(180deg,#191411f2,#0d0b0bf8);border-top:1px solid #8e6d3d77;z-index:40}
+.nav-tab{min-height:58px;flex:1 1 0;padding:7px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.nav-tab small{font-size:16px;font-weight:700}
+.nav-tab .ui-icon{width:24px;height:24px}
+#tab-world .travel-map-panel{height:clamp(220px,37vh,350px);padding:clamp(8px,1.4vh,14px);gap:7px}
+#tab-world .travel-map{height:100%;min-height:155px;flex:1}
+.travel-map-heading h3{font-size:20px}
+.map-location .node-ring{stroke-width:2.8}
+.map-location .node-halo{r:24;opacity:.16}
+.map-location.is-current .node-halo{opacity:.48}
+.map-location text{font-size:13px;stroke-width:3.5px}
+#tab-world .world-actions{gap:7px}
+#tab-world .action-card{min-height:52px;padding:7px 10px;display:flex;align-items:center;gap:8px}
+#tab-world .action-card strong{font-size:16px}
+#tab-world .action-card small{display:none}
+.topbar{z-index:12;gap:8px}
+.top-stats{gap:clamp(5px,1vw,16px);align-items:center}
+.top-stats .stat small{font-size:14px}
+.top-stats .stat strong{font-size:16px}
+.top-stats #ambient-btn{display:flex;align-items:center;justify-content:center;gap:6px;min-width:var(--master-touch);min-height:var(--master-touch);font-size:14px;padding:7px 10px}
+.sound-toggle .ui-icon{width:22px;height:22px;flex:0 0 auto}
+.sound-toggle.sound-muted{color:#a4a0a0;border-color:#514b4b}
+.profile-race-avatar{width:104px;height:104px;margin:8px auto 12px;display:grid;place-items:center;border:1px solid #d7b56d88;border-radius:50%;background:radial-gradient(circle,#c7a65b22,transparent 68%),#100e12;box-shadow:inset 0 0 25px #d0a64c12,0 0 24px #0007}
+.profile-race-svg{width:76px;height:76px;color:#e8cc8a;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 8px #d4a84a44)}
+.profile-race-svg .portrait-fill{fill:currentColor;fill-opacity:.22}
+.profile-race-svg .portrait-dark{fill:#17110f;stroke:currentColor}
+.tab-view:not(.hidden){animation:masterTabEnter .22s ease-out both}
+@keyframes masterTabEnter{from{opacity:.25;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.more-menu{z-index:1000}.more-menu-card{max-height:min(82dvh,760px);overflow-y:auto;overscroll-behavior:contain}.more-menu-item{min-height:86px;padding:12px;gap:6px}.more-menu-item strong{font-size:16px}.more-menu-item small{font-size:16px;line-height:1.25}
+.modal{z-index:1100}.modal-card{max-height:calc(100dvh - 28px - var(--safe-top,0px) - var(--safe-bottom,0px));overflow-y:auto;overscroll-behavior:contain}.modal-card label{display:block;margin:10px 0 6px}.modal-card textarea{width:100%;min-height:110px;background:#0c0b0d;color:#f2e8d5;border:1px solid #80643d;border-radius:8px;padding:10px;font-size:16px;line-height:1.4;resize:vertical}.save-manager-actions,.modal-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.save-manager-actions .btn,.modal-actions .btn{min-height:48px;white-space:normal}
+.tutorial-overlay{z-index:99999;background:rgba(0,0,0,.85)}.tutorial-spotlight{z-index:100000;pointer-events:none}.tutorial-highlight{position:relative!important;z-index:100000!important;isolation:isolate;box-shadow:0 0 0 3px #ffe9a4,0 0 0 7px #d7aa4b66,0 0 34px 10px #ffdc7b55!important;border-radius:10px}.tutorial-card,.tutorial-skip{z-index:100001;position:fixed}.tutorial-card{max-width:min(360px,calc(100vw - 24px))}.tutorial-skip{font-size:16px;min-height:44px}
+button:focus-visible,.map-location:focus-visible{outline:3px solid #fff0b2;outline-offset:3px}
+@media(max-width:760px){
+  .app-shell{padding-left:7px;padding-right:7px}
+  .brand strong{font-size:14px;letter-spacing:.5px}.brand-mark{width:34px;height:34px}
+  .topbar{padding-top:5px;padding-bottom:5px}
+  .top-stats{gap:4px}.top-stats .stat{min-width:0;padding:2px 3px}.top-stats .stat small{display:none}.top-stats .stat strong{font-size:15px}.top-stats .stat>span{display:none}
+  .top-stats #ambient-btn{display:grid;width:44px;min-width:44px;min-height:44px;padding:5px;font-size:0}.top-stats #ambient-btn .ambient-label{display:none}
+  #tab-world .travel-map-panel{height:clamp(205px,32vh,285px)}#tab-world .travel-map{min-height:145px}
+  .travel-map-heading h3{font-size:18px}.map-location text{font-size:12px}
+  #tab-world .action-card{min-height:48px;padding:5px 7px}#tab-world .action-card strong{font-size:16px}
+  .bottom-nav{min-height:68px}.nav-tab{min-height:54px}.nav-tab small{font-size:14px}
+  .more-menu-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.more-menu-item{min-height:78px}.more-menu-item small{font-size:14px}
+  .start-screen{overflow-y:auto;overscroll-behavior:contain}.start-panel{overflow-y:auto;overscroll-behavior:contain}.start-panel h1{font-size:clamp(25px,7vw,32px)}.start-panel label{font-size:16px}.start-panel input{font-size:16px;min-height:44px}.race-option strong{font-size:16px}.race-option small{font-size:14px}.race-detail{font-size:16px}.tutorial-optin strong{font-size:16px}.tutorial-optin small{font-size:14px}
+}
+@media(max-height:700px){
+  #tab-world .travel-map-panel{height:clamp(180px,30vh,230px)}#tab-world .travel-map{min-height:125px}
+  .bottom-nav{min-height:60px}.nav-tab{min-height:48px}
+  .start-screen{margin:3px auto}.start-panel{padding-top:7px;padding-bottom:7px}.start-panel h1{font-size:24px}.start-panel .eyebrow{margin-bottom:4px}.start-panel label{margin:5px 0 3px}.race-option{padding:4px}.race-detail{margin:4px 0}
+}
+@media(orientation:landscape) and (max-height:520px){
+  .top-stats .stat small{display:none}.bottom-nav{min-height:52px}.nav-tab{min-height:44px}.nav-tab small{font-size:14px}
+  #tab-world .travel-map-panel{height:clamp(150px,38vh,205px)}#tab-world .travel-map{min-height:110px}
+  .more-menu-card{max-height:76dvh}.profile-race-avatar{width:76px;height:76px}.profile-race-svg{width:58px;height:58px}
+}

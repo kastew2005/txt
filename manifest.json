@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Пепел Королевства — Dark Fantasy & Tactical Combat v13.0",
-  "short_name": "Пепел v13",
-  "description": "Мобильная офлайн Dark Fantasy RPG с тактическим боем и PWA.",
+  "name": "Пепел Королевства — Master Edition v14.0",
+  "short_name": "Пепел v14",
+  "description": "Мобильная офлайн Dark Fantasy RPG Master Edition с тактическим боем и PWA.",
   "lang": "ru",
   "start_url": "./index.html",
   "scope": "./",
