@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Пепел Королевства v8.5 — UX Scale & Layout Redesign",
-  "short_name": "Пепел v8.5",
+  "name": "Пепел Королевства v9.5",
+  "short_name": "Пепел v9.5",
   "description": "Интерактивная карта путешествий, динамическая погода, Цитадель и полностью офлайн Dark Fantasy RPG.",
   "lang": "ru",
   "start_url": "./index.html",

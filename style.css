@@ -328,3 +328,33 @@ body{font-size:var(--ui-text);-webkit-text-size-adjust:100%;text-size-adjust:100
   .scene-header{display:none}
 }
 @media(prefers-reduced-motion:reduce){.more-menu-card{scroll-behavior:auto}}
+
+
+/* v9.5 — critical click routing, touch targets and interactive onboarding */
+:root{--v95-touch:48px}
+#weather-canvas,.ambient,.weather-canvas,.weather-overlay,.fog-overlay,.rain-overlay,.snow-overlay,.storm-overlay,.map-fog,.map-decoration,.travel-map-panel:before,.panel:before{pointer-events:none!important}
+#weather-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+.app-shell,.game-screen,.main-layout,.content-area,.tab-view,.map-container,.travel-map-panel,.world-actions,.panel,.card{position:relative}
+.app-shell{z-index:1}
+button,.btn,.action-card,.tab-btn,.nav-tab,.map-node,.map-location,[role=button],.spell-card,.item-cell,.more-menu-item,.feature-card[data-room]{pointer-events:auto;position:relative;z-index:10;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:active:not(:disabled),.btn:active:not(:disabled),.action-card:active:not(:disabled),.nav-tab:active:not(:disabled),.map-location:active,.spell-card:active:not(:disabled),.more-menu-item:active{transform:translateY(-2px);filter:brightness(1.18);}
+button:focus-visible,.btn:focus-visible,.nav-tab:focus-visible,.action-card:focus-visible,.map-location:focus-visible{outline:2px solid #ffe39b;outline-offset:3px}
+#tab-world .action-card{min-height:clamp(76px,10vh,116px)}
+#tab-world .action-card strong{font-size:clamp(14px,1.5vw,17px)}
+#tab-world .action-card small{font-size:12px}
+.map-location{cursor:pointer;pointer-events:auto}
+.map-location .node-halo,.map-location text,.map-location .node-ring,.map-location .node-glyph{pointer-events:none}
+.more-menu{z-index:200}
+.modal{z-index:220}
+.tutorial-overlay{position:fixed;inset:0;z-index:5000;background:transparent;pointer-events:none}
+.tutorial-overlay.hidden{display:none!important}
+.tutorial-skip{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:5005;pointer-events:auto;min-height:44px;padding:10px 14px;border:1px solid #c7a969;border-radius:10px;background:#201811;color:#f5dfaa;font-weight:700}
+.tutorial-spotlight{position:fixed;z-index:5001;border:2px solid #f1ce77;border-radius:13px;box-shadow:0 0 0 9999px rgba(0,0,0,.85),0 0 25px 5px #eac46b66;pointer-events:none;transition:top .2s,left .2s,width .2s,height .2s}
+.tutorial-card{position:fixed;z-index:5004;width:min(360px,calc(100vw - 24px));padding:18px 18px 14px;border:1px solid #c7a969;background:linear-gradient(145deg,#30251e,#17110f);box-shadow:0 18px 60px #000b;pointer-events:auto;max-height:min(45vh,330px);overflow:auto}
+.tutorial-card h3{font-family:Cinzel,Georgia,serif;color:#f0d18a;font-size:20px;margin:5px 0 10px}
+.tutorial-card p:not(.eyebrow){font-size:16px;line-height:1.5;color:#f3e8d5;margin:0}
+.tutorial-card-actions{display:flex;justify-content:flex-end;margin-top:14px}
+.tutorial-card .btn{min-height:48px;padding:10px 18px;font-size:16px}
+.tutorial-overlay #tutorial-spotlight{display:block}
+@media(max-width:760px){.topbar{z-index:20}.top-stats{gap:8px}.top-stats .stat strong{font-size:12px}.nav-tab{z-index:30;min-height:48px}.nav-tab small{font-size:11px}#tab-world .action-card{min-height:76px;padding:8px;gap:5px}#tab-world .action-card strong{font-size:14px}#tab-world .action-card small{display:block;font-size:11px}.tutorial-card{max-height:42vh;padding:14px}.tutorial-card h3{font-size:18px}.tutorial-card p:not(.eyebrow){font-size:15px}}
+@media(prefers-reduced-motion:reduce){.tutorial-spotlight,button,.btn,.action-card{transition:none!important;animation:none!important}}
