@@ -14,11 +14,15 @@ const RPG_DB = {
     leather_armor:{id:"leather_armor",name:"Кожаный доспех",icon:"leaf",type:"armor",slot:"armor",attack:0,defense:2,price:16,rarity:"common",description:"Грубая кожа смягчит удар, но не остановит клинок."},
     chainmail:{id:"chainmail",name:"Кольчуга дозорного",icon:"armor",type:"armor",slot:"armor",attack:0,defense:5,price:38,rarity:"rare",description:"Потёртая, но надёжная кольчуга."},
     iron_helm:{id:"iron_helm",name:"Железный шлем",icon:"helmet",type:"helmet",slot:"helmet",attack:0,defense:2,price:18,rarity:"common",description:"Защищает голову от случайного удара."},
+    wooden_shield:{id:"wooden_shield",name:"Дубовый щит",icon:"shield",type:"shield",slot:"shield",attack:0,defense:2,price:14,rarity:"common",description:"Простой щит с железным умбоном. Удерживает удар и даёт уверенность."},
     wolf_ring:{id:"wolf_ring",name:"Кольцо волка",icon:"ring",type:"ring",slot:"ring",attack:1,defense:1,price:34,rarity:"epic",description:"На металле выгравирована крошечная волчья голова."},
     healing_potion:{id:"healing_potion",name:"Малое зелье",icon:"potion",type:"consumable",heal:35,price:12,rarity:"common",description:"Восстанавливает 35 здоровья."},
     moon_herb:{id:"moon_herb",name:"Лунная трава",icon:"herb",type:"material",price:5,rarity:"common",description:"Светится в полумраке. Алхимики платят за неё."},
     cursed_relic:{id:"cursed_relic",name:"Проклятый идол",icon:"relic",type:"treasure",price:44,rarity:"epic",description:"Внутри камня шевелится тёмная искра."},
-    gold_charm:{id:"gold_charm",name:"Монета святого",icon:"relic",type:"treasure",price:20,rarity:"rare",description:"Старинная монета, которую суеверные торговцы считают добрым знаком."}
+    gold_charm:{id:"gold_charm",name:"Монета святого",icon:"relic",type:"treasure",price:20,rarity:"rare",description:"Старинная монета, которую суеверные торговцы считают добрым знаком."},
+    mana_tonic:{id:"mana_tonic",name:"Настой синей луны",icon:"potion",type:"consumable",heal:0,mana:18,price:16,rarity:"rare",description:"Восстанавливает 18 маны."},
+    iron_ore:{id:"iron_ore",name:"Железная руда",icon:"relic",type:"material",price:7,rarity:"common",description:"Тяжёлый кусок руды для ремесла."},
+    ember_dust:{id:"ember_dust",name:"Пепельная пыль",icon:"relic",type:"material",price:9,rarity:"rare",description:"Магический остаток, добываемый в опасных местах."}
   },
   monsters: [
     {id:"wolf",name:"Голодный волк",icon:"wolf",hp:28,attack:5,defense:1,xp:12,gold:[4,10],dodge:8,description:"Зверь с рёбрами, проступающими сквозь шкуру."},
@@ -39,6 +43,24 @@ const RPG_DB = {
     "В развалинах часовни по ночам звенит колокол, хотя башня обрушилась сто лет назад.",
     "Говорят, судьба не любит тех, кто трижды отказывается от милосердия.",
     "К северу от леса лежит кольцо, которое помнит последнего короля."
+  ],
+  skills: [
+    {id:"warrior_edge",tree:"warrior",name:"Закалённый клинок",desc:"Постоянно +2 к атаке за ранг.",max:3,icon:"⚔"},
+    {id:"warrior_guard",tree:"warrior",name:"Стойка стража",desc:"Постоянно +2 к защите за ранг.",max:3,icon:"🛡"},
+    {id:"rogue_crit",tree:"rogue",name:"Точный удар",desc:"+4% к критическому шансу за ранг.",max:3,icon:"🗡"},
+    {id:"rogue_dodge",tree:"rogue",name:"Тень на ветру",desc:"+3% к уклонению за ранг.",max:3,icon:"🌘"},
+    {id:"mage_power",tree:"mage",name:"Глубокий источник",desc:"+5 к максимальной мане за ранг.",max:3,icon:"✧"},
+    {id:"mage_flame",tree:"mage",name:"Жар арканы",desc:"Огненная магия наносит больше урона.",max:3,icon:"🔥"}
+  ],
+  pets: [
+    {id:"fox",name:"Пепельный лис",icon:"🦊",desc:"Проворный спутник: +3% уклонения.",buff:{dodge:3},unlock:0},
+    {id:"raven",name:"Ворон-проводник",icon:"🐦‍⬛",desc:"Находит ценности: +8% золота за победу.",buff:{gold:8},unlock:2},
+    {id:"wisp",name:"Огненный огонёк",icon:"🔥",desc:"Усиливает магию: +2 к атаке.",buff:{attack:2},unlock:5}
+  ],
+  recipes: [
+    {id:"healing_potion",name:"Сварить лечебное зелье",desc:"2 лунные травы → лечебное зелье",cost:{moon_herb:2},result:"healing_potion",count:1},
+    {id:"mana_tonic",name:"Настой синей луны",desc:"1 лунная трава + 1 пепельная пыль → настой маны",cost:{moon_herb:1,ember_dust:1},result:"mana_tonic",count:1},
+    {id:"iron_ore",name:"Переплавить железную руду",desc:"3 железные руды → 18 золота",cost:{iron_ore:3},result:"gold",count:18}
   ],
   quests: [
     {id:"first_blood",name:"Первая кровь",description:"Победи любого врага на дороге.",goal:1,reward:{gold:15,xp:20},type:"kills"},

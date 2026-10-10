@@ -1,50 +1,31 @@
-# Пепел Королевства — Global Update v2.4
+# Пепел Королевства v7.0 — Живые Легенды и Карта Путешествий
 
-Автономная браузерная Dark Fantasy RPG на чистом HTML/CSS/JavaScript.
-
-## Файлы
-- `index.html` — интерфейс, экран выбора расы, бой, заклинания, инвентарь и профиль.
-- `style.css` — адаптивная готическая тема, кастомные кнопки, анимации боя, SVG-портретов, магии и погоды.
-- `database.js` — данные рас, предметов, монстров, событий и заданий.
-- `game.js` — бой, экипировка, карма, день/ночь, погода, заклинания, локальные сохранения.
-- `manifest.json` — настройки PWA.
-- `sw.js` — кэширование ресурсов для запуска офлайн.
-- `assets/icons.svg`, `assets/icon.svg` — локальные векторные спрайты и иконка.
+Мобильная Dark Fantasy RPG на чистых HTML, CSS и Vanilla JavaScript. Не требует сборщика, игровых серверов, внешних картинок или сторонних библиотек. Визуальные элементы создаются через inline SVG, локальные SVG-иконки, CSS и Canvas.
 
 ## Запуск
-Открой через локальный HTTP-сервер либо размести весь каталог на HTTPS (например, GitHub Pages). Для офлайн-режима сначала открой опубликованную игру онлайн, чтобы Service Worker закэшировал файлы.
+- Для обычной проверки открой `index.html` в современном браузере.
+- Для установки PWA и надёжной работы офлайн опубликуй проект по HTTPS, например через GitHub Pages, и открой страницу в Safari.
+- На iPhone: Safari → «Поделиться» → «На экран Домой».
+- Прогресс сохраняется в `localStorage` текущего браузера.
 
-На iPhone: Safari → «Поделиться» → «На экран Домой». Некоторые версии iOS могут игнорировать SVG как значок ярлыка, но интерфейс игры не использует внешние изображения и останется векторным.
+## Что нового в v7.0
+- Интерактивная SVG-карта с четырьмя локациями: Тёмный лес, Древние руины, Забытый алтарь и Прибрежная таверна.
+- Анимированное перемещение жетона героя по тропам, звуковой сигнал пути и тактильный отклик на поддерживаемых устройствах.
+- Динамический цикл дня и ночи, ясная погода, дождь, туман, снегопад, гроза и Кровавая Луна.
+- Ночь и гроза усиливают врагов; ночью, во время грозы и Кровавой Луны повышается шанс редких находок.
+- Компактный интерфейс `100dvh`, safe-area отступы, карта без внешних изображений и адаптация для портретного и альбомного экранов.
+- Обновлён кэш Service Worker: `ashes-kingdom-living-legends-v70`.
 
-## Игровые системы Global Update v2.4
-- Четыре расы с разными бонусами.
-- Пошаговый бой с рывком, вспышкой удара и плавающими числами.
-- Огненный шар, Щит веры и Ядовитый укол с расходом MP.
-- День, ночь, туман, дождь и Кровавая Луна; опасные фазы усиливают врагов и увеличивают добычу.
-- Карма меняет цветовую тему интерфейса.
-- Инвентарь, экипировка, задания, события, профиль и localStorage.
+## Сохранённые механики
+Цитадель с пятью зданиями и тремя уровнями, пассивный доход, наёмники, торговец и динамический рынок, тактические бои с SVG-анимациями, QTE-парирование, зоны атаки, ярость, магия, зелья, экипировка, навыки, питомцы, крафт, травмы, подземелье с боссом, случайные события, ежедневные задания, Web Audio, сохранения и PWA.
 
+## Файлы
+- `index.html` — игровые экраны, SVG-карта, модальные окна и навигация.
+- `style.css` — адаптивный интерфейс, анимации и погодные эффекты.
+- `database.js` — игровые данные и баланс.
+- `game.js` — игровой цикл, путешествия, бой, погода, экономика и сохранения.
+- `manifest.json`, `sw.js` — установка и офлайн-кэш PWA.
+- `assets/` — локальные SVG-иконки.
 
-## Global Update v2.1
-- Combat turns use a token-guarded scheduler and a shared action lock; victory, defeat and escape clear pending combat timers.
-- Rage gauge charges from dealt/taken damage; a full gauge unlocks a 3× Crushing Blow.
-- Short synthesized UI/combat sounds use Web Audio API after a user gesture; no external audio files are needed.
-- Rain uses a lightweight canvas particle layer; the former repeating-gradient rain overlay is disabled.
-- Combat portraits and interface text are larger on phones and desktop.
-- Service Worker cache version is bumped so the browser requests the v2.3 assets.
-
-
-## Global Update v2.3
-- Автоматический возврат на карту после победы, поражения или побега с дорожным событием в логе.
-- Ежедневные задания с прогрессом, наградами и сбросом по локальной календарной дате.
-- Случайные древние алтари: золото, здоровье или осквернение в обмен на временные боевые усиления.
-- Ежедневный прогресс и эффект алтаря включены в сохранение.
-
-
-## Global Update v2.4 — UX & Visual Overhaul
-- High-contrast basalt, emerald, ruby, sapphire, gold and amethyst interface palette.
-- Enlarged touch targets, clearer button feedback and animated health/mana/rage bars.
-- Combat speed switch (1× / 2×), also available with the F key while on the arena.
-- Quick healing potion remains available directly in combat.
-- Inventory detail actions now include equip/use, sell and discard.
-- Service Worker cache bumped to v2.4; all game assets remain local and offline-capable after first cache.
+## Проверка
+Проверены синтаксис `game.js`, `database.js` и `sw.js`, валидность JSON-манифеста, отсутствие повторяющихся HTML ID и целостность ZIP. Полный ручной прогон на физическом iPhone не выполнялся.

@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <meta name="theme-color" content="#171326">
-  <meta name="description" content="Пепел Королевства — мрачная средневековая RPG. Исследуй руины, сражайся с чудовищами и выбирай судьбу.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="description" content="Пепел Королевства v7.0 — интерактивная карта путешествий, живая погода и мрачная RPG офлайн.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Пепел Королевства">
@@ -12,7 +13,7 @@
   <link rel="apple-touch-icon" href="assets/icon.svg">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#171326">
-  <title>Пепел Королевства — Dark Fantasy RPG: UX & Visual Overhaul</title>
+  <title>Пепел Королевства — Dark Fantasy RPG v7.0 — Живые Легенды</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,7 +26,7 @@
         <div class="stat"><span><svg class="ui-icon"><use href="assets/icons.svg#coin"/></svg></span><div><small>Золото</small><strong id="top-gold">—</strong></div></div>
         <div class="stat"><span><svg class="ui-icon"><use href="assets/icons.svg#sword"/></svg></span><div><small>Уровень</small><strong id="top-level">—</strong></div></div>
         <div class="stat"><span><svg class="ui-icon"><use href="assets/icons.svg#balance"/></svg></span><div><small>Карма</small><strong id="top-karma">—</strong></div></div>
-        <button id="install-app" class="btn btn-ghost install-app" hidden>Установить</button>
+        <button id="ambient-btn" class="btn btn-ghost" type="button" aria-pressed="false">♫ Атмосфера</button><button id="install-app" class="btn btn-ghost install-app" hidden>Установить</button>
       </div>
     </header>
 
@@ -68,13 +69,26 @@
             <div class="weather" id="weather-display"><svg class="ui-icon"><use href="assets/icons.svg#sigil"/></svg> <span id="phase-label">День угасающего солнца</span><small id="weather-label">Туман</small></div>
           </div>
           <div id="tab-world" class="tab-view">
-            <div class="world-banner panel">
-              <div class="banner-copy"><p class="eyebrow">ТВОЯ ИСТОРИЯ НАЧИНАЕТСЯ</p><h3>Дорога помнит каждый шаг</h3><p>Впереди — забытые руины, опасные тропы и люди, чьи улыбки стоят дороже стали.</p><button id="travel-btn" class="btn btn-gold">Отправиться в путь <svg class="ui-icon"><use href="assets/icons.svg#compass"/></svg></button></div>
-              <div class="moon-art"><div class="moon"></div><div class="tower tower-a"></div><div class="tower tower-b"></div></div>
-            </div>
+            <section class="travel-map-panel panel" aria-label="Интерактивная карта путешествий">
+              <div class="travel-map-heading"><div><p class="eyebrow">КАРТА СЕВЕРНЫХ ЗЕМЕЛЬ</p><h3>Выбери следующую тропу</h3></div><span class="map-weather-chip" id="map-weather-chip">🌫 Туман</span></div>
+              <svg id="travel-map" class="travel-map" viewBox="0 0 600 270" role="group" aria-label="Карта: Тёмный лес, Древние руины, Забытый алтарь и Прибрежная таверна">
+                <defs><linearGradient id="parchment" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6e5a3b"/><stop offset=".5" stop-color="#302c24"/><stop offset="1" stop-color="#4b3828"/></linearGradient><pattern id="map-grain" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M2 7l7-2m8 17 8-3M5 25l3-1" stroke="#d6b875" stroke-opacity=".12" stroke-width="1"/></pattern><filter id="map-glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+                <rect x="1" y="1" width="598" height="268" rx="13" fill="url(#parchment)" stroke="#c3a76d" stroke-opacity=".55"/><rect x="1" y="1" width="598" height="268" rx="13" fill="url(#map-grain)"/>
+                <path class="map-river" d="M-10 180C70 135 96 234 178 177S286 116 331 162 445 229 610 130"/><path class="map-hill" d="M20 36l28-18 23 19 21-16 23 21m45 45 24-17 19 16 20-24 24 22m140-46 25-19 24 24 18-14 21 18"/>
+                <path class="map-road" d="M510 205 Q448 236 388 88 T235 204 T95 91"/><path class="map-road-highlight" d="M510 205 Q448 236 388 88 T235 204 T95 91"/>
+                <g class="map-decoration" transform="translate(46 153)"><path d="M0 0l-12 22h24Z M0 8v23m-8-9h16"/><path d="M-15 31h30"/></g><g class="map-decoration" transform="translate(548 61)"><circle r="19"/><path d="M0-15V15M-15 0H15M-10-10L10 10M10-10L-10 10"/></g>
+                <g class="map-location" data-location="forest" role="button" tabindex="0" aria-label="Отправиться в Тёмный лес" transform="translate(95 91)"><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M0-12-11 5h7l-4 7H8L4 5h7Z"/><text y="39" text-anchor="middle">Тёмный лес</text></g>
+                <g class="map-location" data-location="ruins" role="button" tabindex="0" aria-label="Отправиться к Древним руинам" transform="translate(235 204)"><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M-11 9V-7h5v7h5v-12h6v12h5V9Z M-13 12h27"/><text y="39" text-anchor="middle">Древние руины</text></g>
+                <g class="map-location" data-location="altar" role="button" tabindex="0" aria-label="Отправиться к Забытому алтарю" transform="translate(388 88)"><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M0-13 3-3 13 0 3 3 0 13-3 3-13 0-3-3Z"/><text y="39" text-anchor="middle">Забытый алтарь</text></g>
+                <g class="map-location" data-location="tavern" role="button" tabindex="0" aria-label="Отправиться к Прибрежной таверне" transform="translate(510 205)"><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M-9-9h13v15a6 6 0 0 1-13 0Zm13 3h5a4 4 0 0 1 0 8H4M-12 13h20"/><text y="39" text-anchor="middle">Прибрежная таверна</text></g>
+                <g id="hero-map-token" class="hero-map-token" transform="translate(510 205)" aria-label="Ваш герой"><circle r="13"/><path d="M0-9 7 7 0 4-7 7Z"/><circle r="17" class="token-pulse"/></g>
+                <text x="18" y="253" class="map-caption">СЕВЕРНЫЕ ЗЕМЛИ · ПУТЕВОЙ АТЛАС</text>
+              </svg>
+              <div class="map-footer"><span id="map-location-status">Ты у Прибрежной таверны</span><button id="travel-btn" class="btn btn-gold">В путь <svg class="ui-icon"><use href="assets/icons.svg#compass"/></svg></button></div>
+            </section>
             <div class="section-heading"><h3>Последние вести</h3><span class="muted">Слухи и знамения</span></div>
             <div id="event-feed" class="event-feed"></div>
-            <section id="daily-quests" class="daily-quests panel" aria-live="polite"></section>
+            <button id="daily-quests" class="daily-quests quest-widget panel" type="button" aria-label="Открыть ежедневные задания" aria-live="polite"></button>
             <div class="world-actions">
               <button class="action-card" data-action="hunt"><span><svg class="ui-icon"><use href="assets/icons.svg#sword"/></svg></span><strong>Охота на дороге</strong><small>Найти добычу и опыт</small></button>
               <button class="action-card" data-action="search"><span><svg class="ui-icon"><use href="assets/icons.svg#compass"/></svg></span><strong>Осмотреть руины</strong><small>Рискнуть ради сокровищ</small></button>
@@ -92,6 +106,7 @@
                 <div id="enemy-combatant" class="combatant enemy-combatant"><div id="enemy-icon" class="fighter-icon"><svg class="ui-icon fighter-svg"><use href="assets/icons.svg#skull"/></svg></div><strong id="enemy-name">Враг</strong><div class="combat-hp"><i id="enemy-hp"></i></div><small id="enemy-hp-text">—</small></div>
               </div>
               <div id="combat-log" class="combat-log"><p class="muted">Враги не появляются без причины. Найди их на дороге.</p></div>
+              <div class="tactical-panel"><div class="tactical-heading"><strong>ЗОНА УДАРА</strong><small>Голова — рискованно · ноги — надёжнее</small></div><div class="target-zones" role="group" aria-label="Выбор зоны удара"><button class="target-zone active" data-zone="body">Корпус <small>сбалансировано</small></button><button class="target-zone" data-zone="head">Голова <small>критический шанс</small></button><button class="target-zone" data-zone="legs">Ноги <small>снижение атаки</small></button></div><div id="qte-panel" class="qte-panel hidden"><span>ВРАГ ГОТОВИТ СУПЕР-УДАР!</span><button id="parry-btn" class="btn btn-gold">🛡 ПАРИРОВАТЬ</button><small id="qte-countdown">Нажми за 1,5 секунды</small></div></div>
               <div class="combat-quick-label"><span>БЫСТРЫЕ ДЕЙСТВИЯ</span><small>Зелье доступно прямо на арене</small></div><div class="combat-actions"><button id="attack-btn" class="btn btn-danger" disabled><svg class="ui-icon"><use href="assets/icons.svg#sword"/></svg> Атаковать</button><button id="potion-btn" class="btn btn-ghost" disabled><svg class="ui-icon"><use href="assets/icons.svg#potion"/></svg> Зелье (<span id="potion-count">0</span>)</button><button id="flee-btn" class="btn btn-ghost" disabled><svg class="ui-icon"><use href="assets/icons.svg#boot"/></svg> Отступить</button></div><div class="rage-panel"><div class="rage-heading"><span>ЯРОСТЬ</span><strong id="rage-text">0 / 100</strong></div><div class="rage-bar"><i id="rage-bar"></i></div><button id="rage-btn" class="btn btn-rage" disabled>Сокрушительный удар · ×3</button></div><div class="mana-panel"><div class="mana-heading"><span><svg class="ui-icon"><use href="assets/icons.svg#sigil"/></svg> МАНА</span><strong id="mana-text">—</strong></div><div class="mana-bar"><i id="mana-bar"></i></div><div class="spell-actions"><button class="spell-card" id="spell-fire" data-spell="fire" disabled><span class="spell-glyph fire-glyph"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4C28 15 15 17 20 27c-4-2-7-6-7-10C4 28 10 43 24 44c14-1 20-17 9-27 0 8-4 9-5 12C27 20 32 14 24 4Z"/></svg></span><strong>Огненный шар</strong><small>8 MP · магический урон</small></button><button class="spell-card" id="spell-shield" data-spell="shield" disabled><span class="spell-glyph shield-glyph"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 40 10v12c0 10-7 17-16 22C15 39 8 32 8 22V10Z"/><path d="m16 24 5 5 11-13"/></svg></span><strong>Щит веры</strong><small>6 MP · лечение и защита</small></button><button class="spell-card" id="spell-poison" data-spell="poison" disabled><span class="spell-glyph poison-glyph"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M18 5h12m-10 0v10L9 32a8 8 0 0 0 7 12h16a8 8 0 0 0 7-12L28 15V5"/><path d="M14 32h20M20 25l3 3 5-7"/></svg></span><strong>Ядовитый укол</strong><small>7 MP · урон и ослабление</small></button></div></div>
             </div>
           </div>
@@ -105,9 +120,26 @@
           </div>
 
           <div id="tab-profile" class="tab-view hidden">
-            <div class="panel profile-panel"><p class="eyebrow">ЛИЧНОЕ ДЕЛО</p><h3 id="profile-name">—</h3><p id="profile-lore" class="muted">—</p><div class="profile-grid" id="profile-grid"></div><h4>Репутация фракций</h4><div id="reputation-list"></div><h4>Путь судьбы</h4><div id="destiny-box" class="destiny-box"></div></div>
+            <div class="panel profile-panel"><p class="eyebrow">ЛИЧНОЕ ДЕЛО</p><h3 id="profile-name">—</h3><p id="profile-lore" class="muted">—</p><div class="paper-doll-profile" id="profile-paper-doll"></div><div class="profile-grid" id="profile-grid"></div><h4>Состояние</h4><div id="injury-status" class="injury-list"></div><h4>Репутация фракций</h4><div id="reputation-list"></div><h4>Путь судьбы</h4><div id="destiny-box" class="destiny-box"></div></div>
           </div>
 
+
+          <div id="tab-skills" class="tab-view hidden">
+            <div class="panel feature-panel"><p class="eyebrow">ПРОГРЕССИЯ ПЕРСОНАЖА</p><div class="section-heading"><h3>Древо навыков</h3><span class="skill-points">Очки: <strong id="skill-points">0</strong></span></div><p class="muted">Каждый новый уровень даёт очко навыка. Выбери путь, чтобы усилить свой стиль боя.</p><div id="skill-tree" class="feature-grid"></div></div>
+          </div>
+          <div id="tab-pets" class="tab-view hidden">
+            <div class="panel feature-panel"><p class="eyebrow">ВЕРНЫЕ СПУТНИКИ</p><h3>Питомцы и спутники</h3><p class="muted">Спутник следует за героем, отображается на арене и усиливает характеристики пассивным эффектом.</p><div id="pet-list" class="feature-grid"></div></div>
+          </div>
+          <div id="tab-dungeon" class="tab-view hidden">
+            <div class="panel feature-panel"><p class="eyebrow">ПОД ЗЕМЛЁЙ НЕТ НЕБА</p><h3>Забытое подземелье</h3><p id="dungeon-status" class="muted">Выбери вход, чтобы начать поход. В комнатах могут быть ловушки, сокровища или враги.</p><div id="dungeon-rooms" class="feature-grid"></div><div id="dungeon-actions" class="detail-actions"><button class="btn btn-gold" id="dungeon-enter">Спуститься в подземелье</button></div></div>
+          </div>
+          <div id="tab-craft" class="tab-view hidden">
+            <div class="panel feature-panel"><p class="eyebrow">РЕМЕСЛО И АЛХИМИЯ</p><h3>Лагерная мастерская</h3><p class="muted">Собирай травы и руду в путешествиях, затем создавай полезные расходники.</p><div class="resource-row" id="resource-bag"></div><div id="recipe-list" class="feature-grid"></div><button class="btn btn-ghost" id="gather-resources">Собрать ресурсы на карте</button></div>
+          </div>
+
+          <div id="tab-castle" class="tab-view hidden">
+            <div class="panel feature-panel"><p class="eyebrow">ВОЗРОЖДЕНИЕ КОРОЛЕВСТВА</p><div class="section-heading"><h3>Цитадель</h3><span class="muted">Золото: <strong id="castle-gold">0</strong></span></div><p class="muted">Восстанови пять ключевых сооружений. Каждое здание имеет три уровня, постоянные бонусы и стоимость, зависящую от состояния рынка.</p><p id="castle-income" class="castle-income">Пассивный доход сокровищницы.</p><div id="castle-buildings" class="feature-grid"></div><div class="side-divider"></div><h3>Наёмники</h3><div id="mercenary-panel" class="mercenary-panel"></div><div class="side-divider"></div><h3>Торговец у ворот</h3><p id="market-event" class="muted">Цены меняются вместе с событиями королевства.</p><div id="castle-market" class="feature-grid"></div></div>
+          </div>
           <div id="tab-tavern" class="tab-view hidden">
             <div class="tavern-scene panel"><p class="eyebrow">«СЛОМАННАЯ КОРОНА»</p><h3>Таверна на краю мира</h3><p>Запах мокрой шерсти, дешёвого эля и старых тайн. Хозяин смотрит на тебя так, словно уже знает конец истории.</p><div class="tavern-options"><button id="rest-btn" class="btn btn-gold">Отдохнуть — 12 золота</button><button id="rumor-btn" class="btn btn-ghost">Выслушать слух — 5 золота</button><button id="tavern-event-btn" class="btn btn-ghost">Заговорить с незнакомцем</button></div></div>
             <div id="tavern-feed" class="event-feed"></div>
@@ -120,6 +152,12 @@
         <button class="nav-tab" data-tab="inventory"><span><svg class="ui-icon"><use href="assets/icons.svg#chest"/></svg></span><small>Инвентарь</small></button>
         <button class="nav-tab" data-tab="profile"><span><svg class="ui-icon"><use href="assets/icons.svg#profile"/></svg></span><small>Профиль</small></button>
         <button class="nav-tab" data-tab="tavern"><span><svg class="ui-icon"><use href="assets/icons.svg#mug"/></svg></span><small>Таверна</small></button>
+        <button class="nav-tab" data-tab="skills"><span>✦</span><small>Навыки</small></button>
+        <button class="nav-tab" data-tab="pets"><span>🐾</span><small>Спутники</small></button>
+        <button class="nav-tab" data-tab="dungeon"><span>⌘</span><small>Подземелье</small></button>
+        <button class="nav-tab" data-tab="craft"><span>⚗</span><small>Алхимия</small></button>
+        <button class="nav-tab" data-tab="castle"><span>♜</span><small>Цитадель</small></button>
+
       </nav>
     </section>
     <div id="toast" class="toast" role="status"></div>
