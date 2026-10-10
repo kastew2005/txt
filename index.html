@@ -2,10 +2,10 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <meta name="theme-color" content="#171326">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="description" content="Пепел Королевства v26.1 — Active Skills & Multi-Phase Bosses Edition, офлайн Dark Fantasy PWA.">
+  <meta name="description" content="Пепел Королевства v27.1 — UI Layout, Overlap & Safe Area Hotfix, офлайн Dark Fantasy PWA.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Пепел Королевства">
@@ -14,7 +14,7 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#171326">
   <meta name="referrer" content="no-referrer">
-  <title>Пепел Королевства — v26.1 Active Skills & Multi-Phase Bosses</title>
+  <title>Пепел Королевства — v27.1 UI Layout & Safe Area Hotfix</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -29,7 +29,7 @@
         <div class="stat"><span><svg class="ui-icon"><use href="#coin"/></svg></span><div><small>Золото</small><strong id="top-gold">—</strong></div></div>
         <div class="stat"><span><svg class="ui-icon"><use href="#sword"/></svg></span><div><small>Уровень</small><strong id="top-level">—</strong></div></div>
         <div class="stat morality-stat"><span><svg class="ui-icon"><use href="#balance"/></svg></span><div class="morality-copy"><div class="morality-values"><small>Карма</small><strong id="top-karma">—</strong><small class="corruption-label">Скверна</small><strong id="top-corruption">0</strong></div><div class="morality-meter" role="meter" aria-label="Баланс Кармы и Скверны" aria-valuemin="-100" aria-valuemax="100" aria-valuenow="0"><i id="morality-meter-fill"></i></div><small id="morality-label">Нейтральный путь</small></div></div>
-        <button id="ambient-btn" class="btn btn-ghost sound-toggle" type="button" aria-label="Выключить звук" aria-pressed="true"><svg class="ui-icon"><use id="sound-icon-use" href="#speaker-on"/></svg><span class="ambient-label">Звук: Вкл</span></button><button id="install-app" class="btn btn-ghost install-app" hidden>Установить</button>
+        <button id="ambient-btn" class="btn btn-ghost sound-toggle" type="button" aria-label="Выключить звук" aria-pressed="true"><svg class="ui-icon"><use id="sound-icon-use" href="#speaker-on"/></svg><span class="ambient-label" aria-hidden="true">Звук: Вкл</span></button><button id="install-app" class="btn btn-ghost install-app" hidden>Установить</button>
       </div>
     </header>
 

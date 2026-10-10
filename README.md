@@ -1,34 +1,11 @@
-# Пепел Королевства v26.3 — Active Skills & Multi-Phase Bosses Edition
+# Пепел Королевства — v27.1 UI Layout, Overlap & Safe Area Hotfix
 
-Мобильная офлайн PWA Dark Fantasy RPG.
-
-## Новое в v26.3
-- Отдельные шкалы HP и MP в шапке и на боевой арене.
-- По три расовых активных навыка для человека, нежити, эльфа, орка и гнома.
-- Расход маны, постепенное восстановление MP на ходу врага и перезарядка навыков.
-- Оглушение, щиты, баффы урона, вампиризм, проклятие/яд и ослабление защиты.
-- Фазовые боссы: ниже 50% HP переходят во вторую фазу, получают +40% к атаке и каждые 2 хода применяют супер-атаку.
-- Гарантированная проклятая реликвия с победы над фазовым боссом.
-- Реликвии с анимированной чёрно-красной рамкой и штрафами/бонусами.
-- Сохранены туман войны, выбор маршрутов, временные аномалии, Paperdoll и блокировка вкладки боя вне сражения.
-
-## Запуск
-Разместите содержимое этой папки на HTTPS-хостинге (например, GitHub Pages). Офлайн-кэш активируется после первого успешного посещения.
+Основа: доступный проект v26.3. Обновлены `index.html` и `style.css` для мобильной компоновки, safe area, компактной кнопки звука, пяти слотов экипировки и адаптивного боевого интерфейса. Игровая логика сохранена без изменений.
 
 ## Проверки
-Синтаксис JavaScript, JSON и целостность архива можно проверить локально. Полный игровой прогон на iPhone необходимо провести в браузере устройства; его нельзя подтвердить только статическими проверками.
+- `game.js` и `sw.js`: синтаксическая проверка Node.js.
+- `manifest.json`: проверка JSON.
+- HTML: проверка структуры тегов.
+- ZIP: проверка целостности архива.
 
-
-## v26.3 — Visual Juice & FX
-- Floating combat numbers for damage, healing, misses, stun and phase changes.
-- Screen shake on criticals and boss super-attacks.
-- Low-HP pulse below 20% HP.
-- Animated fog and moving route dashes on the world map.
-- Weather/time-reactive background gradients.
-- Animated cursed and legendary loot borders.
-
-
-## v26.3 Combat Tab Hard-Lock Fix
-- Explicit SVG touchend handling for map nodes with synthetic-click deduplication.
-- Transparent 48px+ hit areas for dynamic SVG map nodes.
-- Decorative map/weather layers are pointer-transparent; map route animations avoid blur filters.
+Полный запуск в iPhone Safari не выполнялся; визуальные размеры требуют проверки на устройстве.

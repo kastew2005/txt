@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Пепел Королевства v26.1",
-  "short_name": "Пепел v26.1",
-  "description": "Dark Fantasy RPG v26.1 — Visual Juice & FX Update",
+  "name": "Пепел Королевства v27.1",
+  "short_name": "Пепел v27.1",
+  "description": "Dark Fantasy RPG v27.1 — UI Layout, Overlap & Safe Area Hotfix",
   "lang": "ru",
   "start_url": "./index.html",
   "scope": "./",
