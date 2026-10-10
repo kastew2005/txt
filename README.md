@@ -23,3 +23,12 @@
 - День, ночь, туман, дождь и Кровавая Луна; опасные фазы усиливают врагов и увеличивают добычу.
 - Карма меняет цветовую тему интерфейса.
 - Инвентарь, экипировка, задания, события, профиль и localStorage.
+
+
+## Global Update v2.1
+- Combat turns use a token-guarded scheduler and a shared action lock; victory, defeat and escape clear pending combat timers.
+- Rage gauge charges from dealt/taken damage; a full gauge unlocks a 3× Crushing Blow.
+- Short synthesized UI/combat sounds use Web Audio API after a user gesture; no external audio files are needed.
+- Rain uses a lightweight canvas particle layer; the former repeating-gradient rain overlay is disabled.
+- Combat portraits and interface text are larger on phones and desktop.
+- Service Worker cache version is bumped so the browser requests the v2.1 assets.
