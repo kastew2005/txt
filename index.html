@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="theme-color" content="#130f0e">
+  <title>Пепел Королевства — Dark Fantasy RPG</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <main id="app" class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">✦</span><div><strong>ПЕПЕЛ КОРОЛЕВСТВА</strong><small>Хроники проклятого престола</small></div></div>
+      <div class="top-stats">
+        <div class="stat"><span>♥</span><div><small>Здоровье</small><strong id="top-hp">—</strong><div class="mini-bar"><i id="top-hp-bar"></i></div></div></div>
+        <div class="stat"><span>◈</span><div><small>Золото</small><strong id="top-gold">—</strong></div></div>
+        <div class="stat"><span>⚔</span><div><small>Уровень</small><strong id="top-level">—</strong></div></div>
+        <div class="stat"><span>☯</span><div><small>Карма</small><strong id="top-karma">—</strong></div></div>
+      </div>
+    </header>
+
+    <section id="start-screen" class="start-screen">
+      <div class="start-art"><div class="sigil">✦</div><div class="art-caption">В этих землях даже надежда<br>имеет свою цену.</div></div>
+      <div class="start-panel panel">
+        <p class="eyebrow">НАЧАЛО ПУТЕШЕСТВИЯ</p>
+        <h1>Клятва <em>пепла</em></h1>
+        <p class="muted">Королевство умирает. Судьба ещё не выбрала, кем ты станешь.</p>
+        <label for="hero-name">Имя странника</label>
+        <input id="hero-name" maxlength="22" placeholder="Например, Эдран" autocomplete="off">
+        <label>Выбери происхождение</label>
+        <div id="race-options" class="race-grid"></div>
+        <div id="race-detail" class="race-detail"></div>
+        <button id="begin-btn" class="btn btn-gold wide">Начать путь <span>→</span></button>
+        <p class="tiny muted">Прогресс автоматически сохраняется в этом браузере.</p>
+      </div>
+    </section>
+
+    <section id="game-screen" class="game-screen hidden">
+      <div class="main-layout">
+        <aside class="side-rail panel">
+          <div class="hero-medallion" id="hero-medallion">✦</div>
+          <h2 id="side-name">Странник</h2><p id="side-race" class="muted">—</p>
+          <div class="side-divider"></div>
+          <div class="side-line"><span>Атака</span><strong id="side-attack">—</strong></div>
+          <div class="side-line"><span>Защита</span><strong id="side-defense">—</strong></div>
+          <div class="side-line"><span>Уворот</span><strong id="side-dodge">—</strong></div>
+          <div class="side-line"><span>Крит. удар</span><strong id="side-crit">—</strong></div>
+          <div class="side-divider"></div>
+          <div class="side-line"><span>Опыт</span><strong id="side-xp">—</strong></div>
+          <div class="xp-bar"><i id="xp-bar"></i></div>
+          <button id="save-btn" class="btn btn-ghost wide">Сохранить игру</button>
+          <button id="reset-btn" class="text-button">Начать заново</button>
+        </aside>
+
+        <section class="content-area">
+          <div class="scene-header">
+            <div><p class="eyebrow" id="scene-eyebrow">ЗЕМЛИ СЕВЕРА</p><h2 id="scene-title">Перекрёсток судьбы</h2></div>
+            <div class="weather">☾ <span>Луна кровавого пепла</span></div>
+          </div>
+          <div id="tab-world" class="tab-view">
+            <div class="world-banner panel">
+              <div class="banner-copy"><p class="eyebrow">ТВОЯ ИСТОРИЯ НАЧИНАЕТСЯ</p><h3>Дорога помнит каждый шаг</h3><p>Впереди — забытые руины, опасные тропы и люди, чьи улыбки стоят дороже стали.</p><button id="travel-btn" class="btn btn-gold">Отправиться в путь →</button></div>
+              <div class="moon-art"><div class="moon"></div><div class="tower tower-a"></div><div class="tower tower-b"></div></div>
+            </div>
+            <div class="section-heading"><h3>Последние вести</h3><span class="muted">Слухи и знамения</span></div>
+            <div id="event-feed" class="event-feed"></div>
+            <div class="world-actions">
+              <button class="action-card" data-action="hunt"><span>⚔</span><strong>Охота на дороге</strong><small>Найти добычу и опыт</small></button>
+              <button class="action-card" data-action="search"><span>⌖</span><strong>Осмотреть руины</strong><small>Рискнуть ради сокровищ</small></button>
+              <button class="action-card" data-action="pray"><span>☼</span><strong>Молиться у святилища</strong><small>Испытать милость судьбы</small></button>
+            </div>
+          </div>
+
+          <div id="tab-arena" class="tab-view hidden">
+            <div class="arena panel">
+              <div class="arena-top"><div><p class="eyebrow">ПОШАГОВОЕ СРАЖЕНИЕ</p><h3 id="arena-title">На арене тихо</h3></div><span class="arena-status" id="arena-status">ОЖИДАНИЕ</span></div>
+              <div class="combatants">
+                <div id="player-combatant" class="combatant player-combatant"><div class="fighter-icon">♙</div><strong id="fighter-player-name">Странник</strong><div class="combat-hp"><i id="fighter-player-hp"></i></div><small id="fighter-player-hp-text">—</small></div>
+                <div class="versus">VS</div>
+                <div id="enemy-combatant" class="combatant enemy-combatant"><div id="enemy-icon" class="fighter-icon">☠</div><strong id="enemy-name">Враг</strong><div class="combat-hp"><i id="enemy-hp"></i></div><small id="enemy-hp-text">—</small></div>
+              </div>
+              <div id="combat-log" class="combat-log"><p class="muted">Враги не появляются без причины. Найди их на дороге.</p></div>
+              <div class="combat-actions"><button id="attack-btn" class="btn btn-danger" disabled>⚔ Атаковать</button><button id="potion-btn" class="btn btn-ghost" disabled>✚ Зелье (<span id="potion-count">0</span>)</button><button id="flee-btn" class="btn btn-ghost" disabled>↗ Отступить</button></div>
+            </div>
+          </div>
+
+          <div id="tab-inventory" class="tab-view hidden">
+            <div class="inventory-layout">
+              <div class="panel inventory-panel"><div class="section-heading"><h3>Инвентарь</h3><span id="inventory-count" class="muted">0 предметов</span></div><div id="inventory-grid" class="inventory-grid"></div><p class="tiny muted">Выбери предмет, чтобы надеть, использовать или продать его.</p></div>
+              <div class="panel equipment-panel"><div class="section-heading"><h3>Экипировка</h3><span class="muted">Снаряжение</span></div><div id="equipment-slots" class="equipment-slots"></div><div class="side-divider"></div><h4>Сводка характеристик</h4><div id="equipment-stats"></div></div>
+            </div>
+            <div id="item-detail" class="panel item-detail"><p class="muted">Выбери предмет в сумке.</p></div>
+          </div>
+
+          <div id="tab-profile" class="tab-view hidden">
+            <div class="panel profile-panel"><p class="eyebrow">ЛИЧНОЕ ДЕЛО</p><h3 id="profile-name">—</h3><p id="profile-lore" class="muted">—</p><div class="profile-grid" id="profile-grid"></div><h4>Репутация фракций</h4><div id="reputation-list"></div><h4>Путь судьбы</h4><div id="destiny-box" class="destiny-box"></div></div>
+          </div>
+
+          <div id="tab-tavern" class="tab-view hidden">
+            <div class="tavern-scene panel"><p class="eyebrow">«СЛОМАННАЯ КОРОНА»</p><h3>Таверна на краю мира</h3><p>Запах мокрой шерсти, дешёвого эля и старых тайн. Хозяин смотрит на тебя так, словно уже знает конец истории.</p><div class="tavern-options"><button id="rest-btn" class="btn btn-gold">Отдохнуть — 12 золота</button><button id="rumor-btn" class="btn btn-ghost">Выслушать слух — 5 золота</button><button id="tavern-event-btn" class="btn btn-ghost">Заговорить с незнакомцем</button></div></div>
+            <div id="tavern-feed" class="event-feed"></div>
+          </div>
+        </section>
+      </div>
+      <nav class="bottom-nav">
+        <button class="nav-tab active" data-tab="world"><span>⌖</span><small>Мир и события</small></button>
+        <button class="nav-tab" data-tab="arena"><span>⚔</span><small>Арена боя</small></button>
+        <button class="nav-tab" data-tab="inventory"><span>♜</span><small>Инвентарь</small></button>
+        <button class="nav-tab" data-tab="profile"><span>♙</span><small>Профиль</small></button>
+        <button class="nav-tab" data-tab="tavern"><span>♨</span><small>Таверна</small></button>
+      </nav>
+    </section>
+    <div id="toast" class="toast" role="status"></div>
+    <div id="modal" class="modal hidden"><div class="modal-card panel"><button id="modal-close" class="modal-close">×</button><div id="modal-content"></div></div></div>
+  </main>
+  <script src="database.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
