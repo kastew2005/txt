@@ -1,8 +1,8 @@
-/* RPG database · Visual Inventory & Citadel Edition v18.0 */
+/* RPG database · Active Skills & Multi-Phase Bosses v25.0 */
 /* База данных мира. Все предметы и события описаны здесь, игровая логика находится в game.js. */
 "use strict";
 const RPG_DB = {
-  version: "18.0",
+  version: "25.0",
   races: [
     {id:"human",name:"Человек",icon:"human",summary:"Универсальность и воля",lore:"Люди не сильнее древних рас, но их упорство меняет ход истории.",mods:{hp:0,str:0,dodge:0,crit:0,gold:15},detail:"+15 стартового золота. Без слабых сторон."},
     {id:"elf",name:"Эльф",icon:"leaf",summary:"Ловкость и точность",lore:"Последние дети старых лесов умеют видеть слабые места даже в темноте.",mods:{hp:-8,str:-1,dodge:8,crit:7,gold:0},detail:"+8% уворота, +7% крит. шанса, −8 здоровья, −1 сила."},
@@ -22,8 +22,11 @@ const RPG_DB = {
     healing_potion:{id:"healing_potion",name:"Малое зелье",icon:"potion",type:"consumable",heal:35,price:12,rarity:"common",description:"Восстанавливает 35 здоровья."},
     moon_herb:{id:"moon_herb",name:"Лунная трава",icon:"herb",type:"material",price:5,rarity:"common",description:"Светится в полумраке. Алхимики платят за неё."},
     cursed_relic:{id:"cursed_relic",name:"Проклятый идол",icon:"relic",type:"treasure",price:44,rarity:"epic",description:"Внутри камня шевелится тёмная искра."},
+    cursed_blade:{id:"cursed_blade",name:"Клинок Чёрного Солнца",icon:"sword",type:"weapon",slot:"weapon",attack:14,defense:0,price:120,rarity:"legendary",usableBy:["undead","orc"],description:"Проклятый клинок доступен тем, кто принял Скверну. Даёт огромную силу, но простые люди отворачиваются."},
     gold_charm:{id:"gold_charm",name:"Монета святого",icon:"relic",type:"treasure",price:20,rarity:"legendary",description:"Старинная монета, которую суеверные торговцы считают добрым знаком."},
     mana_tonic:{id:"mana_tonic",name:"Настой синей луны",icon:"potion",type:"consumable",heal:0,mana:18,price:16,rarity:"rare",description:"Восстанавливает 18 маны."},
+    blood_crown:{id:"blood_crown",name:"Корона Алой Жажды",icon:"cursed_relic",type:"helmet",slot:"helmet",attack:50,defense:12,price:0,rarity:"cursed",cursed:true,stepDamage:5,description:"Проклятая реликвия: +50 атаки и +12 защиты, но каждый переход отнимает 5 HP."},
+    void_heart:{id:"void_heart",name:"Сердце Пустоты",icon:"cursed_relic",type:"treasure",attack:12,maxHp:100,manaCostMultiplier:1.2,price:0,rarity:"cursed",cursed:true,description:"Проклятая реликвия: +100 к максимальному здоровью и +12 атаки, но расход маны увеличен на 20%."},
     iron_ore:{id:"iron_ore",name:"Железная руда",icon:"relic",type:"material",price:7,rarity:"common",description:"Тяжёлый кусок руды для ремесла."},
     ember_dust:{id:"ember_dust",name:"Пепельная пыль",icon:"relic",type:"material",price:9,rarity:"rare",description:"Магический остаток, добываемый в опасных местах."},
     luminous_plate:{id:"luminous_plate",name:"Латы Света",icon:"armor",type:"armor",slot:"armor",attack:1,defense:8,price:90,rarity:"epic",usableBy:["human"],description:"Серебряные латы, созданные для защитника живых. Отталкивают тёмную магию."},
@@ -31,6 +34,11 @@ const RPG_DB = {
     moonbow:{id:"moonbow",name:"Лунный лук",icon:"bow",type:"weapon",slot:"weapon",attack:9,defense:0,price:90,rarity:"epic",usableBy:["elf"],description:"Тонкий эльфийский лук, чья тетива светится холодным лунным светом."},
     warcleaver:{id:"warcleaver",name:"Тяжёлый топор клана",icon:"hammer",type:"weapon",slot:"weapon",attack:10,defense:0,price:90,rarity:"epic",usableBy:["orc"],description:"Массивный топор с клановыми насечками. Для чужака он слишком тяжёл."},
     forgehammer:{id:"forgehammer",name:"Молот глубин",icon:"hammer",type:"weapon",slot:"weapon",attack:8,defense:3,price:90,rarity:"epic",usableBy:["dwarf"],description:"Рунический молот горных мастеров, уравновешенный как наковальня."}
+    ,
+    bandage:{id:"bandage",name:"Полевой бинт",icon:"potion",type:"consumable",heal:8,price:10,rarity:"rare",description:"Лечит одну боевую травму и восстанавливает немного здоровья."},
+    heart_of_ash:{id:"heart_of_ash",name:"Сердце Пепла",icon:"relic",type:"relic",attack:9,defense:0,price:160,rarity:"cursed",stepDamage:2,description:"Проклятая реликвия: +9 атаки, но каждый шаг по карте отнимает 2 HP. Не надевается — действует, пока находится в рюкзаке."},
+    thorn_crown:{id:"thorn_crown",name:"Терновая корона",icon:"helmet",type:"helmet",slot:"helmet",attack:5,defense:4,price:190,rarity:"cursed",stepDamage:1,description:"Черно-красная реликвия: усиливает атаку и защиту, но каждый переход по карте причиняет 1 урон."},
+    saint_vessel:{id:"saint_vessel",name:"Сосуд святого",icon:"relic",type:"relic",price:120,rarity:"legendary",description:"Реликвия Света. Усиливает лечение и даёт небольшой бонус к защите, пока хранится в сумке."}
   },
   monsters: [
     {id:"wolf",name:"Голодный волк",icon:"wolf",hp:28,attack:5,defense:1,xp:12,gold:[4,10],dodge:8,description:"Зверь с рёбрами, проступающими сквозь шкуру."},
@@ -38,6 +46,11 @@ const RPG_DB = {
     {id:"skeleton",name:"Костяной страж",icon:"skull",hp:43,attack:8,defense:3,xp:22,gold:[5,14],dodge:2,description:"Старая броня звенит на костях безымянного воина."},
     {id:"wraith",name:"Пепельный призрак",icon:"wraith",hp:51,attack:10,defense:2,xp:29,gold:[12,24],dodge:12,description:"Его шёпот напоминает голос того, кого ты потерял."},
     {id:"knight",name:"Падший рыцарь",icon:"knight",hp:72,attack:12,defense:5,xp:42,gold:[20,36],dodge:3,description:"Он всё ещё охраняет корону, которой больше нет."}
+  ],
+  roadEncounters: [
+    {id:"bandit_ambush",title:"Засада разбойников",icon:"sword",text:"Из-за поваленной телеги выходят трое разбойников. Старший крутит нож и требует плату за проход.",choices:[{id:"fight",label:"Драться",tone:"danger",kind:"fight",result:"Ты не уступил дорогу головорезам."},{id:"pay",label:"Откупиться · 12 золота",tone:"gold",kind:"pay",amount:12,karma:-1,rep:{common:-1},result:"Разбойники забрали плату и скрылись в кустах."},{id:"flee",label:"Сбежать",tone:"ghost",kind:"flee",result:"Ты свернул с тракта и ушёл от засады."}]},
+    {id:"wounded_traveler",title:"Раненый путник",icon:"heart",text:"У обочины лежит израненный странник. Он просит о помощи, но рядом валяется его раскрытая сумка.",choices:[{id:"help",label:"Помочь зельем",tone:"gold",kind:"help_potion",karma:3,rep:{common:4},result:"Путник выпил зелье, поблагодарил тебя и рассказал о безопасной тропе."},{id:"rob",label:"Ограбить",tone:"danger",kind:"rob",karma:-4,gold:18,rep:{common:-8},result:"Ты забрал монеты и оставил путника в пыли."},{id:"pass",label:"Пройти мимо",tone:"ghost",kind:"pass",karma:0,result:"Ты продолжил путь, не вмешиваясь в чужую беду."}]},
+    {id:"abandoned_altar",title:"Заброшенный алтарь",icon:"sigil",text:"Между корнями выступает древний алтарь. На камне мерцают два знака: рассвет и чёрное солнце.",choices:[{id:"pray",label:"Помолиться · +Карма",tone:"gold",kind:"pray",karma:4,rep:{common:2},result:"Тёплый свет касается лица. Вера укрепила твою защиту."},{id:"desecrate",label:"Осквернить · +Скверна и золото",tone:"danger",kind:"desecrate",karma:-5,gold:22,rep:{common:-6},result:"Ты вырвал из алтаря тёмные монеты. Холодная сила проснулась внутри."}]}
   ],
   events: [
     {id:"beggar",title:"Старик у обочины",icon:"human",text:"Слепой старик просит монету и называет тебя именем, которого ты никогда не слышал.",choices:[{label:"Дать 8 золота",kind:"pay",amount:8,karma:3,rep:{common:2},result:"Старик исчезает, оставив благословение. Дорога кажется чуть светлее."},{label:"Пройти мимо",kind:"ignore",karma:-1,result:"Старик не оборачивается. Но ты слышишь за спиной тихий смешок."}]},
@@ -59,6 +72,20 @@ const RPG_DB = {
     {id:"rogue_dodge",tree:"rogue",name:"Тень на ветру",desc:"+3% к уклонению за ранг.",max:3,icon:"🌘"},
     {id:"mage_power",tree:"mage",name:"Глубокий источник",desc:"+5 к максимальной мане за ранг.",max:3,icon:"✧"},
     {id:"mage_flame",tree:"mage",name:"Жар арканы",desc:"Огненная магия наносит больше урона.",max:3,icon:"🔥"}
+  ],
+  mutations: [
+    {id:"light_aegis",path:"light",name:"Эгида Рассвета",icon:"☼",karma:3,max:3,desc:"Каждый ранг даёт +2 защиты и снижает получаемый урон."},
+    {id:"light_mend",path:"light",name:"Благословение живых",icon:"✚",karma:5,max:2,desc:"Лечение и зелья восстанавливают на 20% больше за ранг."},
+    {id:"light_smite",path:"light",name:"Кара небес",icon:"✧",karma:7,max:3,desc:"Святой удар добавляет урон противникам."},
+    {id:"dark_hunger",path:"dark",name:"Голод тени",icon:"☾",karma:-3,max:3,desc:"Вампиризм: восстанавливает 4% нанесённого урона за ранг."},
+    {id:"dark_bloodprice",path:"dark",name:"Кровавая цена",icon:"♜",karma:-5,max:2,desc:"Потрать 5% текущего HP, чтобы усилить следующую атаку на 45% за ранг."},
+    {id:"dark_spirit",path:"dark",name:"Призыв бесплотных",icon:"♧",karma:-7,max:2,desc:"Раз в бою тёмный дух наносит урон и ослабляет врага."}
+  ],
+  anomalies: [
+    {id:"blood_altar",name:"Кровавый Алтарь",icon:"☠",desc:"Принеси 10 HP в жертву, чтобы получить проклятую реликвию и Скверну."},
+    {id:"wandering_merchant",name:"Странствующий Купец",icon:"⚖",desc:"Редкая сделка: продай припасы по повышенной цене или купи реликвию."},
+    {id:"forgotten_treasury",name:"Забытая Сокровищница",icon:"♜",desc:"Забери золото и шанс на редкую добычу."},
+    {id:"rift",name:"Пепельный Разлом",icon:"ϟ",desc:"Разлом может даровать опыт и прозрение — или обжечь тело и душу."}
   ],
   pets: [
     {id:"fox",name:"Пепельный лис",icon:"🦊",desc:"Проворный спутник: +3% уклонения.",buff:{dodge:3},unlock:0},

@@ -1,36 +1,28 @@
-# Пепел Королевства — v18.0 Visual Inventory & Citadel Edition
+# Пепел Королевства v26.1 — Active Skills & Multi-Phase Bosses Edition
 
-Мобильная офлайн PWA Dark Fantasy RPG. Используются локальные файлы, Inline SVG и CSS; внешние изображения и библиотеки не нужны.
+Мобильная офлайн PWA Dark Fantasy RPG.
+
+## Новое в v26.1
+- Отдельные шкалы HP и MP в шапке и на боевой арене.
+- По три расовых активных навыка для человека, нежити, эльфа, орка и гнома.
+- Расход маны, постепенное восстановление MP на ходу врага и перезарядка навыков.
+- Оглушение, щиты, баффы урона, вампиризм, проклятие/яд и ослабление защиты.
+- Фазовые боссы: ниже 50% HP переходят во вторую фазу, получают +40% к атаке и каждые 2 хода применяют супер-атаку.
+- Гарантированная проклятая реликвия с победы над фазовым боссом.
+- Реликвии с анимированной чёрно-красной рамкой и штрафами/бонусами.
+- Сохранены туман войны, выбор маршрутов, временные аномалии, Paperdoll и блокировка вкладки боя вне сражения.
 
 ## Запуск
+Разместите содержимое этой папки на HTTPS-хостинге (например, GitHub Pages). Офлайн-кэш активируется после первого успешного посещения.
 
-Разместите всё содержимое папки `project` на HTTPS-хостинге (например, GitHub Pages), сохранив каталог `assets`. Service Worker регистрируется на HTTPS или localhost. После первого открытия и завершения кэширования основные файлы доступны офлайн.
-
-## v18.0
-
-- Полнофигурные Inline SVG-портреты пяти рас.
-- Race-locked экипировка: `usableBy` проверяется в интерфейсе, при надевании и в расчёте характеристик.
-- Динамическая SVG-иллюстрация цитадели: руины, форт, замок по суммарному уровню построек.
-- Отдельный «Смертельный удар» за 10 MP; заклинания и расходники с задержкой перед гарантированным вызовом ответного хода врага, если противник выжил.
-- Обучение вызывается через `initTutorial()` после создания героя, если чекбокс включён.
-- Формат экспорта AK18 с XOR-маскировкой, Base64 и контрольной суммой; импорт AK17/AK16/AK15/AK14 сохранён.
-
-## Ограничения
-
-Base64/XOR — маскировка, а не криптографическое шифрование. Проверка синтаксиса не заменяет реальный игровой прогон на iPhone. `navigator.vibrate` может не поддерживаться браузером iOS.
+## Проверки
+Синтаксис JavaScript, JSON и целостность архива можно проверить локально. Полный игровой прогон на iPhone необходимо провести в браузере устройства; его нельзя подтвердить только статическими проверками.
 
 
-## v18.0 — Visual Inventory & Citadel Edition
-- Added four inventory category filters and detailed inline SVG item artwork.
-- Rarity frames distinguish common, rare, epic, and legendary loot.
-- Item details show attack/defense values and compare them with currently equipped gear.
-- Race-locked gear remains disabled for incompatible races.
-- Export format is AK18; import compatibility with AK17/AK16/AK15/AK14 is retained.
-- Inventory scrolling is confined to the inventory panel; the app shell remains viewport-sized.
-
-
-## v19.1 — Hotfix Typography & Giant Navigation
-- Raised ordinary interface text to a minimum of 18px with 1.4 line-height; controls 21px and headings 27px.
-- Bottom navigation uses five equal full-sector touch targets, 32px SVG icons, and bold 18px labels; minimum bar height 84px plus safe-area inset.
-- Cache version bumped to v19.1 so deployed PWA refreshes its local files.
-- Note: this typography floor intentionally prioritizes readability over fitting every pane at once; individual content panes may scroll internally. Test on the target iPhone before publishing.
+## v26.1 — Visual Juice & FX
+- Floating combat numbers for damage, healing, misses, stun and phase changes.
+- Screen shake on criticals and boss super-attacks.
+- Low-HP pulse below 20% HP.
+- Animated fog and moving route dashes on the world map.
+- Weather/time-reactive background gradients.
+- Animated cursed and legendary loot borders.
