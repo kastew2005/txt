@@ -613,7 +613,7 @@ body{overflow:hidden;font-size:16px;line-height:1.4}
 }
 
 
-/* v16.0 Master Edition + QoL Polish — final precedence layer */
+/* v16.0 Master Edition base layer — retained and extended in v17.0 */
 :root{--v16-nav:68px}
 html,body{width:100%;height:100%;min-height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
 body{height:100vh;height:100dvh;touch-action:pan-x pan-y}
@@ -674,3 +674,45 @@ body.low-health:after{content:"";position:fixed;inset:0;z-index:35;pointer-event
 button,.btn,.nav-tab,.action-card,.map-location{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 @media(max-height:720px){:root{--v16-nav:64px}#tab-world .travel-map-panel{min-height:170px}#event-feed{height:50px;min-height:50px}#tab-world .world-actions{gap:4px}#tab-world .action-card{min-height:43px;padding:4px 7px}.bottom-nav .nav-tab .ui-icon{width:25px;height:25px}}
 @media(max-width:390px){#tab-world .travel-map-heading h3{font-size:18px}.combat-actions{gap:5px}.combat-actions .btn{padding:8px 4px;font-size:16px}.bottom-nav .nav-tab small{font-size:13px}}
+
+
+/* v17.0 Race Gear, Visual Citadel & Master Combat Fix */
+:root{--v17-font:16px;--v17-heading:23px}
+html,body{width:100%;height:100%;min-height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
+body{font-size:var(--v17-font);line-height:1.42}
+button,input,textarea,select{font:inherit}
+button,.btn,.nav-tab,.action-card,.spell-card,.target-zone{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.muted,.tiny,.feature-card p,.feature-card small,.item-detail p,.event-feed,.combat-log,.castle-building p,.market-item p,.profile-panel p,.equip-slot small{font-size:16px;line-height:1.42}
+h1,h2,h3,.modal-card h3,.scene-header h2{font-size:clamp(22px,2.4vw,24px);line-height:1.18}
+h4,.castle-building h4,.feature-card h4{font-size:19px;line-height:1.25}
+.top-stats .stat strong,.side-line strong,.profile-stat strong,.rage-heading strong,.mana-heading strong{font-size:18px;font-weight:800}
+.bottom-nav{min-height:68px;height:68px;padding-bottom:env(safe-area-inset-bottom,0);box-sizing:content-box;z-index:80}
+.nav-tab{min-width:0;width:100%;height:68px;min-height:68px;gap:4px;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.nav-tab .ui-icon{width:27px;height:27px}.nav-tab small{font-size:14px;font-weight:800;line-height:1.1}
+.action-card{min-height:58px;height:auto;padding:8px 10px;gap:5px;display:grid;grid-template-columns:28px minmax(0,1fr);grid-template-rows:auto auto;align-items:center;text-align:left}
+.action-card>span{grid-row:1/3;width:28px;height:28px;display:grid;place-items:center}.action-card>span .ui-icon{width:23px;height:23px}.action-card strong{font-size:15.5px;line-height:1.18}.action-card small{font-size:14px;line-height:1.2}
+.travel-map-panel{min-height:0}.travel-map{width:100%;height:auto;min-height:245px;max-height:38vh;touch-action:manipulation}.map-location{min-width:48px;min-height:48px}
+.event-feed{display:flex;flex-direction:column;gap:6px}.event-feed>*{margin-bottom:6px;line-height:1.3;min-height:0;padding:9px 11px}.event-feed p,.event-feed small{font-size:14.5px;line-height:1.3}
+.combat-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.combat-actions>.btn{min-height:54px;height:auto;font-size:18px;font-weight:800;padding:10px 12px}.combat-actions #flee-btn{grid-column:1/-1}.btn-execute{background:linear-gradient(135deg,#7e1e2b,#3d131c);border:1px solid #e26761;color:#fff2df}
+.spell-actions{gap:8px}.spell-card{min-height:74px;padding:10px}.spell-card strong{font-size:17px}.spell-card small{font-size:14px;line-height:1.25}
+.profile-race-avatar{display:block;width:min(100%,420px);height:auto;min-height:0;aspect-ratio:320/440;margin:10px auto 18px;overflow:hidden;border:1px solid rgba(205,174,110,.45);border-radius:18px;background:radial-gradient(ellipse at 50% 32%,rgba(121,103,154,.2),transparent 65%),#10111b;box-shadow:inset 0 0 35px rgba(0,0,0,.45),0 12px 35px rgba(0,0,0,.25)}
+.profile-race-svg{display:block;width:100%;height:auto;max-height:48vh;object-fit:contain}
+.profile-race-svg-human{color:#d7b979}.profile-race-svg-undead{color:#76eee2}.profile-race-svg-elf{color:#9bf2d6}.profile-race-svg-orc{color:#a8c96f}.profile-race-svg-dwarf{color:#d7ae6b}
+.race-lock-tag{text-transform:uppercase;display:inline-flex;align-items:center;gap:7px;margin:4px 0 10px;padding:8px 11px;border-radius:9px;border:1px solid #8e7445;background:rgba(181,139,56,.14);font-size:16px;font-weight:900;letter-spacing:.015em}.race-lock-tag.is-locked{border-color:#a34d53;background:rgba(151,38,49,.18);color:#ffb9b5}.race-lock-tag.is-allowed{color:#e8d29b}.race-lock-dot{position:absolute;top:5px;right:5px;font-size:12px;color:#e4c477;background:#22202b;border-radius:50%;padding:2px 4px}
+.item-cell{position:relative}.item-detail h4{display:flex;align-items:center;gap:8px;font-size:20px}.item-detail .detail-actions .btn{min-height:48px;font-size:16px;font-weight:800}.item-detail .btn:disabled{opacity:.45;filter:grayscale(.7)}
+.citadel-visual{width:100%;margin:12px 0 0;border:1px solid rgba(206,176,111,.48);border-radius:16px;overflow:hidden;background:#171923;box-shadow:0 12px 30px rgba(0,0,0,.22)}.citadel-visual svg{display:block;width:100%;height:auto;max-height:34vh}.citadel-stage-copy{display:flex;flex-direction:column;gap:4px;margin:0 0 14px;padding:11px 13px;border-left:3px solid #c5a35f;background:rgba(193,157,82,.08);border-radius:0 10px 10px 0}.citadel-stage-copy strong{font-size:18px;color:#f1d69b}.citadel-stage-copy span{font-size:16px;line-height:1.4;color:#d0c7b6}
+.tutorial-overlay{z-index:99999}.tutorial-spotlight{z-index:100000}.tutorial-card{z-index:100001}.tutorial-highlight{position:relative;z-index:100000!important;isolation:isolate}
+#app.low-health::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9990;border:0 solid rgba(210,25,42,0);box-shadow:inset 0 0 0 0 rgba(214,24,42,0);animation:v17-low-health 1.25s ease-in-out infinite}@keyframes v17-low-health{0%,100%{box-shadow:inset 0 0 0 0 rgba(214,24,42,0)}50%{box-shadow:inset 0 0 44px 12px rgba(214,24,42,.3)}}
+#app.magic-flash::after{content:"";position:fixed;inset:0;z-index:9990;pointer-events:none;background:radial-gradient(circle at 70% 50%,rgba(255,111,42,.2),transparent 60%);animation:v17-magic-flash .42s ease-out forwards}@keyframes v17-magic-flash{from{opacity:1}to{opacity:0}}
+#app.damage-flash::after{content:"";position:fixed;inset:0;z-index:9991;pointer-events:none;background:rgba(176,22,34,.18);animation:v17-damage-flash .34s ease-out forwards}@keyframes v17-damage-flash{from{opacity:1}to{opacity:0}}
+@media(max-width:760px){.bottom-nav{height:68px}.nav-tab{height:68px}.action-card{min-height:56px}.travel-map{min-height:220px;max-height:33vh}.profile-race-svg{max-height:42vh}.citadel-visual svg{max-height:29vh}.combat-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.combat-actions>.btn{font-size:17px}}
+@media(max-height:720px){.profile-race-svg{max-height:34vh}.citadel-visual svg{max-height:24vh}.travel-map{min-height:175px;max-height:29vh}.nav-tab,.bottom-nav{height:64px;min-height:64px}.action-card{min-height:50px;padding:6px 8px}.action-card small{display:none}}
+@media(prefers-reduced-motion:reduce){#app.low-health::after,.tutorial-highlight,.spell-burst{animation:none!important}}
+
+/* Floating combat numbers v17 */
+.combatant{position:relative;isolation:isolate}.float-number{position:absolute;z-index:20;left:50%;top:42%;transform:translate(-50%,0);font-size:24px;font-weight:1000;line-height:1;text-shadow:0 2px 5px #000,0 0 12px currentColor;pointer-events:none;white-space:nowrap;animation:v17-float-up 1s cubic-bezier(.16,.7,.28,1) forwards}.float-damage,.float-critical{color:#ff8a78}.float-heal{color:#a5efad}.float-shield-number{color:#b6e7ff;font-size:18px}.float-mana-damage{color:#b9a0ff}.float-death{color:#ffd98c}@keyframes v17-float-up{0%{opacity:0;translate:0 12px;scale:.72}18%{opacity:1;scale:1.08}100%{opacity:0;translate:0 -68px;scale:.92}}
+/* Tutorial stacking fix: the overlay sits above highlighted sections while remaining click-through. */
+.tutorial-overlay{z-index:100001!important;pointer-events:none!important;background:transparent!important}
+.tutorial-spotlight{z-index:100002!important;pointer-events:none!important}
+.tutorial-card,.tutorial-skip{z-index:100003!important;pointer-events:auto!important}
+.tutorial-highlight{z-index:100000!important}

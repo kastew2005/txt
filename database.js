@@ -1,8 +1,8 @@
-/* RPG database · Master Edition v16.0 */
+/* RPG database · Master Edition v17.0 */
 /* База данных мира. Все предметы и события описаны здесь, игровая логика находится в game.js. */
 "use strict";
 const RPG_DB = {
-  version: "15.0",
+  version: "17.0",
   races: [
     {id:"human",name:"Человек",icon:"human",summary:"Универсальность и воля",lore:"Люди не сильнее древних рас, но их упорство меняет ход истории.",mods:{hp:0,str:0,dodge:0,crit:0,gold:15},detail:"+15 стартового золота. Без слабых сторон."},
     {id:"elf",name:"Эльф",icon:"leaf",summary:"Ловкость и точность",lore:"Последние дети старых лесов умеют видеть слабые места даже в темноте.",mods:{hp:-8,str:-1,dodge:8,crit:7,gold:0},detail:"+8% уворота, +7% крит. шанса, −8 здоровья, −1 сила."},
@@ -25,7 +25,12 @@ const RPG_DB = {
     gold_charm:{id:"gold_charm",name:"Монета святого",icon:"relic",type:"treasure",price:20,rarity:"rare",description:"Старинная монета, которую суеверные торговцы считают добрым знаком."},
     mana_tonic:{id:"mana_tonic",name:"Настой синей луны",icon:"potion",type:"consumable",heal:0,mana:18,price:16,rarity:"rare",description:"Восстанавливает 18 маны."},
     iron_ore:{id:"iron_ore",name:"Железная руда",icon:"relic",type:"material",price:7,rarity:"common",description:"Тяжёлый кусок руды для ремесла."},
-    ember_dust:{id:"ember_dust",name:"Пепельная пыль",icon:"relic",type:"material",price:9,rarity:"rare",description:"Магический остаток, добываемый в опасных местах."}
+    ember_dust:{id:"ember_dust",name:"Пепельная пыль",icon:"relic",type:"material",price:9,rarity:"rare",description:"Магический остаток, добываемый в опасных местах."},
+    luminous_plate:{id:"luminous_plate",name:"Латы Света",icon:"armor",type:"armor",slot:"armor",attack:1,defense:8,price:90,rarity:"epic",usableBy:["human"],description:"Серебряные латы, созданные для защитника живых. Отталкивают тёмную магию."},
+    bone_mantle:{id:"bone_mantle",name:"Мантия костяного короля",icon:"armor",type:"armor",slot:"armor",attack:2,defense:7,price:90,rarity:"epic",usableBy:["undead"],description:"Разорванная мантия, скреплённая костяными пластинами и некротической энергией."},
+    moonbow:{id:"moonbow",name:"Лунный лук",icon:"bow",type:"weapon",slot:"weapon",attack:9,defense:0,price:90,rarity:"epic",usableBy:["elf"],description:"Тонкий эльфийский лук, чья тетива светится холодным лунным светом."},
+    warcleaver:{id:"warcleaver",name:"Тяжёлый топор клана",icon:"hammer",type:"weapon",slot:"weapon",attack:10,defense:0,price:90,rarity:"epic",usableBy:["orc"],description:"Массивный топор с клановыми насечками. Для чужака он слишком тяжёл."},
+    forgehammer:{id:"forgehammer",name:"Молот глубин",icon:"hammer",type:"weapon",slot:"weapon",attack:8,defense:3,price:90,rarity:"epic",usableBy:["dwarf"],description:"Рунический молот горных мастеров, уравновешенный как наковальня."}
   },
   monsters: [
     {id:"wolf",name:"Голодный волк",icon:"wolf",hp:28,attack:5,defense:1,xp:12,gold:[4,10],dodge:8,description:"Зверь с рёбрами, проступающими сквозь шкуру."},
