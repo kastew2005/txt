@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Пепел Королевства — Visual Inventory v18.0",
+  "name": "Пепел Королевства — Visual Inventory v19.1",
   "short_name": "Пепел v18",
-  "description": "Мобильная офлайн Dark Fantasy RPG: Visual Inventory & Citadel Edition.",
+  "description": "Мобильная офлайн Dark Fantasy RPG: Hotfix Typography & Giant Navigation.",
   "lang": "ru",
   "start_url": "./index.html",
   "scope": "./",

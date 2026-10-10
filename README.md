@@ -27,3 +27,10 @@ Base64/XOR — маскировка, а не криптографическое 
 - Race-locked gear remains disabled for incompatible races.
 - Export format is AK18; import compatibility with AK17/AK16/AK15/AK14 is retained.
 - Inventory scrolling is confined to the inventory panel; the app shell remains viewport-sized.
+
+
+## v19.1 — Hotfix Typography & Giant Navigation
+- Raised ordinary interface text to a minimum of 18px with 1.4 line-height; controls 21px and headings 27px.
+- Bottom navigation uses five equal full-sector touch targets, 32px SVG icons, and bold 18px labels; minimum bar height 84px plus safe-area inset.
+- Cache version bumped to v19.1 so deployed PWA refreshes its local files.
+- Note: this typography floor intentionally prioritizes readability over fitting every pane at once; individual content panes may scroll internally. Test on the target iPhone before publishing.

@@ -724,3 +724,251 @@ h4,.castle-building h4,.feature-card h4{font-size:19px;line-height:1.25}
 @media(max-width:700px){.inventory-layout{grid-template-columns:minmax(0,1fr)}.inventory-grid{grid-template-columns:repeat(3,minmax(0,1fr));max-height:34vh}.item-card{min-height:136px}.item-art-frame{height:65px}.inventory-item-svg{height:65px}.inventory-filters{gap:5px}.inventory-filter{font-size:14px;min-height:44px;padding:7px 3px}.equipment-slots{grid-template-columns:repeat(2,minmax(0,1fr))}.item-detail-head{align-items:flex-start}.item-detail-art{flex-basis:88px;min-height:84px}.item-detail-art .inventory-item-svg{width:84px;height:78px}}
 @media(max-width:380px){.inventory-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-height:32vh}.item-card{min-height:130px}.inventory-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.item-card-name{font-size:16px}.equipment-slots{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.item-card{transition:none}}
+
+
+/* ========================================================================
+   v19.1 HOTFIX — TYPOGRAPHY FLOOR + GIANT FIVE-ITEM BOTTOM NAVIGATION
+   Appended intentionally so these rules override older responsive overrides.
+   ======================================================================== */
+:root {
+  --v191-text-min: 18px;
+  --v191-button-text: 21px;
+  --v191-heading: 27px;
+  --v191-nav-height: 84px;
+  --v191-nav-icon: 32px;
+  --v191-nav-label: 18px;
+}
+html {
+  font-size: 18px !important;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body, #app {
+  font-size: 18px !important;
+  line-height: 1.4 !important;
+  color: #fff8e9;
+}
+/* A hard floor for ordinary interface text, including legacy .tiny/.muted rules. */
+:where(p, span, small, strong, em, label, li, dt, dd, summary, a, button,
+       input, textarea, select, option, figcaption, blockquote, legend, output,
+       time, code, .muted, .tiny, .eyebrow, .event-entry, .event-feed,
+       .combat-log, .quest-widget, .item-description, .item-card-name,
+       .item-card-stats, .inventory-help, .inventory-empty p,
+       .comparison-current, .stat-delta, .equipment-stat-row,
+       .castle-income, .citadel-stage-copy, .map-weather-chip, .map-footer,
+       .travel-map-heading, .weather, .side-line, .profile-stat,
+       .market-item, .feature-card, .more-menu-item, .tutorial-card) {
+  font-size: max(18px, 1em) !important;
+  line-height: 1.4 !important;
+}
+/* Headings and screen/modal titles remain clearly separated from body copy. */
+:where(h1, h2, h3, h4, h5, h6, .modal-card h3, .scene-header h2,
+       .more-menu-heading h3, .section-heading h3, .banner-copy h3,
+       .tavern-scene h3, .arena h3, .profile-panel h3) {
+  font-size: 27px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  color: #fff1cf;
+  overflow-wrap: anywhere;
+}
+.start-panel h1 { font-size: 28px !important; font-weight: 900 !important; }
+button, .btn, .action-card, .spell-card, .target-zone, input, select, textarea {
+  font-size: 21px !important;
+  font-weight: 850 !important;
+  line-height: 1.4 !important;
+}
+button, .btn, .action-card, .spell-card, .target-zone {
+  min-height: 52px;
+  padding: 10px 14px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+input, select, textarea {
+  min-height: 50px;
+  padding: 10px 12px;
+  color: #fff8e9;
+  background-color: #15121d;
+}
+.top-stats .stat small,
+.top-stats .stat strong,
+.side-line strong,
+.profile-stat strong,
+.rage-heading strong,
+.mana-heading strong {
+  font-size: 20px !important;
+  line-height: 1.4 !important;
+  font-weight: 900 !important;
+}
+.top-stats .stat small { color: #e8dfd0; }
+.eyebrow { letter-spacing: .04em !important; overflow-wrap: anywhere; }
+.event-entry, .event-entry p, .event-entry strong,
+.combat-log, .combat-log *, #event-feed, #event-feed *,
+.quest-widget, .quest-widget *, .item-detail, .item-detail *,
+.inventory-empty, .inventory-empty *, .feature-card, .feature-card *,
+.market-item, .market-item *, .castle-building, .castle-building *,
+.profile-panel, .profile-panel *, .more-menu-card, .more-menu-card * {
+  line-height: 1.4 !important;
+}
+/* Keep the game shell fixed to the device viewport; content panes own scrolling. */
+html, body {
+  width: 100%; height: 100%; min-height: 100%; margin: 0;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+#app, .app-shell {
+  height: 100dvh !important;
+  min-height: 0 !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+}
+.game-screen, .main-layout, .content-area {
+  min-height: 0;
+}
+.content-area { overflow: auto; overscroll-behavior: contain; }
+.tab-view:not(.hidden) { min-width: 0; }
+/* Giant, full-sector tap targets: each button fills one fifth of the bar. */
+.bottom-nav {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+  justify-content: stretch !important;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  height: calc(var(--v191-nav-height) + var(--safe-bottom, env(safe-area-inset-bottom, 0px))) !important;
+  min-height: calc(var(--v191-nav-height) + var(--safe-bottom, env(safe-area-inset-bottom, 0px))) !important;
+  max-height: none !important;
+  box-sizing: border-box !important;
+  gap: 3px !important;
+  padding: 5px max(5px, env(safe-area-inset-right, 0px)) calc(5px + var(--safe-bottom, env(safe-area-inset-bottom, 0px))) max(5px, env(safe-area-inset-left, 0px)) !important;
+  overflow: hidden !important;
+  border-top: 2px solid #d6b875aa !important;
+  background: linear-gradient(180deg, #201b2bfa, #0d0c14ff) !important;
+  z-index: 100 !important;
+}
+.bottom-nav .nav-tab,
+.bottom-nav .nav-tab:where(button) {
+  display: flex !important;
+  flex: 1 1 0 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 5px 2px !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  border: 1px solid #ffffff12 !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+.bottom-nav .nav-tab > span {
+  display: flex !important;
+  flex: 0 0 32px !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+}
+.bottom-nav .nav-tab .ui-icon,
+.bottom-nav .nav-tab svg.ui-icon {
+  display: block !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+  stroke-width: 2.1;
+}
+.bottom-nav .nav-tab .more-glyph {
+  display: flex !important;
+  width: 32px !important;
+  height: 32px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 32px !important;
+  line-height: 1 !important;
+  font-weight: 1000 !important;
+}
+.bottom-nav .nav-tab small {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  text-align: center !important;
+  font-size: 18px !important;
+  font-weight: 950 !important;
+  line-height: 1.1 !important;
+  color: #f5ead3 !important;
+  overflow-wrap: anywhere;
+}
+.bottom-nav .nav-tab.active {
+  background: linear-gradient(145deg, #51405d, #292035) !important;
+  border-color: #f1d58b !important;
+  color: #ffe4a1 !important;
+  box-shadow: inset 0 -3px #f2d48a, 0 0 14px #d9b55d22 !important;
+}
+.bottom-nav .nav-tab.active small { color: #ffe4a1 !important; }
+.bottom-nav .nav-tab:focus-visible {
+  outline: 3px solid #fff0a8 !important;
+  outline-offset: -3px !important;
+}
+/* Prevent tiny legacy helper text from slipping below the typography floor. */
+.tiny, .muted, small, .eyebrow, .inventory-help, .rarity-label,
+.item-card-stats, .item-description, .comparison-current, .map-caption,
+.map-footer, .map-weather-chip, .travel-map-heading, .profile-race-label,
+.event-entry p, .feature-card p, .feature-card small, .market-item p,
+.castle-building p, .equip-slot small, .quest-widget small {
+  font-size: max(18px, 1em) !important;
+  line-height: 1.4 !important;
+}
+/* SVG icon shapes retain their geometry; labels drawn inside the map are readable. */
+#travel-map text, .travel-map text, svg text {
+  font-size: 18px !important;
+}
+@media (max-width: 420px) {
+  :root { --v191-nav-height: 84px; }
+  .bottom-nav { gap: 2px !important; }
+  .bottom-nav .nav-tab { padding-left: 1px !important; padding-right: 1px !important; }
+  .bottom-nav .nav-tab small { font-size: 18px !important; letter-spacing: -.035em; }
+  .bottom-nav .nav-tab .ui-icon,
+  .bottom-nav .nav-tab svg.ui-icon,
+  .bottom-nav .nav-tab > span { width: 32px !important; height: 32px !important; }
+  .topbar { gap: 6px; }
+  .brand strong { font-size: 18px !important; letter-spacing: 0; }
+}
+@media (max-height: 720px) {
+  .bottom-nav {
+    height: calc(84px + var(--safe-bottom, env(safe-area-inset-bottom, 0px))) !important;
+    min-height: calc(84px + var(--safe-bottom, env(safe-area-inset-bottom, 0px))) !important;
+    max-height: none !important;
+    padding-top: 5px !important;
+    padding-bottom: calc(5px + var(--safe-bottom, env(safe-area-inset-bottom, 0px))) !important;
+  }
+  .bottom-nav .nav-tab { min-height: 0 !important; height: 100% !important; }
+}
+@media (orientation: landscape) and (max-height: 520px) {
+  .bottom-nav {
+    height: calc(84px + var(--safe-bottom, env(safe-area-inset-bottom, 0px))) !important;
+    min-height: calc(84px + var(--safe-bottom, env(safe-area-inset-bottom, 0px))) !important;
+    max-height: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
