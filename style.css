@@ -431,3 +431,13 @@ button,.btn,.action-card,.nav-tab,.map-location,.map-node,.spell-card,.item-cell
 .modal-actions .btn{flex:1;min-width:130px}
 #save-manager-status{font-size:14px;line-height:1.4}
 @media(max-width:520px){.save-manager-actions{grid-template-columns:1fr 1fr}.save-manager-actions .btn{font-size:14px;padding:10px 7px}.modal-card{max-height:88dvh;overflow:auto}#save-code{max-height:25dvh}}
+
+/* v13.0: onboarding opt-in and tactical execute */
+.tutorial-optin{display:flex!important;align-items:center;gap:10px;margin:12px 0!important;padding:11px 12px;border:1px solid #6d5837;border-radius:10px;background:linear-gradient(120deg,#211a16,#17131b);cursor:pointer;font-size:16px!important;color:#eadcc5}
+.tutorial-optin input{width:22px;height:22px;min-width:22px;accent-color:#d5ad5b;cursor:pointer}
+.tutorial-optin span{display:flex;flex-direction:column;gap:3px}.tutorial-optin strong{font-size:16px}.tutorial-optin small{font-size:13px;color:#b9a991}
+.btn-execute{border:1px solid #ff6a36!important;color:#fff4dd!important;background:linear-gradient(120deg,#6e1d15,#d34c22 55%,#7b2418)!important;box-shadow:0 0 18px #ff4b1c66,inset 0 0 12px #ffbb4b22!important;animation:executePulse 1s ease-in-out infinite alternate}
+.btn-execute.hidden{display:none!important}@keyframes executePulse{from{filter:brightness(.9);box-shadow:0 0 10px #ff4b1c44}to{filter:brightness(1.25);box-shadow:0 0 24px #ff4b1caa}}
+button:disabled{cursor:not-allowed;filter:saturate(.55);opacity:.62}.combat-actions button,.spell-card,.nav-tab,.action-card,.more-menu-item{touch-action:manipulation;min-height:44px}
+html,body{height:100%;height:100dvh;overflow:hidden}.start-screen{overflow:hidden!important}.start-panel{overflow-y:auto!important;overscroll-behavior:contain;scrollbar-width:thin}.tutorial-highlight{position:relative!important;z-index:100000!important;outline:2px solid #f4d98b!important;outline-offset:4px;box-shadow:0 0 0 9999px rgba(0,0,0,.82),0 0 24px #f3ca67!important}
+@media(max-width:760px){.tutorial-optin{padding:8px 10px!important;margin:7px 0!important}.tutorial-optin small{font-size:12px}.start-panel .wide{min-height:44px}.btn-execute{min-height:44px}}

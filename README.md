@@ -1,4 +1,4 @@
-# Пепел Королевства — Ultimate Dark Fantasy RPG v12.0
+# Пепел Королевства — Dark Fantasy & Tactical Combat v13.0
 
 Однопользовательская браузерная RPG на Vanilla JavaScript, HTML и CSS. Все иллюстрации интерфейса выполнены встроенным SVG/CSS; внешние библиотеки, шрифты, изображения и сетевые API не требуются.
 
