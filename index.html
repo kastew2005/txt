@@ -14,7 +14,7 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#171326">
   <meta name="referrer" content="no-referrer">
-  <title>Пепел Королевства — Master Edition v17.0</title>
+  <title>Пепел Королевства — Visual Inventory v18.0</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -114,7 +114,12 @@
 
           <div id="tab-inventory" class="tab-view hidden">
             <div class="inventory-layout">
-              <div class="panel inventory-panel"><div class="section-heading"><h3>Инвентарь</h3><div class="inventory-heading-actions"><span id="inventory-count" class="muted">0 предметов</span><button class="btn btn-ghost btn-small" data-tab="profile" type="button">Профиль →</button></div></div><div id="inventory-grid" class="inventory-grid"></div><p class="tiny muted">Выбери предмет, чтобы надеть, использовать или продать его.</p></div>
+              <div class="panel inventory-panel"><div class="section-heading"><h3>Инвентарь</h3><div class="inventory-heading-actions"><span id="inventory-count" class="muted">0 предметов</span><button class="btn btn-ghost btn-small" data-tab="profile" type="button">Профиль →</button></div></div><div class="inventory-filters" role="group" aria-label="Категории инвентаря">
+                <button type="button" class="inventory-filter active" data-inventory-filter="all" aria-pressed="true">Все</button>
+                <button type="button" class="inventory-filter" data-inventory-filter="weapon" aria-pressed="false">Оружие</button>
+                <button type="button" class="inventory-filter" data-inventory-filter="armor" aria-pressed="false">Броня</button>
+                <button type="button" class="inventory-filter" data-inventory-filter="supplies" aria-pressed="false">Зелья / ресурсы</button>
+              </div><div id="inventory-grid" class="inventory-grid" aria-live="polite"></div><p class="inventory-help">Выбери предмет, чтобы сравнить характеристики, надеть, использовать или продать его.</p></div>
               <div class="panel equipment-panel"><div class="section-heading"><h3>Экипировка</h3><span class="muted">Снаряжение</span></div><div id="equipment-slots" class="equipment-slots"></div><div class="side-divider"></div><h4>Сводка характеристик</h4><div id="equipment-stats"></div></div>
             </div>
             <div id="item-detail" class="panel item-detail"><p class="muted">Выбери предмет в сумке.</p></div>

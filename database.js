@@ -1,8 +1,8 @@
-/* RPG database · Master Edition v17.0 */
+/* RPG database · Visual Inventory & Citadel Edition v18.0 */
 /* База данных мира. Все предметы и события описаны здесь, игровая логика находится в game.js. */
 "use strict";
 const RPG_DB = {
-  version: "17.0",
+  version: "18.0",
   races: [
     {id:"human",name:"Человек",icon:"human",summary:"Универсальность и воля",lore:"Люди не сильнее древних рас, но их упорство меняет ход истории.",mods:{hp:0,str:0,dodge:0,crit:0,gold:15},detail:"+15 стартового золота. Без слабых сторон."},
     {id:"elf",name:"Эльф",icon:"leaf",summary:"Ловкость и точность",lore:"Последние дети старых лесов умеют видеть слабые места даже в темноте.",mods:{hp:-8,str:-1,dodge:8,crit:7,gold:0},detail:"+8% уворота, +7% крит. шанса, −8 здоровья, −1 сила."},
@@ -22,7 +22,7 @@ const RPG_DB = {
     healing_potion:{id:"healing_potion",name:"Малое зелье",icon:"potion",type:"consumable",heal:35,price:12,rarity:"common",description:"Восстанавливает 35 здоровья."},
     moon_herb:{id:"moon_herb",name:"Лунная трава",icon:"herb",type:"material",price:5,rarity:"common",description:"Светится в полумраке. Алхимики платят за неё."},
     cursed_relic:{id:"cursed_relic",name:"Проклятый идол",icon:"relic",type:"treasure",price:44,rarity:"epic",description:"Внутри камня шевелится тёмная искра."},
-    gold_charm:{id:"gold_charm",name:"Монета святого",icon:"relic",type:"treasure",price:20,rarity:"rare",description:"Старинная монета, которую суеверные торговцы считают добрым знаком."},
+    gold_charm:{id:"gold_charm",name:"Монета святого",icon:"relic",type:"treasure",price:20,rarity:"legendary",description:"Старинная монета, которую суеверные торговцы считают добрым знаком."},
     mana_tonic:{id:"mana_tonic",name:"Настой синей луны",icon:"potion",type:"consumable",heal:0,mana:18,price:16,rarity:"rare",description:"Восстанавливает 18 маны."},
     iron_ore:{id:"iron_ore",name:"Железная руда",icon:"relic",type:"material",price:7,rarity:"common",description:"Тяжёлый кусок руды для ремесла."},
     ember_dust:{id:"ember_dust",name:"Пепельная пыль",icon:"relic",type:"material",price:9,rarity:"rare",description:"Магический остаток, добываемый в опасных местах."},

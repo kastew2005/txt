@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Пепел Королевства — Master Edition v17.0",
-  "short_name": "Пепел v17",
-  "description": "Мобильная офлайн Dark Fantasy RPG: Race Gear, Visual Citadel & Master Combat Fix.",
+  "name": "Пепел Королевства — Visual Inventory v18.0",
+  "short_name": "Пепел v18",
+  "description": "Мобильная офлайн Dark Fantasy RPG: Visual Inventory & Citadel Edition.",
   "lang": "ru",
   "start_url": "./index.html",
   "scope": "./",
