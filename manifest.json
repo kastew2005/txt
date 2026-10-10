@@ -1,15 +1,15 @@
 {
   "id": "./",
-  "name": "Пепел Королевства — Dark Fantasy RPG",
-  "short_name": "Пепел Королевства",
+  "name": "Пепел Королевства — UX & Visual Overhaul",
+  "short_name": "Пепел RPG",
   "description": "Мрачная средневековая RPG о судьбе, руинах и проклятом престоле.",
   "lang": "ru",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#100d0c",
-  "theme_color": "#130f0e",
+  "background_color": "#171326",
+  "theme_color": "#171326",
   "categories": [
     "games",
     "entertainment"

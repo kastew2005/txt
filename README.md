@@ -1,4 +1,4 @@
-# Пепел Королевства — Global Update 2.0
+# Пепел Королевства — Global Update v2.4
 
 Автономная браузерная Dark Fantasy RPG на чистом HTML/CSS/JavaScript.
 
@@ -16,7 +16,7 @@
 
 На iPhone: Safari → «Поделиться» → «На экран Домой». Некоторые версии iOS могут игнорировать SVG как значок ярлыка, но интерфейс игры не использует внешние изображения и останется векторным.
 
-## Игровые системы Global Update 2.0
+## Игровые системы Global Update v2.4
 - Четыре расы с разными бонусами.
 - Пошаговый бой с рывком, вспышкой удара и плавающими числами.
 - Огненный шар, Щит веры и Ядовитый укол с расходом MP.
@@ -39,3 +39,12 @@
 - Ежедневные задания с прогрессом, наградами и сбросом по локальной календарной дате.
 - Случайные древние алтари: золото, здоровье или осквернение в обмен на временные боевые усиления.
 - Ежедневный прогресс и эффект алтаря включены в сохранение.
+
+
+## Global Update v2.4 — UX & Visual Overhaul
+- High-contrast basalt, emerald, ruby, sapphire, gold and amethyst interface palette.
+- Enlarged touch targets, clearer button feedback and animated health/mana/rage bars.
+- Combat speed switch (1× / 2×), also available with the F key while on the arena.
+- Quick healing potion remains available directly in combat.
+- Inventory detail actions now include equip/use, sell and discard.
+- Service Worker cache bumped to v2.4; all game assets remain local and offline-capable after first cache.

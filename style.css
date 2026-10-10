@@ -73,3 +73,36 @@ html{font-size:16px}body{font-size:var(--text-size)}p,li,.muted,.side-line,.even
 @keyframes enemyDissolve{0%{opacity:1;transform:scale(1) translateY(0);filter:brightness(1)}35%{opacity:.9;filter:brightness(2) grayscale(1)}100%{opacity:0;transform:scale(.72) translateY(-24px) rotate(8deg);filter:blur(8px) grayscale(1)}}
 @keyframes arenaShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
 @media(prefers-reduced-motion:reduce){.player-combatant .fighter-icon,.enemy-combatant .fighter-icon,.lunge-player .fighter-icon,.lunge-enemy .fighter-icon,.evade-enemy .fighter-icon,.hit-flash .fighter-icon,.enemy-dying .fighter-icon,.slash-effect,.impact-burst,.shake{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+
+/* GLOBAL UPDATE v2.4 — UX & Visual Overhaul */
+:root{--ux-gold:#ffd36a;--ux-emerald:#48e0a2;--ux-ruby:#ff536c;--ux-sapphire:#56b9ff;--ux-amethyst:#bd8cff;--ux-basalt:#171626;--ux-wood:#241d2b;--hp-glow:#ff5268;--mana-glow:#65caff}
+body{background-color:var(--ux-basalt);background-image:radial-gradient(ellipse at 12% 0%,#57356d38,transparent 38%),radial-gradient(ellipse at 90% 20%,#164b4a26,transparent 35%),linear-gradient(145deg,#171626,#100f19 65%,#211622);color:#f4f0ff}
+.panel,.stat,.combatant,.item-detail,.daily-quests{border-color:#8170a34a;background-image:linear-gradient(145deg,#252236f2,#171522f7);box-shadow:0 14px 35px #05040c66,inset 0 1px #ffffff0b}
+.brand strong,.scene-header h2,.panel h3,.section-heading h3{color:#fff0c0;text-shadow:0 0 16px #ffd36a22}
+.btn,.nav-tab,.action-card,.race-option,.spell-card,.item-cell,.equip-slot button,.modal-close{min-height:52px;border-radius:10px;border-color:#8273a7a1;transition:transform .14s ease,filter .18s ease,box-shadow .2s ease,border-color .2s ease}
+.btn{letter-spacing:.025em;text-transform:none;font-weight:750;background:linear-gradient(135deg,#3b3151,#211c31 55%,#392841);color:#f7f0ff;box-shadow:inset 0 1px #ffffff1a,0 5px 14px #0004}
+.btn:active:not(:disabled),.nav-tab:active,.action-card:active,.spell-card:active:not(:disabled),.item-cell:active{transform:scale(.97);filter:brightness(1.2)}
+.btn-gold{border-color:#ffdc79;background:linear-gradient(135deg,#ffe08a,#c58b37 55%,#8f552f);color:#27192a;text-shadow:none;box-shadow:inset 0 1px #fff8,0 0 18px #ffcf5d22}
+.btn-danger{border-color:#ff7185;background:linear-gradient(140deg,#a72d51,#511b3c);color:#fff0f3}
+.btn-ghost{background:linear-gradient(145deg,#302a45,#1a1829);border-color:#6c628e;color:#e9e1ff}
+.nav-tab{background:linear-gradient(180deg,#28233a,#171523);color:#d7cceb}
+.nav-tab.active{color:#ffe28a;border-color:#ffd36a;box-shadow:inset 0 -3px #ffd36a,inset 0 0 24px #bd8cff25,0 0 15px #ffd36a14}
+.action-card{background:linear-gradient(145deg,#29253d,#191725);border-color:#5e557e;min-height:104px}
+.action-card>span .ui-icon{color:var(--ux-gold);filter:drop-shadow(0 0 8px #ffd36a66)}
+.top-stats .stat{border-color:#5e557b;background:linear-gradient(145deg,#29263c,#181624)}
+.mini-bar,.combat-hp,.xp-bar,.mana-bar,.rage-bar{height:11px;border-radius:999px;overflow:hidden;background:#0b0a13;border:1px solid #645a7a;box-shadow:inset 0 2px 5px #0008}
+#top-hp-bar,.combat-hp i{background:linear-gradient(90deg,#8d173b,#ff536c 55%,#ffb2a4);box-shadow:0 0 14px #ff536c9c;transition:width .45s cubic-bezier(.2,.8,.2,1)}
+#mana-bar,.mana-bar i{background:linear-gradient(90deg,#1b61c6,#56b9ff 60%,#b7f3ff);box-shadow:0 0 15px #56b9ff8a}
+#rage-bar,.rage-bar i{background:linear-gradient(90deg,#d33a27,#ff7d35 58%,#ffe16a);box-shadow:0 0 15px #ff7d3599}
+.xp-bar i{background:linear-gradient(90deg,#8d4ddd,#bd8cff,#f1c4ff);box-shadow:0 0 12px #bd8cff88}
+.mana-panel{border-color:#4f9bc8;background:linear-gradient(145deg,#17283c,#1c1930);border-radius:12px}.rage-panel{border-color:#b94e4c;background:linear-gradient(145deg,#3a202b,#1c1624);border-radius:12px}
+.spell-card{border-radius:10px;background:linear-gradient(150deg,#2b2840,#171624);border-color:#615982;min-height:112px}.spell-card strong{color:#f5edff}.fire-glyph{color:#ff9d58}.shield-glyph{color:#8be1ff}.poison-glyph{color:#8ff0a2}
+.combatant{border-radius:14px;background:radial-gradient(ellipse at 50% 10%,#55406b55,transparent 55%),linear-gradient(145deg,#262238,#171521);border-color:#70618f}.player-combatant{box-shadow:inset 0 0 28px #56b9ff0b,0 12px 25px #0003}.enemy-combatant{box-shadow:inset 0 0 28px #ff536c0d,0 12px 25px #0003}
+.fighter-player-hp,.combatant small{color:#cfc6e8}.combat-quick-label{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0 4px;color:#ffe08a;font-size:12px;font-weight:800;letter-spacing:.12em}.combat-quick-label small{font-size:12px;letter-spacing:0;color:#bcb2d3;font-weight:500}.arena-top-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}.btn-speed{min-height:44px;padding:9px 13px;border-color:#5b9aab;color:#b6f4ff;background:linear-gradient(135deg,#1f4a5b,#252039);font-size:14px}.btn-speed[aria-pressed="true"]{border-color:#ffe08a;color:#fff0b0;box-shadow:0 0 18px #ffd36a35,inset 0 0 14px #ffd36a13}
+.daily-quests{border-radius:14px;border-color:#8270a355}.daily-progress{height:10px;border-radius:999px;background:#100e19;border-color:#66577e}.daily-progress i{background:linear-gradient(90deg,#4acb9b,#ffd36a);box-shadow:0 0 12px #48e0a255}.daily-quest strong{color:#f3eaff}.daily-reward{color:#ffe08a}.daily-reward .btn{min-height:48px;font-size:14px;padding:10px 14px}
+.inventory-layout .panel,.item-detail{border-radius:14px}.item-cell{position:relative;border-radius:10px;background:linear-gradient(145deg,#302b43,#171522);border-color:#5c5278;min-height:64px}.item-cell.selected{border-color:#ffe08a;box-shadow:0 0 0 2px #ffd36a2b,0 0 18px #ffd36a25}.item-detail h4{display:flex;align-items:center;gap:8px;color:#ffe6a1}.detail-actions{display:flex;gap:9px;flex-wrap:wrap}.detail-actions .btn{flex:1 1 135px}
+.tooltip,.modal-card{border-radius:16px;border-color:#8e7cae;background:linear-gradient(145deg,#28233a,#151421);box-shadow:0 20px 60px #0009,inset 0 1px #ffffff10}.toast{border:1px solid #8370a6;border-radius:10px;background:linear-gradient(135deg,#29243d,#151421);box-shadow:0 10px 28px #0008,0 0 18px #bd8cff13}
+@media(min-width:900px){.combat-actions .btn{min-height:56px}.main-layout{gap:clamp(20px,2vw,30px)}.content-area{min-width:0}.arena{padding:clamp(20px,2vw,30px)}}
+@media(max-width:600px){.arena-top-actions{width:100%;justify-content:space-between}.btn-speed{min-height:48px}.combat-quick-label{align-items:flex-start;flex-direction:column;gap:2px}.combat-actions .btn{min-height:56px;font-size:15px}.daily-quest{padding:1rem 0}.daily-reward .btn{min-height:48px}.detail-actions .btn{flex-basis:100%}}
+@media(prefers-reduced-motion:reduce){.combat-hp i,.mini-bar i,.mana-bar i,.rage-bar i,.daily-progress i{transition:none!important}}
