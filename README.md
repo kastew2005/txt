@@ -1,8 +1,8 @@
-# Пепел Королевства v26.1 — Active Skills & Multi-Phase Bosses Edition
+# Пепел Королевства v26.3 — Active Skills & Multi-Phase Bosses Edition
 
 Мобильная офлайн PWA Dark Fantasy RPG.
 
-## Новое в v26.1
+## Новое в v26.3
 - Отдельные шкалы HP и MP в шапке и на боевой арене.
 - По три расовых активных навыка для человека, нежити, эльфа, орка и гнома.
 - Расход маны, постепенное восстановление MP на ходу врага и перезарядка навыков.
@@ -19,10 +19,16 @@
 Синтаксис JavaScript, JSON и целостность архива можно проверить локально. Полный игровой прогон на iPhone необходимо провести в браузере устройства; его нельзя подтвердить только статическими проверками.
 
 
-## v26.1 — Visual Juice & FX
+## v26.3 — Visual Juice & FX
 - Floating combat numbers for damage, healing, misses, stun and phase changes.
 - Screen shake on criticals and boss super-attacks.
 - Low-HP pulse below 20% HP.
 - Animated fog and moving route dashes on the world map.
 - Weather/time-reactive background gradients.
 - Animated cursed and legendary loot borders.
+
+
+## v26.3 Combat Tab Hard-Lock Fix
+- Explicit SVG touchend handling for map nodes with synthetic-click deduplication.
+- Transparent 48px+ hit areas for dynamic SVG map nodes.
+- Decorative map/weather layers are pointer-transparent; map route animations avoid blur filters.

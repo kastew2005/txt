@@ -1180,3 +1180,34 @@ body.low-health #app{box-shadow:inset 0 0 0 2px #ff304b, inset 0 0 36px #f0183b3
 @media(prefers-reduced-motion:reduce){#app.shake,body.low-health #app,.float-number,.travel-map .map-location.is-hidden-by-fog .node-ring,.travel-map .map-overhaul-road,.travel-map .map-road-highlight,.travel-map #map-selected-route,.item-card.rarity-cursed,.item-card.rarity-legendary,.item-card.rarity-cursed:after,.item-detail-art.rarity-cursed:after,.item-card.rarity-legendary:after{animation:none!important;transition:none!important}}
 
 .visual-fx-layer{position:fixed;inset:0;z-index:40;pointer-events:none;overflow:hidden;contain:strict}
+
+
+/* v26.2 — Map Input & Performance Hotfix */
+/* Decorative layers never intercept pointer/touch input. */
+#weather-canvas,.ambient,.ambient:before,.ambient:after,.weather-canvas,.weather-overlay,.fog-overlay,.rain-overlay,.snow-overlay,.storm-overlay,.map-fog,.map-decoration,.map-river,.map-hill,.travel-map-panel:before,.travel-map-panel:after,.panel:before,.panel:after,.map-anomaly-marker:before,.map-anomaly-marker:after{pointer-events:none!important}
+#travel-map{position:relative;z-index:2;isolation:isolate;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+#travel-map #map-dynamic-routes,#travel-map #map-selected-route,#travel-map .map-road,#travel-map .map-road-highlight,#travel-map .map-overhaul-road,#travel-map .map-decoration,#travel-map .map-river,#travel-map .map-hill,#travel-map #map-anomaly-markers{pointer-events:none!important}
+#travel-map .map-location,#travel-map .map-node,#travel-map .map-dynamic-node{pointer-events:auto!important;z-index:10!important;cursor:pointer;touch-action:manipulation}
+#travel-map .map-location .node-hit-area{pointer-events:all!important;fill:transparent;stroke:transparent;stroke-width:1}
+#travel-map .map-location .node-halo,#travel-map .map-location .node-ring,#travel-map .map-location .node-glyph,#travel-map .map-location text{pointer-events:none!important}
+#travel-map .map-location.is-hidden-by-fog{pointer-events:none!important;visibility:hidden}
+/* Lightweight fog uses gradients and opacity only; no blur/drop-shadow filters. */
+.travel-map-panel{isolation:isolate}
+.travel-map-panel:after{z-index:2;pointer-events:none!important;will-change:background-position;transform:translateZ(0)}
+#travel-map .map-location.is-hidden-by-fog .node-ring{filter:none!important;animation:none!important;stroke-dasharray:4 7;opacity:.72}
+#travel-map .map-overhaul-road,#travel-map .map-road-highlight,#travel-map #map-selected-route{filter:none!important;will-change:stroke-dashoffset;transform:translateZ(0);animation:mapDashLight 6s linear infinite}
+#travel-map #map-selected-route{stroke-width:3.5;stroke-dasharray:6 10;animation-duration:2.8s}
+@keyframes mapDashLight{to{stroke-dashoffset:-64}}
+.map-fog,.map-decoration{will-change:transform,opacity;transform:translateZ(0)}
+@media(max-width:760px){#travel-map .map-location .node-hit-area{r:26px}#travel-map .map-location .node-ring{r:21px}#travel-map .map-location{pointer-events:auto!important}}
+@media(prefers-reduced-motion:reduce){#travel-map .map-overhaul-road,#travel-map .map-road-highlight,#travel-map #map-selected-route{animation:none!important;will-change:auto}}
+
+
+/* v26.3 Combat Tab Hard-Lock Fix: keep the locked tab clickable so JS can explain why. */
+.bottom-nav .nav-tab[data-tab="arena"] { position: relative !important; isolation: isolate; overflow: visible !important; }
+.bottom-nav .nav-tab[data-tab="arena"].locked { opacity: .35 !important; filter: saturate(.45); pointer-events: auto !important; cursor: not-allowed !important; box-shadow: none !important; }
+.bottom-nav .nav-tab[data-tab="arena"].locked::after { content: "🔒"; position: absolute; z-index: 5; top: 7px; right: 7px; display: grid; place-items: center; width: 22px; height: 22px; border: 1px solid #8f8797; border-radius: 50%; background: #15121beF; color: #fff; font-size: 14px; line-height: 1; pointer-events: none !important; }
+.bottom-nav .nav-tab[data-tab="arena"].pulse-glow:not(.locked), .bottom-nav .nav-tab[data-tab="arena"].active:not(.locked) { opacity: 1 !important; border-color: #ff5a63 !important; color: #fff !important; background: linear-gradient(145deg,#7b1e2b,#351522) !important; box-shadow: inset 0 -3px #ff6975, 0 0 10px #f43f5e88, 0 0 22px #ef233c55 !important; animation: combat-tab-pulse 1.35s ease-in-out infinite; }
+.bottom-nav .nav-tab[data-tab="arena"].pulse-glow:not(.locked) small, .bottom-nav .nav-tab[data-tab="arena"].active:not(.locked) small { color: #fff0f1 !important; text-shadow: 0 0 9px #ff344e; }
+@keyframes combat-tab-pulse { 0%,100% { box-shadow: inset 0 -3px #ff6975, 0 0 8px #f43f5e66; } 50% { box-shadow: inset 0 -3px #ff6975, 0 0 16px #f43f5eaa, 0 0 25px #ef233c55; } }
+@media (prefers-reduced-motion: reduce) { .bottom-nav .nav-tab[data-tab="arena"].pulse-glow:not(.locked), .bottom-nav .nav-tab[data-tab="arena"].active:not(.locked) { animation: none !important; } }
