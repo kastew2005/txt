@@ -1448,3 +1448,61 @@ body {
 @media (prefers-reduced-motion: reduce) {
   #tab-arena *, .sound-toggle { animation: none !important; transition: none !important; }
 }
+
+
+/* v27.2 — Final UI Cleanup Hotfix */
+/* The decorative atlas watermark is removed from the interactive SVG map in index.html. */
+#travel-map .map-caption, .travel-map .map-caption { display: none !important; }
+
+/* Keep navigation labels clean; the combat lock is the only intentional nav pseudo-element. */
+.bottom-nav .nav-tab:not([data-tab="arena"])::before,
+.bottom-nav .nav-tab:not([data-tab="arena"])::after {
+  content: none !important;
+  display: none !important;
+}
+.bottom-nav .nav-tab small {
+  position: relative;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-decoration: none !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.bottom-nav .nav-tab[data-tab="castle"] small::before,
+.bottom-nav .nav-tab[data-tab="castle"] small::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* More breathing room for event, quest and anomaly cards on touch screens. */
+.event-entry {
+  padding-bottom: 16px !important;
+}
+#event-feed .event-entry {
+  padding-bottom: 12px !important;
+}
+.daily-quest {
+  padding-bottom: 16px !important;
+}
+.daily-modal-list .daily-quest {
+  padding-bottom: 14px !important;
+}
+.anomaly-card {
+  box-sizing: border-box;
+  padding-bottom: 16px !important;
+  gap: 6px;
+}
+.anomaly-card small {
+  display: block;
+  margin-top: 2px;
+  padding-bottom: 2px;
+  line-height: 1.4 !important;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 520px) {
+  .event-entry { padding-bottom: 14px !important; }
+  #event-feed .event-entry { padding-bottom: 12px !important; }
+  .anomaly-card { padding: 10px 10px 16px !important; }
+}
