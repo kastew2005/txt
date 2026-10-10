@@ -31,4 +31,11 @@
 - Short synthesized UI/combat sounds use Web Audio API after a user gesture; no external audio files are needed.
 - Rain uses a lightweight canvas particle layer; the former repeating-gradient rain overlay is disabled.
 - Combat portraits and interface text are larger on phones and desktop.
-- Service Worker cache version is bumped so the browser requests the v2.1 assets.
+- Service Worker cache version is bumped so the browser requests the v2.3 assets.
+
+
+## Global Update v2.3
+- Автоматический возврат на карту после победы, поражения или побега с дорожным событием в логе.
+- Ежедневные задания с прогрессом, наградами и сбросом по локальной календарной дате.
+- Случайные древние алтари: золото, здоровье или осквернение в обмен на временные боевые усиления.
+- Ежедневный прогресс и эффект алтаря включены в сохранение.
