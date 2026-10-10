@@ -26,7 +26,7 @@
         <div class="stat"><span><svg class="ui-icon"><use href="assets/icons.svg#coin"/></svg></span><div><small>Золото</small><strong id="top-gold">—</strong></div></div>
         <div class="stat"><span><svg class="ui-icon"><use href="assets/icons.svg#sword"/></svg></span><div><small>Уровень</small><strong id="top-level">—</strong></div></div>
         <div class="stat"><span><svg class="ui-icon"><use href="assets/icons.svg#balance"/></svg></span><div><small>Карма</small><strong id="top-karma">—</strong></div></div>
-        <button id="ambient-btn" class="btn btn-ghost" type="button" aria-pressed="false">♫ Атмосфера</button><button id="install-app" class="btn btn-ghost install-app" hidden>Установить</button>
+        <button id="ambient-btn" class="btn btn-ghost" type="button" aria-label="Переключить атмосферный звук" aria-pressed="false"><svg class="ui-icon"><use href="assets/icons.svg#sun"/></svg><span class="ambient-label">Звук</span></button><button id="install-app" class="btn btn-ghost install-app" hidden>Установить</button>
       </div>
     </header>
 
@@ -59,8 +59,6 @@
           <div class="side-divider"></div>
           <div class="side-line"><span>Опыт</span><strong id="side-xp">—</strong></div>
           <div class="xp-bar"><i id="xp-bar"></i></div>
-          <button id="save-btn" class="btn btn-ghost wide">Сохранить игру</button>
-          <button id="reset-btn" class="text-button">Начать заново</button>
         </aside>
 
         <section class="content-area">
@@ -113,14 +111,14 @@
 
           <div id="tab-inventory" class="tab-view hidden">
             <div class="inventory-layout">
-              <div class="panel inventory-panel"><div class="section-heading"><h3>Инвентарь</h3><span id="inventory-count" class="muted">0 предметов</span></div><div id="inventory-grid" class="inventory-grid"></div><p class="tiny muted">Выбери предмет, чтобы надеть, использовать или продать его.</p></div>
+              <div class="panel inventory-panel"><div class="section-heading"><h3>Инвентарь</h3><div class="inventory-heading-actions"><span id="inventory-count" class="muted">0 предметов</span><button class="btn btn-ghost btn-small" data-tab="profile" type="button">Профиль →</button></div></div><div id="inventory-grid" class="inventory-grid"></div><p class="tiny muted">Выбери предмет, чтобы надеть, использовать или продать его.</p></div>
               <div class="panel equipment-panel"><div class="section-heading"><h3>Экипировка</h3><span class="muted">Снаряжение</span></div><div id="equipment-slots" class="equipment-slots"></div><div class="side-divider"></div><h4>Сводка характеристик</h4><div id="equipment-stats"></div></div>
             </div>
             <div id="item-detail" class="panel item-detail"><p class="muted">Выбери предмет в сумке.</p></div>
           </div>
 
           <div id="tab-profile" class="tab-view hidden">
-            <div class="panel profile-panel"><p class="eyebrow">ЛИЧНОЕ ДЕЛО</p><h3 id="profile-name">—</h3><p id="profile-lore" class="muted">—</p><div class="paper-doll-profile" id="profile-paper-doll"></div><div class="profile-grid" id="profile-grid"></div><h4>Состояние</h4><div id="injury-status" class="injury-list"></div><h4>Репутация фракций</h4><div id="reputation-list"></div><h4>Путь судьбы</h4><div id="destiny-box" class="destiny-box"></div></div>
+            <div class="panel profile-panel"><p class="eyebrow">ЛИЧНОЕ ДЕЛО</p><h3 id="profile-name">—</h3><div class="profile-utility-actions"><button id="save-btn" class="btn btn-ghost" type="button">Сохранить игру</button><button id="reset-btn" class="text-button" type="button">Начать заново</button></div><p id="profile-lore" class="muted">—</p><div class="paper-doll-profile" id="profile-paper-doll"></div><div class="profile-grid" id="profile-grid"></div><h4>Состояние</h4><div id="injury-status" class="injury-list"></div><h4>Репутация фракций</h4><div id="reputation-list"></div><h4>Путь судьбы</h4><div id="destiny-box" class="destiny-box"></div></div>
           </div>
 
 
@@ -146,19 +144,26 @@
           </div>
         </section>
       </div>
-      <nav class="bottom-nav">
-        <button class="nav-tab active" data-tab="world"><span><svg class="ui-icon"><use href="assets/icons.svg#compass"/></svg></span><small>Мир и события</small></button>
-        <button class="nav-tab" data-tab="arena"><span><svg class="ui-icon"><use href="assets/icons.svg#sword"/></svg></span><small>Арена боя</small></button>
-        <button class="nav-tab" data-tab="inventory"><span><svg class="ui-icon"><use href="assets/icons.svg#chest"/></svg></span><small>Инвентарь</small></button>
-        <button class="nav-tab" data-tab="profile"><span><svg class="ui-icon"><use href="assets/icons.svg#profile"/></svg></span><small>Профиль</small></button>
-        <button class="nav-tab" data-tab="tavern"><span><svg class="ui-icon"><use href="assets/icons.svg#mug"/></svg></span><small>Таверна</small></button>
-        <button class="nav-tab" data-tab="skills"><span>✦</span><small>Навыки</small></button>
-        <button class="nav-tab" data-tab="pets"><span>🐾</span><small>Спутники</small></button>
-        <button class="nav-tab" data-tab="dungeon"><span>⌘</span><small>Подземелье</small></button>
-        <button class="nav-tab" data-tab="craft"><span>⚗</span><small>Алхимия</small></button>
-        <button class="nav-tab" data-tab="castle"><span>♜</span><small>Цитадель</small></button>
-
+      <nav class="bottom-nav" aria-label="Основная навигация">
+        <button class="nav-tab active" data-tab="world" aria-label="Мир"><span><svg class="ui-icon"><use href="assets/icons.svg#compass"/></svg></span><small>Мир</small></button>
+        <button class="nav-tab" data-tab="arena" aria-label="Бой"><span><svg class="ui-icon"><use href="assets/icons.svg#sword"/></svg></span><small>Бой</small></button>
+        <button class="nav-tab" data-tab="castle" aria-label="Цитадель"><span><svg class="ui-icon"><use href="assets/icons.svg#sigil"/></svg></span><small>Цитадель</small></button>
+        <button class="nav-tab" data-tab="hero" aria-label="Герой"><span><svg class="ui-icon"><use href="assets/icons.svg#profile"/></svg></span><small>Герой</small></button>
+        <button id="more-nav-btn" class="nav-tab nav-more" type="button" aria-haspopup="dialog" aria-expanded="false"><span class="more-glyph">≡</span><small>Ещё</small></button>
       </nav>
+      <div id="more-menu" class="more-menu hidden" role="dialog" aria-modal="true" aria-labelledby="more-menu-title">
+        <button class="more-menu-backdrop" data-close-more aria-label="Закрыть меню"></button>
+        <section class="more-menu-card panel">
+          <div class="more-menu-heading"><div><p class="eyebrow">ХРОНИКИ СТРАННИКА</p><h3 id="more-menu-title">Другие разделы</h3></div><button class="more-menu-close" data-close-more aria-label="Закрыть">×</button></div>
+          <div class="more-menu-grid">
+            <button class="more-menu-item" data-more-tab="tavern"><span>♨</span><strong>Таверна</strong><small>Отдых и слухи</small></button>
+            <button class="more-menu-item" data-more-tab="skills"><span>✦</span><strong>Навыки</strong><small>Развитие героя</small></button>
+            <button class="more-menu-item" data-more-tab="pets"><span>♧</span><strong>Спутники</strong><small>Питомцы и бонусы</small></button>
+            <button class="more-menu-item" data-more-tab="dungeon"><span>⌘</span><strong>Подземелье</strong><small>Испытания и добыча</small></button>
+            <button class="more-menu-item" data-more-tab="craft"><span>⚗</span><strong>Алхимия</strong><small>Ресурсы и рецепты</small></button>
+          </div>
+        </section>
+      </div>
     </section>
     <div id="toast" class="toast" role="status"></div>
     <div id="modal" class="modal hidden"><div class="modal-card panel"><button id="modal-close" class="modal-close">×</button><div id="modal-content"></div></div></div>
