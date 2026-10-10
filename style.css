@@ -507,3 +507,170 @@ button:focus-visible,.map-location:focus-visible{outline:3px solid #fff0b2;outli
   #tab-world .travel-map-panel{height:clamp(150px,38vh,205px)}#tab-world .travel-map{min-height:110px}
   .more-menu-card{max-height:76dvh}.profile-race-avatar{width:76px;height:76px}.profile-race-svg{width:58px;height:58px}
 }
+
+/* ─────────────────────────────────────────────────────────────
+   v15.0 MASTER FIX — mobile-first sizing, legibility and combat
+   ───────────────────────────────────────────────────────────── */
+:root{--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;min-height:0;overscroll-behavior:none}
+body{overflow:hidden;font-size:16px;line-height:1.4}
+.app-shell{height:100vh;height:100dvh;min-height:0;overflow:hidden;display:flex;flex-direction:column;padding-top:var(--safe-top);padding-bottom:var(--safe-bottom)}
+.game-screen{flex:1;min-height:0;overflow:hidden}
+.main-layout{height:100%;min-height:0}
+.content-area{min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-bottom:8px}
+.content-area::-webkit-scrollbar,.modal-card::-webkit-scrollbar,.more-menu-card::-webkit-scrollbar{width:5px}
+.content-area::-webkit-scrollbar-thumb,.modal-card::-webkit-scrollbar-thumb,.more-menu-card::-webkit-scrollbar-thumb{background:#80613a;border-radius:8px}
+.topbar{flex:0 0 auto;padding-top:calc(6px + var(--safe-top));padding-bottom:7px;gap:10px}
+.brand strong{font-size:15px}.brand small{font-size:11px}.top-stats{gap:10px}.top-stats .stat small{font-size:12px}.top-stats .stat strong{font-size:16px}.top-stats .stat>span{font-size:23px}
+.scene-header h2{font-size:22px}.section-heading h3,.travel-map-heading h3{font-size:20px}
+/* Four compact action strips; freed height belongs to the travel map. */
+#tab-world .action-grid,#tab-world .world-actions,#tab-world .action-cards{gap:6px}
+#tab-world .action-card{min-height:48px;height:auto;padding:5px 9px;gap:4px;grid-template-columns:28px minmax(0,1fr);grid-template-rows:auto auto;align-content:center}
+#tab-world .action-card>span{font-size:20px;line-height:1;grid-row:1 / span 2}
+#tab-world .action-card>span .ui-icon{width:24px;height:24px}
+#tab-world .action-card strong{font-size:15px;line-height:1.2;letter-spacing:0}
+#tab-world .action-card small{font-size:13px;line-height:1.2;grid-column:2;display:block}
+#tab-world .travel-map-panel{height:clamp(255px,43dvh,430px);display:flex;flex-direction:column}
+#tab-world .travel-map{width:100%;height:100%;min-height:195px;flex:1;touch-action:manipulation}
+.map-location{cursor:pointer}.map-location .node-halo{r:27}.map-location .node-ring{r:20}
+.map-location text{font-size:13px;font-weight:700;paint-order:stroke;stroke:#17100d;stroke-width:3px;stroke-linejoin:round}
+.map-footer{gap:8px;padding:8px 10px}.map-footer #travel-btn{min-height:48px;font-size:16px}
+/* News are readable floating mini-logs, never squeezed into tiny lines. */
+.event-feed{gap:6px}
+.event-entry{margin-bottom:0;min-height:62px;padding:9px 11px;gap:9px;align-items:flex-start;border-radius:7px}
+.event-entry .event-symbol{width:24px;min-width:24px;font-size:20px;line-height:1.3}
+.event-entry>div,.event-entry .event-copy{min-width:0;flex:1}
+.event-entry strong{font-size:15px;line-height:1.3;margin:0 0 4px;font-weight:800}
+.event-entry p{font-size:14px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:0;overflow-wrap:anywhere}
+/* Large navigation hitboxes and icons for touch. */
+.bottom-nav{flex:0 0 auto;min-height:68px;height:auto;gap:1px;padding:4px 0 calc(4px + var(--safe-bottom));margin-top:auto}
+.nav-tab{flex:1 1 20%;width:20%;min-width:0;min-height:64px;height:auto;padding:6px 2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:5px}
+.nav-tab .ui-icon,.nav-tab svg{width:26px;height:26px;min-width:26px;min-height:26px}
+.nav-tab small,.nav-tab span{font-size:14px;font-weight:800;line-height:1.15;white-space:nowrap}
+/* Text baseline throughout the game. */
+#game-screen p,#game-screen label,#game-screen .muted,#game-screen .side-line span,#game-screen .feature-card p,#game-screen .castle-building p,#game-screen .market-item p{font-size:16px;line-height:1.4}
+#game-screen h3,.modal-card h3{font-size:21px;line-height:1.25}
+#game-screen h4{font-size:18px;line-height:1.3}
+#game-screen .side-line strong,#game-screen .profile-stat strong,#game-screen .stat-value{font-size:18px;font-weight:800}
+.eyebrow{font-size:12px;letter-spacing:1.5px;line-height:1.3}
+/* Combat action controls: one clear touch target per action. */
+.combat-actions{gap:8px;padding-top:10px}
+.combat-actions .btn,.rage-panel .btn,.spell-actions .spell-card{min-height:52px;font-size:18px;line-height:1.2;font-weight:800;letter-spacing:0;padding:11px 12px}
+.combat-actions .btn{flex:1 1 30%;white-space:normal}
+#btn-attack,#btn-potion,#flee-btn,#btn-rage,#btn-execute{min-height:52px;font-size:18px;font-weight:800}
+.combatant>strong,#enemy-name,#fighter-player-name{font-size:20px;line-height:1.25;font-weight:900}
+.combatant .combat-hp{height:10px;width:100%;margin:9px 0 5px}
+.combatant small,#enemy-hp-text,#fighter-player-hp-text{font-size:15px;font-weight:800}
+.combat-log{max-height:130px;overflow:auto;overscroll-behavior:contain}
+.combat-log p{font-size:15px;line-height:1.35;margin:0 0 6px}
+/* Race-specific portrait gets a larger canvas and visible aura details. */
+.profile-race-avatar{width:126px;height:132px;border-radius:12px;margin:0 auto 12px;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 35%,#b9975b24,transparent 72%),#100e12}
+.profile-race-svg{width:116px;height:124px;overflow:visible;stroke-linecap:round;stroke-linejoin:round}
+.profile-race-svg-human{filter:drop-shadow(0 0 6px #d7c38b33)}
+.profile-race-svg-orc{filter:drop-shadow(0 0 8px #8fcb5b55)}
+.profile-race-svg-elf{filter:drop-shadow(0 0 9px #8cf5d655)}
+.profile-race-svg-undead{filter:drop-shadow(0 0 10px #8095ff88)}
+/* Red, unmistakable reset action. */
+#reset-btn{display:block;width:100%;min-height:48px;padding:10px 12px;background:linear-gradient(135deg,#8c2926,#4e171b);border:1px solid #e06c5c;color:#fff2ec;border-radius:7px;font-size:16px;font-weight:900;line-height:1.25;text-align:center;white-space:normal}
+#reset-btn:hover{filter:brightness(1.15);box-shadow:0 0 0 2px #d14b4444}
+.reset-warning-copy{padding:12px;border-left:3px solid #d6534a;background:#3a1718;border-radius:4px}
+.reset-confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
+.reset-confirm-actions .btn{min-height:50px;font-size:16px;font-weight:800;white-space:normal}
+.btn-danger{background:linear-gradient(135deg,#a6332e,#651e23);border-color:#e16d60;color:#fff}
+/* Keep global page locked; only intentional internal panels may scroll. */
+.start-screen{max-height:calc(100dvh - 8px - var(--safe-top) - var(--safe-bottom));overflow-y:auto;overscroll-behavior:contain}
+.start-panel{max-height:100%;overflow-y:auto;overscroll-behavior:contain}
+@media(max-width:760px){
+ .app-shell{padding-left:7px;padding-right:7px}
+ .topbar{padding-left:2px;padding-right:2px}
+ .top-stats{gap:4px}.top-stats .stat strong{font-size:15px}
+ #tab-world .travel-map-panel{height:clamp(235px,39dvh,360px)}
+ #tab-world .action-card{min-height:46px;padding:5px 6px}
+ #tab-world .action-card strong{font-size:15px}
+ #tab-world .action-card small{font-size:12px}
+ .bottom-nav{min-height:68px}
+ .nav-tab{min-height:64px}
+ .nav-tab .ui-icon,.nav-tab svg{width:25px;height:25px}
+ .nav-tab small,.nav-tab span{font-size:14px}
+ .combat-actions .btn{flex-basis:30%;padding:10px 5px;font-size:17px}
+ .event-entry{min-height:60px;padding:8px 9px}
+ .event-entry strong{font-size:14px}.event-entry p{font-size:14px}
+ .reset-confirm-actions{grid-template-columns:1fr}
+}
+@media(max-height:700px){
+ .topbar{padding-top:3px;padding-bottom:4px}
+ #tab-world .travel-map-panel{height:clamp(205px,35dvh,270px)}
+ .bottom-nav{min-height:64px}
+ .nav-tab{min-height:60px}
+ .nav-tab .ui-icon,.nav-tab svg{width:23px;height:23px}
+ .nav-tab small,.nav-tab span{font-size:13px}
+}
+@media(orientation:landscape) and (max-height:520px){
+ .app-shell{padding-left:7px;padding-right:7px}
+ .bottom-nav{min-height:56px}.nav-tab{min-height:52px}
+ #tab-world .travel-map-panel{height:clamp(150px,35dvh,205px)}
+ .profile-race-avatar{width:86px;height:90px}.profile-race-svg{width:82px;height:86px}
+}
+
+
+/* v16.0 Master Edition + QoL Polish — final precedence layer */
+:root{--v16-nav:68px}
+html,body{width:100%;height:100%;min-height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
+body{height:100vh;height:100dvh;touch-action:pan-x pan-y}
+#app,.app-shell{height:100vh;height:100dvh;min-height:0;overflow:hidden}
+.game-screen{height:calc(100% - var(--topbar-height,78px));min-height:0;overflow:hidden}
+.main-layout,.content-area{min-height:0;overflow:hidden}
+.content-area{height:100%;}
+.tab-view{min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#7d6543 #19151b;padding-bottom:4px}
+#tab-world{display:flex;flex-direction:column;min-height:0;gap:5px;overflow:hidden}
+#tab-world .travel-map-panel{flex:1 1 auto;height:auto;min-height:220px;max-height:none;display:flex;flex-direction:column;overflow:hidden}
+#tab-world .travel-map-heading{flex:0 0 auto}
+#tab-world .travel-map{flex:1 1 auto;width:100%;height:100%;min-height:170px;max-height:none;touch-action:manipulation}
+#tab-world .map-location{cursor:pointer}
+#tab-world .map-location .node-ring{stroke-width:2.5}
+#tab-world .map-location:focus-visible{outline:3px solid #ffe7a0;outline-offset:5px}
+#tab-world .world-actions{flex:0 0 auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;min-height:0}
+#tab-world .action-card{display:grid;grid-template-columns:32px minmax(0,1fr);grid-template-rows:auto;align-items:center;justify-items:start;min-height:48px;height:auto;padding:6px 9px;gap:0 8px;border-radius:9px;text-align:left}
+#tab-world .action-card>span{grid-row:1;grid-column:1;width:30px;height:30px;display:grid;place-items:center}
+#tab-world .action-card .ui-icon{width:23px;height:23px}
+#tab-world .action-card strong{grid-column:2;grid-row:1;font-size:clamp(14px,1.05vw,16px);line-height:1.15;white-space:normal}
+#tab-world .action-card small{display:none!important}
+#event-feed{flex:0 0 auto;height:clamp(54px,8vh,76px);min-height:54px;max-height:76px;display:flex;flex-direction:column;gap:6px;overflow:hidden}
+#event-feed .event-entry{flex:0 0 auto;min-height:24px;margin:0 0 6px;padding:5px 8px;display:grid;grid-template-columns:24px minmax(0,1fr);gap:7px;align-items:start;border-radius:8px;line-height:1.3}
+#event-feed .event-entry strong{display:block;font-size:14px;line-height:1.3}
+#event-feed .event-entry p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:2px 0 0;font-size:14px;line-height:1.3}
+#event-feed .event-symbol{font-size:18px;line-height:1.2}
+.bottom-nav{height:var(--v16-nav);min-height:64px;max-height:72px;flex:0 0 var(--v16-nav);grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;padding:4px 3px calc(4px + env(safe-area-inset-bottom,0px));}
+.bottom-nav .nav-tab{width:100%;min-width:0;min-height:54px;height:100%;padding:3px 1px;gap:3px;justify-content:center}
+.bottom-nav .nav-tab .ui-icon{width:27px;height:27px}
+.bottom-nav .nav-tab small{font-size:14px;font-weight:850;line-height:1.05}
+.bottom-nav .nav-tab .more-glyph{font-size:28px}
+#tab-arena .combatants strong,#enemy-name,#fighter-player-name{font-size:18px;font-weight:900;line-height:1.2}
+#tab-arena .combat-hp{height:12px}
+#tab-arena .combatants small{font-size:15px;font-weight:750}
+.combat-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.combat-actions .btn,.rage-panel>.btn{min-height:52px;height:auto;padding:10px 8px;font-size:18px;font-weight:900;line-height:1.15;white-space:normal}
+#btn-potion{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-color:#73b7a4;background:linear-gradient(145deg,#203e38,#172c2b);color:#d7fff0}
+#btn-potion strong{font-size:14px;line-height:1.1}
+#btn-potion .ui-icon{width:23px;height:23px}
+#btn-rage{min-height:52px;font-size:18px}
+.combat-log{max-height:clamp(86px,13vh,140px);min-height:68px;overflow:auto;overscroll-behavior:contain;padding:8px 10px}
+.combat-log p{font-size:15px;line-height:1.3;margin:0 0 6px;padding:3px 0}
+.section-heading h3,.panel h3,.scene-header h2{font-size:clamp(20px,1.4vw,22px)}
+body.low-health:after{content:"";position:fixed;inset:0;z-index:35;pointer-events:none;border:0 solid #e63c43;box-shadow:inset 0 0 48px 10px #df252d52;animation:lowHealthPulse 1.15s ease-in-out infinite alternate}
+@keyframes lowHealthPulse{from{box-shadow:inset 0 0 28px 4px #df252d35}to{box-shadow:inset 0 0 66px 16px #f12d3d77}}
+.victory-popup{text-align:center;padding:12px 4px 4px}
+.victory-emblem{width:76px;height:76px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#fff0a4 0,#c79a3e 44%,#48331a 72%);border:2px solid #ffe4a0;box-shadow:0 0 30px #e6b84d66;color:#24180c}
+.victory-emblem .ui-icon{width:42px;height:42px;stroke:currentColor}
+.victory-popup h2{font-size:26px;color:#ffe3a0;margin:6px 0 4px;text-shadow:0 0 18px #e5b74766}
+.victory-subtitle{font-size:16px;color:#d7c8a7;margin:0 0 14px}
+.victory-rewards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.victory-reward{padding:12px 8px;border:1px solid #d4ad5a66;border-radius:12px;background:linear-gradient(145deg,#31261a,#1c1718)}
+.victory-reward span{display:block;font-size:14px;color:#c9b98f}.victory-reward strong{display:block;margin-top:3px;font-size:21px;color:#ffe5a1}
+.victory-trophy{font-size:16px;line-height:1.4;color:#dce6f1;padding:10px;border-radius:10px;background:#161820;margin:8px 0 14px}
+#claim-victory-btn{min-height:54px;width:100%;font-size:18px;font-weight:900;background:linear-gradient(135deg,#f1d07a,#a9772d);color:#21170b;border:1px solid #ffe9a5;box-shadow:0 4px 18px #c38c3266}
+#reset-btn{min-height:50px;background:linear-gradient(135deg,#a52e2e,#4e171b);border:1px solid #f07b70;color:#fff;font-size:16px;font-weight:900;border-radius:9px}
+.profile-stat strong,.side-line strong,.stat strong{font-size:18px;font-weight:900}
+button,.btn,.nav-tab,.action-card,.map-location{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+@media(max-height:720px){:root{--v16-nav:64px}#tab-world .travel-map-panel{min-height:170px}#event-feed{height:50px;min-height:50px}#tab-world .world-actions{gap:4px}#tab-world .action-card{min-height:43px;padding:4px 7px}.bottom-nav .nav-tab .ui-icon{width:25px;height:25px}}
+@media(max-width:390px){#tab-world .travel-map-heading h3{font-size:18px}.combat-actions{gap:5px}.combat-actions .btn{padding:8px 4px;font-size:16px}.bottom-nav .nav-tab small{font-size:13px}}

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <meta name="theme-color" content="#171326">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="description" content="Пепел Королевства v14.0 — Master Edition, офлайн Dark Fantasy PWA.">
+  <meta name="description" content="Пепел Королевства v16.0 — Master Edition + QoL Polish, офлайн Dark Fantasy PWA.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Пепел Королевства">
@@ -14,7 +14,7 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#171326">
   <meta name="referrer" content="no-referrer">
-  <title>Пепел Королевства — Master Edition v14.0</title>
+  <title>Пепел Королевства — Master Edition v16.0</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -87,7 +87,7 @@
               </svg>
               <div class="map-footer"><span id="map-location-status" aria-live="polite">Выбран маршрут: Тёмный лес</span><button id="travel-btn" class="btn btn-gold" type="button">Отправиться в путь <svg class="ui-icon"><use href="#compass"/></svg></button></div>
             </section>
-            <div class="section-heading"><h3>Последние вести</h3><span class="muted">Слухи и знамения</span></div>
+            <div class="section-heading"><h3>Хроники Пути</h3><span class="muted">События, квесты и знамения</span></div>
             <div id="event-feed" class="event-feed"></div>
             <button id="daily-quests" class="daily-quests quest-widget panel" type="button" aria-label="Открыть ежедневные задания" aria-live="polite"></button>
             <div class="world-actions">
@@ -108,7 +108,7 @@
               </div>
               <div id="combat-log" class="combat-log"><p class="muted">Враги не появляются без причины. Найди их на дороге.</p></div>
               <div class="tactical-panel"><div class="tactical-heading"><strong>ЗОНА УДАРА</strong><small>Голова — рискованно · ноги — надёжнее</small></div><div class="target-zones" role="group" aria-label="Выбор зоны удара"><button class="target-zone active" data-zone="body">Корпус <small>сбалансировано</small></button><button class="target-zone" data-zone="head">Голова <small>критический шанс</small></button><button class="target-zone" data-zone="legs">Ноги <small>снижение атаки</small></button></div><div id="qte-panel" class="qte-panel hidden"><span>ВРАГ ГОТОВИТ СУПЕР-УДАР!</span><button id="parry-btn" class="btn btn-gold">🛡 ПАРИРОВАТЬ</button><small id="qte-countdown">Нажми за 1,5 секунды</small></div></div>
-              <div class="combat-quick-label"><span>БЫСТРЫЕ ДЕЙСТВИЯ</span><small>Зелье доступно прямо на арене</small></div><div class="combat-actions"><button id="btn-attack" data-combat-action="attack" class="btn btn-danger" disabled><svg class="ui-icon"><use href="#sword"/></svg> Атаковать</button><button id="btn-potion" data-combat-action="potion" class="btn btn-ghost" disabled><svg class="ui-icon"><use href="#potion"/></svg> Зелье (<span id="potion-count">0</span>)</button><button id="flee-btn" class="btn btn-ghost" disabled><svg class="ui-icon"><use href="#boot"/></svg> Отступить</button></div><div class="rage-panel"><div class="rage-heading"><span>ЯРОСТЬ</span><strong id="rage-text">0 / 100</strong></div><div class="rage-bar"><i id="rage-bar"></i></div><button id="btn-rage" data-combat-action="rage" class="btn btn-rage" disabled>Сокрушительный удар · ×3</button><button id="btn-execute" data-combat-action="execute" class="btn btn-execute hidden" type="button" disabled>🔥 Добивание</button></div><div class="mana-panel"><div class="mana-heading"><span><svg class="ui-icon"><use href="#sigil"/></svg> МАНА</span><strong id="mana-text">—</strong></div><div class="mana-bar"><i id="mana-bar"></i></div><div class="spell-actions"><button class="spell-card" id="spell-fire" data-spell="fire" disabled><span class="spell-glyph fire-glyph"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4C28 15 15 17 20 27c-4-2-7-6-7-10C4 28 10 43 24 44c14-1 20-17 9-27 0 8-4 9-5 12C27 20 32 14 24 4Z"/></svg></span><strong>Огненный шар</strong><small>8 MP · магический урон</small></button><button class="spell-card" id="spell-shield" data-spell="shield" disabled><span class="spell-glyph shield-glyph"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 40 10v12c0 10-7 17-16 22C15 39 8 32 8 22V10Z"/><path d="m16 24 5 5 11-13"/></svg></span><strong>Щит веры</strong><small>6 MP · лечение и защита</small></button><button class="spell-card" id="spell-poison" data-spell="poison" disabled><span class="spell-glyph poison-glyph"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M18 5h12m-10 0v10L9 32a8 8 0 0 0 7 12h16a8 8 0 0 0 7-12L28 15V5"/><path d="M14 32h20M20 25l3 3 5-7"/></svg></span><strong>Ядовитый укол</strong><small>7 MP · урон и ослабление</small></button></div></div>
+              <div class="combat-quick-label"><span>БЫСТРЫЕ ДЕЙСТВИЯ</span><small>Зелье доступно прямо на арене</small></div><div class="combat-actions"><button id="btn-attack" data-combat-action="attack" class="btn btn-danger" disabled><svg class="ui-icon"><use href="#sword"/></svg> Атака</button><button id="btn-potion" data-combat-action="potion" class="btn btn-potion-slot" disabled><svg class="ui-icon"><use href="#potion"/></svg> 🧪 Зелье <strong><span id="potion-count">0</span> шт.</strong></button><button id="flee-btn" class="btn btn-ghost" disabled><svg class="ui-icon"><use href="#boot"/></svg> Отступить</button></div><div class="rage-panel"><div class="rage-heading"><span>ЯРОСТЬ</span><strong id="rage-text">0 / 100</strong></div><div class="rage-bar"><i id="rage-bar"></i></div><button id="btn-rage" data-combat-action="rage" class="btn btn-rage" disabled>Сокрушительный удар · ×3</button><button id="btn-execute" data-combat-action="execute" class="btn btn-execute hidden" type="button" disabled>🔥 Добивание</button></div><div class="mana-panel"><div class="mana-heading"><span><svg class="ui-icon"><use href="#sigil"/></svg> МАНА</span><strong id="mana-text">—</strong></div><div class="mana-bar"><i id="mana-bar"></i></div><div class="spell-actions"><button class="spell-card" id="spell-fire" data-spell="fire" disabled><span class="spell-glyph fire-glyph"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4C28 15 15 17 20 27c-4-2-7-6-7-10C4 28 10 43 24 44c14-1 20-17 9-27 0 8-4 9-5 12C27 20 32 14 24 4Z"/></svg></span><strong>Огненный шар</strong><small>8 MP · магический урон</small></button><button class="spell-card" id="spell-shield" data-spell="shield" disabled><span class="spell-glyph shield-glyph"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 40 10v12c0 10-7 17-16 22C15 39 8 32 8 22V10Z"/><path d="m16 24 5 5 11-13"/></svg></span><strong>Щит веры</strong><small>6 MP · лечение и защита</small></button><button class="spell-card" id="spell-poison" data-spell="poison" disabled><span class="spell-glyph poison-glyph"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M18 5h12m-10 0v10L9 32a8 8 0 0 0 7 12h16a8 8 0 0 0 7-12L28 15V5"/><path d="M14 32h20M20 25l3 3 5-7"/></svg></span><strong>Ядовитый укол</strong><small>7 MP · урон и ослабление</small></button></div></div>
             </div>
           </div>
 
@@ -121,7 +121,7 @@
           </div>
 
           <div id="tab-profile" class="tab-view hidden">
-            <div class="panel profile-panel"><p class="eyebrow">ЛИЧНОЕ ДЕЛО</p><div id="profile-race-avatar" class="profile-race-avatar" aria-label="Расовый портрет"></div><h3 id="profile-name">—</h3><div class="profile-utility-actions"><button id="save-btn" class="btn btn-ghost" type="button">Сохранить игру</button><button id="reset-btn" class="text-button" type="button">Начать заново</button></div><p id="profile-lore" class="muted">—</p><div class="paper-doll-profile" id="profile-paper-doll"></div><div class="profile-grid" id="profile-grid"></div><h4>Состояние</h4><div id="injury-status" class="injury-list"></div><h4>Репутация фракций</h4><div id="reputation-list"></div><h4>Путь судьбы</h4><div id="destiny-box" class="destiny-box"></div></div>
+            <div class="panel profile-panel"><p class="eyebrow">ЛИЧНОЕ ДЕЛО</p><div id="profile-race-avatar" class="profile-race-avatar" aria-label="Расовый портрет"></div><h3 id="profile-name">—</h3><div class="profile-utility-actions"><button id="save-btn" class="btn btn-ghost" type="button">Сохранить игру</button><button id="reset-btn" class="text-button" type="button">⚠️ Сбросить прогресс и начать заново</button></div><p id="profile-lore" class="muted">—</p><div class="paper-doll-profile" id="profile-paper-doll"></div><div class="profile-grid" id="profile-grid"></div><h4>Состояние</h4><div id="injury-status" class="injury-list"></div><h4>Репутация фракций</h4><div id="reputation-list"></div><h4>Путь судьбы</h4><div id="destiny-box" class="destiny-box"></div></div>
           </div>
 
 
@@ -181,7 +181,7 @@
       </article>
     </section>
     <div id="toast" class="toast" role="status"></div>
-    <div id="modal" class="modal hidden"><div class="modal-card panel"><button id="modal-close" class="modal-close">×</button><div id="modal-content"></div></div></div>
+    <div id="modal" class="modal hidden"><div class="modal-card panel"><button id="modal-close" class="modal-close" aria-label="Закрыть окно">×</button><div id="modal-content"></div></div></div>
   </main>
   <script src="database.js"></script>
   <script src="game.js"></script>
