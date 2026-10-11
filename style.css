@@ -2869,3 +2869,35 @@ html,body{min-height:100%;height:auto;overflow-x:hidden;overscroll-behavior-x:no
  .world-accordion>summary strong{font-size:16px}
  .accordion-actions{padding:9px!important}
 }
+
+
+/* v35.1 — modal overflow and strict document flow fixes */
+#modal, .modal, .modal-overlay, #more-menu.more-menu {
+  box-sizing:border-box!important; overflow-y:auto!important; overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important; overscroll-behavior:contain!important;
+  padding-top:max(12px,env(safe-area-inset-top,0px))!important;
+  padding-bottom:max(24px,env(safe-area-inset-bottom,0px))!important;
+}
+#modal .modal-card, #modal .modal-content, #modal-content, .modal-content, .modal-body,
+.more-menu-card, #more-menu .more-menu-card {
+  box-sizing:border-box!important; max-height:82vh!important; max-height:82dvh!important;
+  overflow-y:auto!important; overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important; overscroll-behavior:contain!important;
+  padding-bottom:24px!important; min-height:0!important;
+}
+#modal .modal-card { width:min(560px,94vw)!important; margin:auto!important; }
+#modal-content > *, .modal-body > *, .more-menu-grid > * { min-width:0; max-width:100%; }
+.more-menu { position:fixed!important; inset:0!important; display:flex!important; align-items:center!important; justify-content:center!important; padding: max(12px,env(safe-area-inset-top,0px)) 12px max(24px,env(safe-area-inset-bottom,0px))!important; overflow-y:auto!important; }
+.more-menu.hidden { display:none!important; }
+.more-menu-card { width:min(560px,96vw)!important; max-height:82vh!important; max-height:82dvh!important; overflow-y:auto!important; margin:auto!important; }
+.more-menu-grid { padding-bottom:24px!important; align-content:start!important; }
+.main-content, .content-area, .tab-view:not(.hidden) { min-height:0!important; }
+.map-card, .travel-map-panel { width:100%!important; height:auto!important; position:relative!important; display:flex!important; flex-direction:column!important; gap:14px!important; overflow:visible!important; }
+#travel-btn, .choose-path-btn, [data-action="travel"] { position:relative!important; inset:auto!important; transform:none!important; display:flex!important; width:100%!important; min-height:52px!important; height:auto!important; margin:10px 0!important; align-items:center!important; justify-content:center!important; }
+.map-footer { position:relative!important; inset:auto!important; display:flex!important; flex-direction:column!important; gap:10px!important; width:100%!important; margin:0!important; }
+/* Let notifications and daily quest cards participate in normal flow, never overlay controls. */
+.toast, .daily-quest-banner, .path-notice, .floating-notice { max-width:calc(100vw - 24px); overflow-wrap:anywhere; }
+@media(max-width:600px){
+  #modal .modal-card, #modal .modal-content, #modal-content, .modal-content, .modal-body { max-height:82vh!important; max-height:82dvh!important; padding:16px 14px 24px!important; }
+  .more-menu-card { max-height:82vh!important; max-height:82dvh!important; padding:16px 12px 24px!important; }
+}

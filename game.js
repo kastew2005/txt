@@ -850,7 +850,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   function saveGame(show=true){
     if(!state.hero)return false;
     const data={
-      version:"v35.0", timestamp:Date.now(),
+      version:"v35.1", timestamp:Date.now(),
       hero:state.hero, raceId:state.race?.id||state.hero.raceId||"human",
       inventory:state.inventory, equipment:state.equipment,
       reputation:state.reputation, quests:state.quests, questClaimed:state.questClaimed,
@@ -904,7 +904,30 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
     const modal=$("modal"),content=$("modal-content");if(!modal||!content)return;
     content.innerHTML=`<p class="eyebrow">НЕОБРАТИМОЕ ДЕЙСТВИЕ</p><h3>Начать заново?</h3><p class="reset-warning-copy">Все достижения, предметы, золото и текущий прогресс будут удалены с этого устройства.</p><div class="reset-confirm-actions"><button id="confirm-reset-game" class="btn btn-danger" type="button">⚠️ Да, сбросить прогресс</button><button id="cancel-reset-game" class="btn btn-ghost" type="button">Отмена</button></div>`;modal.classList.remove("hidden");
   }
-  function confirmResetGame(){try{localStorage.removeItem(STORAGE_KEY);localStorage.removeItem("tutorial_passed");localStorage.removeItem("ashes_sound_v29");localStorage.removeItem(V30_KEY);localStorage.removeItem("ashes_sound_v18");localStorage.removeItem("ashes_sound_v14");}catch(e){}location.reload();}
+  let resetInProgress = false;
+  function confirmResetGame(){
+    if(resetInProgress)return;
+    resetInProgress=true;
+    try{
+      if(window.__ashesAutosaveTimer){clearInterval(window.__ashesAutosaveTimer);window.__ashesAutosaveTimer=null;}
+      if(window.__ashesAutosaveTimer2){clearInterval(window.__ashesAutosaveTimer2);window.__ashesAutosaveTimer2=null;}
+      if(typeof combatTimers!=="undefined"&&combatTimers&&combatTimers.forEach){combatTimers.forEach(id=>clearTimeout(id));combatTimers.clear();}
+      if(typeof clearTurnSafetyTimers==="function")clearTurnSafetyTimers();
+      if(typeof state==="object"&&state){state.inCombat=false;state.combatBusy=false;state.enemy=null;state.combatToken=(state.combatToken||0)+1;}
+      localStorage.removeItem("ashes_of_the_kingdom_save");
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem("tutorial_passed");
+      localStorage.removeItem("ashes_sound_v29");
+      localStorage.removeItem(V30_KEY);
+      localStorage.removeItem("ashes_sound_v18");
+      localStorage.removeItem("ashes_sound_v14");
+      localStorage.removeItem("ashes_of_the_kingdom_save_backup");
+      // Avoid replaying the first-run tutorial after an intentional hard reset.
+      localStorage.setItem("tutorial_passed","1");
+    }catch(e){console.error("Не удалось полностью очистить сохранение",e);}
+    // reload(true) is ignored by modern browsers; location.reload() is the supported cold-reload path.
+    window.setTimeout(()=>{try{window.location.reload(true);}catch(_){window.location.reload();}},40);
+  }
   function saveEnvelope(){const raw=(()=>{try{return localStorage.getItem(STORAGE_KEY)||"";}catch(_){return "";}})();const passed=(()=>{try{return localStorage.getItem("tutorial_passed")==="1";}catch(_){return false;}})();let save=null;try{save=raw?JSON.parse(raw):null;}catch(_){save=null;}return {format:"ashes-kingdom-save",version:22,save,tutorial_passed:passed};}
   const SAVE_MASK_V18="AshesOfTheNorthernKingdom::AK18::offline";
   const SAVE_MASK_V17="AshesOfTheNorthernKingdom::AK17::offline";
@@ -1082,7 +1105,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   new MutationObserver(()=>updateRainSound()).observe(document.body,{attributes:true,attributeFilter:["class"]});
   let savedV30Meta=null;try{savedV30Meta=JSON.parse(localStorage.getItem(V30_KEY)||"null");if(savedV30Meta){state.legacy={...state.legacy,...savedV30Meta,upgrades:{...state.legacy.upgrades,...(savedV30Meta.upgrades||{})}};const hardcoreOpt=$("hardcore-optin");if(hardcoreOpt)hardcoreOpt.checked=!!savedV30Meta.hardcore;}}catch(_){}renderRaces();bindEvents();syncSoundButton();const hasSave=loadGame();if(hasSave&&savedV30Meta&&state.legacy?.shards===0){state.legacy={...state.legacy,...savedV30Meta,upgrades:{...state.legacy.upgrades,...(savedV30Meta.upgrades||{})}};}if(!hasSave){$("start-screen").classList.remove("hidden");$("game-screen").classList.add("hidden");}else{setTimeout(()=>{initTutorial();updateRainSound();},450);}
   // Небольшая страховка для автосохранения при активной игре.
-  setInterval(()=>{if(state.hero)saveGame(false);},30000);
+  window.__ashesAutosaveTimer=setInterval(()=>{if(!resetInProgress&&state.hero)saveGame(false);},30000);
   // Позволяет увидеть возможный финал после достаточного числа событий, не блокируя основной цикл.
   document.addEventListener("click",e=>{if(e.target.closest(".nav-tab")&&state.hero&&state.kills>=5&&state.travelCount>=5&&!state.ending)showEnding();});
   let installPrompt=null;const installButton=$("install-app");
