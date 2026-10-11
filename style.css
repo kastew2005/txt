@@ -2506,3 +2506,62 @@ h1, h2, h3, h4, .scene-header h2, .section-heading h3,
 @media (prefers-reduced-motion: reduce) {
   button, .btn, .card, .feature-card, .citadel-card, .shop-item { transition: none !important; }
 }
+
+
+/* v31.0 — Combat navigation lock, quick dungeon access and high-juice toast notifications. */
+.bottom-nav .nav-tab.combat-nav-locked {
+  opacity: .4 !important;
+  cursor: not-allowed !important;
+  filter: saturate(.45);
+  transition: opacity .16s ease, filter .16s ease;
+}
+.bottom-nav .nav-tab.combat-nav-locked:active { transform: none !important; }
+.quick-access-card { min-height: 104px; border-color: rgba(212,175,55,.38) !important; }
+.quick-access-card > span { color: #f3d77c; text-shadow: 0 0 12px rgba(255,215,0,.32); }
+.quick-access-card:hover, .quick-access-card:focus-visible { border-color: rgba(255,215,0,.78) !important; box-shadow: 0 0 18px rgba(212,175,55,.18); }
+#toast-container {
+  position: fixed !important;
+  top: 18% !important;
+  bottom: auto !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  z-index: 999999 !important;
+  width: 85vw !important;
+  max-width: 360px !important;
+  pointer-events: none !important;
+}
+#toast-container .toast, .toast {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  background: linear-gradient(135deg, #2d234a 0%, #1a1330 100%) !important;
+  border: 2px solid #ffd700 !important;
+  border-radius: 12px !important;
+  padding: 14px 18px !important;
+  color: #ffffff !important;
+  font-size: 16px !important;
+  line-height: 1.35 !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+  overflow-wrap: anywhere !important;
+  white-space: normal !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,.8), 0 0 15px rgba(255,215,0,.3) !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateY(-16px) scale(.96) !important;
+  pointer-events: none !important;
+}
+#toast-container .toast.show, .toast.show {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) scale(1) !important;
+  animation: toastSlideDown .3s cubic-bezier(.175,.885,.32,1.27) !important;
+}
+@keyframes toastSlideDown {
+  0% { opacity: 0; transform: translateY(-20px) scale(.94); }
+  72% { opacity: 1; transform: translateY(2px) scale(1.015); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (max-width: 520px) { #toast-container { top: 16% !important; width: 88vw !important; max-width: 360px !important; } }
+@media (prefers-reduced-motion: reduce) { #toast-container .toast.show, .toast.show { animation: none !important; } }
