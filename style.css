@@ -1808,3 +1808,24 @@ body {
 @media(max-width:760px){.v30-talent-grid{grid-template-columns:minmax(0,1fr)}#tab-abyss .detail-actions .btn{width:100%}}
 
 @media(max-width:760px){.top-stats #ambient-btn{display:flex!important;align-items:center;justify-content:center;min-width:36px;width:36px;height:36px;padding:4px;flex:0 0 36px}.top-stats #ambient-btn .ambient-label{display:none!important}.top-stats #ambient-btn .ui-icon{width:22px;height:22px}#tab-arena{height:100%;min-height:0;overflow:hidden!important}#tab-arena .arena{max-height:calc(100dvh - 160px);overflow-y:auto;padding-bottom:max(90px,calc(64px + env(safe-area-inset-bottom)))}#event-feed{max-height:140px;overflow-y:auto}.modal-card{max-height:calc(100dvh - 32px);overflow-y:auto}}
+
+
+/* v30.1 — version badge, modal contrast hotfix and combat viewport guard. */
+.version-badge{display:inline-flex;align-items:center;vertical-align:middle;margin-left:7px;padding:2px 6px;border:1px solid rgba(222,190,122,.72);border-radius:6px;background:rgba(35,31,56,.96);color:#f5dba5;font-size:10px;font-weight:900;line-height:1.45;letter-spacing:.04em;white-space:nowrap;box-shadow:0 1px 5px #0006}
+/* #modal is the game's overlay; .modal-overlay is kept as a compatible alias. */
+.modal-overlay,#modal.modal{background:rgba(8,6,14,.5)!important;backdrop-filter:blur(4px)!important;-webkit-backdrop-filter:blur(4px)!important}
+#modal.modal{background-color:rgba(8,6,14,.5)!important}
+.modal-content,#modal .modal-card,#modal .modal-card.panel{background:#231f38!important;border:2px solid #6b5b95!important;box-shadow:0 8px 32px rgba(0,0,0,.9)!important;color:#fff!important}
+#modal #modal-content,#modal #modal-content *{opacity:1}
+#modal #modal-content h1,#modal #modal-content h2,#modal #modal-content h3,#modal #modal-content h4,#modal #modal-content strong,#modal #modal-content label{color:#fff!important}
+#modal #modal-content p,#modal #modal-content small,#modal #modal-content .muted{color:#e0d9ef!important}
+#modal .modal-card button,#modal #modal-content button,.modal-content button{opacity:1!important;font-size:16px!important;font-weight:700!important}
+.item-action-backdrop{background:rgba(8,6,14,.5)!important;backdrop-filter:blur(4px)!important;-webkit-backdrop-filter:blur(4px)!important}
+.item-action-sheet{background:#231f38!important;border:2px solid #6b5b95!important;box-shadow:0 8px 32px rgba(0,0,0,.9)!important;color:#fff!important}
+.item-action-sheet button{opacity:1!important;font-size:16px!important;font-weight:700!important}
+#tab-arena .player-card .fighter-icon{display:grid!important;place-items:center!important;min-height:clamp(56px,10vh,100px)!important;overflow:visible!important}
+#tab-arena .player-card .combat-hero-avatar{display:block!important;width:64px!important;height:100%!important;min-height:56px!important;max-height:100px!important;max-width:100%!important;opacity:1!important;visibility:visible!important}
+#tab-arena .arena{box-sizing:border-box;min-height:0;overflow-x:hidden!important;overflow-y:auto!important;padding-bottom:calc(var(--v271-nav-height,72px) + env(safe-area-inset-bottom,0px) + 18px)!important;scrollbar-gutter:stable}
+#tab-arena .mana-panel,#tab-arena .active-skills-panel,#tab-arena .rage-panel{position:relative;z-index:1;flex-shrink:0}
+#event-feed{max-height:140px!important;overflow-y:auto!important}
+@media(max-width:520px){.brand strong{display:flex;align-items:center;gap:4px;flex-wrap:wrap}.version-badge{font-size:9px;margin-left:3px}#tab-arena .arena{padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))!important}}

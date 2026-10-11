@@ -1,7 +1,19 @@
-/* Dark Fantasy RPG v30.0 — Ultimate Progression, Skill Tree & Endless Abyss. */
+/* Dark Fantasy RPG v30.1 — Version Badge, PWA Cache Busting & Modal Contrast Hotfix. */
 "use strict";
 (() => {
   const $ = id => document.getElementById(id);
+  // Defensive fallback: ensure the hero portrait remains visible if markup is altered by a stale cache.
+  function ensureCombatAvatar(){
+    const host=$("player-combatant")?.querySelector(".fighter-icon");
+    if(!host)return;
+    let avatar=host.querySelector(".combat-hero-avatar");
+    if(!avatar){
+      host.innerHTML='<svg class="ui-icon fighter-svg combat-hero-avatar" viewBox="0 0 64 64" role="img" aria-label="Рыцарь в шлеме"><path class="avatar-cape" d="M12 57 17 36 24 29H40L47 36 52 57Z"/><path class="avatar-helmet" d="M18 28V20C18 10 24 5 32 5S46 10 46 20V28L40 35H24Z"/><path class="avatar-visor" d="M21 22H43L40 29H24Z"/><path class="avatar-visor-slit" d="M25 25H39"/><path class="avatar-crest" d="M27 7 32 1 37 7Z"/></svg>';
+      avatar=host.querySelector(".combat-hero-avatar");
+    }
+    if(avatar){avatar.style.display="block";avatar.style.visibility="visible";avatar.style.opacity="1";avatar.setAttribute("aria-label","Аватар героя в бою");}
+  }
+  ensureCombatAvatar();
   const svgIcon = (name, cls="item-svg") => {
     const key=String(name).toLowerCase().replace(/[^a-z0-9_-]/g,"");
     const portraits={undead:"M24 4a12 12 0 0 0-12 12v7l4 5-2 7 10 8 10-8-2-7 4-5v-7A12 12 0 0 0 24 4Z",human:"M24 7c-6 0-9 5-9 11 0 4 2 7 4 9l-7 7-3 10h30l-3-10-7-7c3-3 4-6 4-10 0-6-3-10-9-10Z",elf:"M24 8c-6 0-9 5-9 11 0 4 2 7 4 9l-7 7-3 9h30l-3-9-7-7c3-3 4-6 4-10 0-6-3-10-9-10Z",orc:"M24 9c-8 0-12 5-12 12 0 4 2 7 5 9l-7 8 2 6h24l2-6-7-8c3-3 5-6 5-10 0-7-4-11-12-11Z",dwarf:"M24 7c-7 0-10 5-10 11 0 3 1 6 3 8l-7 5-2 13h32l-2-13-7-5c2-3 3-6 3-9 0-6-3-10-10-10Z",wolf:"M24 9 12 3l3 13-7 7 8 1 8 16 8-16 8-1-7-7 3-13Z",bandit:"M24 7c-8 0-12 5-12 12l3 7-5 8v9h28v-9l-5-8 3-7c0-7-4-12-12-12Z",skeleton:"M24 5a11 11 0 0 0-11 11v5l4 5-2 8 9 8 9-8-2-8 4-5v-5A11 11 0 0 0 24 5Z",wraith:"M24 4c-9 6-13 12-12 22l-4 13 10-4 6 7 6-7 10 4-4-13C37 16 33 10 24 4Z",knight:"M24 3 10 9v14l5 13 9 7 9-7 5-13V9Z",fire:"M24 3C31 17 15 19 20 29c-4-2-7-6-7-10C4 30 11 44 24 45c14-1 21-17 9-28 0 8-4 9-5 12C27 20 32 14 24 3Z",potion:"M18 4h12m-10 0v12L9 34a7 7 0 0 0 6 10h18a7 7 0 0 0 6-10L28 16V4Z",sword:"M34 4 42 12 18 36l-6-6Z M10 34l8 8M7 39l5-5",armor:"M24 4 39 10v12c0 10-7 17-15 22C16 39 9 32 9 22V10Z",helmet:"M8 25a16 16 0 0 1 32 0v7H8Z M16 25h16M24 9v8",ring:"M24 8a15 15 0 1 0 0 30 15 15 0 0 0 0-30Z M24 3l4 7-4 5-4-5Z",shield:"M24 4 40 10v12c0 10-7 17-16 22C15 39 8 32 8 22V10Z M24 9v27M14 20h20",healing_potion:"M18 4h12m-10 0v12L9 34a7 7 0 0 0 6 10h18a7 7 0 0 0 6-10L28 16V4Z",cursed_relic:"M24 3 29 17 43 24 29 29 24 43 19 29 5 24 19 17Z",moon_herb:"M24 43V10m0 16C10 26 8 15 8 12c12 0 16 8 16 14Zm0 7c14 0 16-11 16-14-12 0-16 8-16 14Z",gold_charm:"M24 4 39 15 34 35 14 35 9 15Z M16 20h16M24 13v21"};
