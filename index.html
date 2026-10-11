@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <meta name="theme-color" content="#171326">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="description" content="Пепел Королевства v27.1 — UI Layout, Overlap & Safe Area Hotfix, офлайн Dark Fantasy PWA.">
+  <meta name="description" content="Пепел Королевства v27.3 — Weather, Map Touch & Bottom Spacing Fix, офлайн Dark Fantasy PWA.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Пепел Королевства">
@@ -14,7 +14,7 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#171326">
   <meta name="referrer" content="no-referrer">
-  <title>Пепел Королевства — v27.1 UI Layout & Safe Area Hotfix</title>
+  <title>Пепел Королевства — v27.3 Weather, Map Touch & Bottom Spacing Fix</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -72,17 +72,17 @@
           </div>
           <div id="tab-world" class="tab-view">
             <section class="travel-map-panel panel" aria-label="Интерактивная карта путешествий">
-              <div class="travel-map-heading"><div><p class="eyebrow">КАРТА СЕВЕРНЫХ ЗЕМЕЛЬ</p><h3>Выбери следующую тропу</h3></div><span class="map-weather-chip" id="map-weather-chip">🌫 Туман</span></div>
+              <div class="travel-map-heading"><div><p class="eyebrow">КАРТА СЕВЕРНЫХ ЗЕМЕЛЬ</p><h3>Выбери следующую тропу</h3></div></div>
               <svg id="travel-map" class="travel-map" viewBox="0 0 600 270" role="group" aria-label="Карта: Тёмный лес, Древние руины, Забытый алтарь и Прибрежная таверна">
                 <defs><linearGradient id="parchment" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6e5a3b"/><stop offset=".5" stop-color="#302c24"/><stop offset="1" stop-color="#4b3828"/></linearGradient><pattern id="map-grain" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M2 7l7-2m8 17 8-3M5 25l3-1" stroke="#d6b875" stroke-opacity=".12" stroke-width="1"/></pattern><filter id="map-glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
                 <rect x="1" y="1" width="598" height="268" rx="13" fill="url(#parchment)" stroke="#c3a76d" stroke-opacity=".55"/><rect x="1" y="1" width="598" height="268" rx="13" fill="url(#map-grain)"/>
                 <path class="map-river" d="M-10 180C70 135 96 234 178 177S286 116 331 162 445 229 610 130"/><path class="map-hill" d="M20 36l28-18 23 19 21-16 23 21m45 45 24-17 19 16 20-24 24 22m140-46 25-19 24 24 18-14 21 18"/>
                 <path class="map-road" d="M510 205 Q448 236 388 88 T235 204 T95 91"/><path class="map-road-highlight" d="M510 205 Q448 236 388 88 T235 204 T95 91"/><path id="map-selected-route" class="map-selected-route" d="" style="display:none"/><g id="map-dynamic-routes"></g><g id="map-dynamic-nodes"></g><g id="map-anomaly-markers"></g>
                 <g class="map-decoration" transform="translate(46 153)"><path d="M0 0l-12 22h24Z M0 8v23m-8-9h16"/><path d="M-15 31h30"/></g><g class="map-decoration" transform="translate(548 61)"><circle r="19"/><path d="M0-15V15M-15 0H15M-10-10L10 10M10-10L-10 10"/></g>
-                <g class="map-location" data-location="forest" role="button" tabindex="0" aria-label="Отправиться в Тёмный лес" transform="translate(95 91)"><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M0-12-11 5h7l-4 7H8L4 5h7Z"/><text y="39" text-anchor="middle">Тёмный лес</text></g>
-                <g class="map-location" data-location="ruins" role="button" tabindex="0" aria-label="Отправиться к Древним руинам" transform="translate(235 204)"><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M-11 9V-7h5v7h5v-12h6v12h5V9Z M-13 12h27"/><text y="39" text-anchor="middle">Древние руины</text></g>
-                <g class="map-location" data-location="altar" role="button" tabindex="0" aria-label="Отправиться к Забытому алтарю" transform="translate(388 88)"><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M0-13 3-3 13 0 3 3 0 13-3 3-13 0-3-3Z"/><text y="39" text-anchor="middle">Забытый алтарь</text></g>
-                <g class="map-location" data-location="tavern" role="button" tabindex="0" aria-label="Отправиться к Прибрежной таверне" transform="translate(510 205)"><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M-9-9h13v15a6 6 0 0 1-13 0Zm13 3h5a4 4 0 0 1 0 8H4M-12 13h20"/><text y="39" text-anchor="middle">Прибрежная таверна</text></g>
+                <g class="map-location" data-location="forest" role="button" tabindex="0" aria-label="Отправиться в Тёмный лес" transform="translate(95 91)"><circle class="node-hit-area" r="30" cx="0" cy="0" fill="transparent" aria-hidden="true"/><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M0-12-11 5h7l-4 7H8L4 5h7Z"/><text y="39" text-anchor="middle">Тёмный лес</text></g>
+                <g class="map-location" data-location="ruins" role="button" tabindex="0" aria-label="Отправиться к Древним руинам" transform="translate(235 204)"><circle class="node-hit-area" r="30" cx="0" cy="0" fill="transparent" aria-hidden="true"/><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M-11 9V-7h5v7h5v-12h6v12h5V9Z M-13 12h27"/><text y="39" text-anchor="middle">Древние руины</text></g>
+                <g class="map-location" data-location="altar" role="button" tabindex="0" aria-label="Отправиться к Забытому алтарю" transform="translate(388 88)"><circle class="node-hit-area" r="30" cx="0" cy="0" fill="transparent" aria-hidden="true"/><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M0-13 3-3 13 0 3 3 0 13-3 3-13 0-3-3Z"/><text y="39" text-anchor="middle">Забытый алтарь</text></g>
+                <g class="map-location" data-location="tavern" role="button" tabindex="0" aria-label="Отправиться к Прибрежной таверне" transform="translate(510 205)"><circle class="node-hit-area" r="30" cx="0" cy="0" fill="transparent" aria-hidden="true"/><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M-9-9h13v15a6 6 0 0 1-13 0Zm13 3h5a4 4 0 0 1 0 8H4M-12 13h20"/><text y="39" text-anchor="middle">Прибрежная таверна</text></g>
                 <g id="hero-map-token" class="hero-map-token" transform="translate(510 205)" aria-label="Ваш герой"><circle r="13"/><path class="token-flag" d="M0-10V10 M1-9 8-6 1-3Z"/><circle r="17" class="token-pulse"/></g>
               </svg>
               <div class="map-footer"><span id="map-location-status" aria-live="polite">Выбран маршрут: Тёмный лес</span><button id="travel-btn" class="btn btn-gold" type="button">Отправиться в путь <svg class="ui-icon"><use href="#compass"/></svg></button></div><p class="map-overhaul-hint">Туман скрывает неисследованные земли. Выбирай соседние узлы; на развилках можно идти безопасно или рискнуть коротким путём.</p>
@@ -163,7 +163,7 @@
       <nav class="bottom-nav" aria-label="Основная навигация" aria-description="Пять крупных кнопок: Мир, Бой, Цитадель, Герой и Ещё.">
         <button class="nav-tab active" data-tab="world" type="button" aria-label="Мир" aria-current="page"><span><svg class="ui-icon"><use href="#compass"/></svg></span><small>Мир</small></button>
         <button class="nav-tab" data-tab="arena" type="button" aria-label="Бой"><span><svg class="ui-icon"><use href="#sword"/></svg></span><small>Бой</small></button>
-        <button class="nav-tab" data-tab="castle" type="button" aria-label="Цитадель"><span><svg class="ui-icon"><use href="#sigil"/></svg></span><small>Цитадель</small></button>
+        <button class="nav-tab" data-tab="castle" type="button" aria-label="Цитадель"><span aria-hidden="true"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#sigil"/></svg></span><small>Цитадель</small></button>
         <button class="nav-tab" data-tab="hero" type="button" aria-label="Герой"><span><svg class="ui-icon"><use href="#profile"/></svg></span><small>Герой</small></button>
         <button id="more-nav-btn" class="nav-tab nav-more" type="button" aria-haspopup="dialog" aria-expanded="false"><span class="more-glyph" aria-hidden="true">≡</span><small>Ещё</small></button>
       </nav>

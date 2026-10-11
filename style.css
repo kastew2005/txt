@@ -1506,3 +1506,111 @@ body {
   #event-feed .event-entry { padding-bottom: 12px !important; }
   .anomaly-card { padding: 10px 10px 16px !important; }
 }
+
+/* v27.3 — Weather, Map Touch & Bottom Spacing Fix */
+/* Keep exactly one visible weather indicator: the compact indicator in the scene header. */
+#map-weather-chip,
+.weather-badge,
+.floating-weather-badge {
+  display: none !important;
+}
+.scene-header .weather {
+  flex: 0 0 auto;
+  max-width: min(42%, 250px);
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(21, 16, 14, .88);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, .22);
+  position: relative;
+  z-index: 2;
+}
+.scene-header .weather #phase-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.scene-header .weather #weather-label {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+/* Map fills the available content width; controls have larger mobile touch targets. */
+#world-map,
+#travel-map,
+.map-container,
+.travel-map-panel {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#travel-map,
+#world-map {
+  min-height: 180px;
+}
+#travel-map .map-location {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+#travel-map .map-location .node-hit-area {
+  r: 30px;
+  fill: transparent !important;
+  stroke: transparent !important;
+  pointer-events: all !important;
+}
+#travel-map .map-location .node-halo {
+  r: 29px;
+}
+#travel-map .map-location .node-ring {
+  r: 22px;
+  stroke-width: 2.5px;
+}
+#travel-map .map-location .node-glyph {
+  stroke-width: 2.4px;
+}
+#travel-map .map-location .node-halo,
+#travel-map .map-location .node-ring,
+#travel-map .map-location .node-glyph,
+#travel-map .map-location text {
+  pointer-events: none !important;
+}
+
+/* Keep action buttons and quest cards away from the bottom navigation bar. */
+#tab-world .world-actions,
+#tab-world .chronic-actions,
+#tab-world #daily-quests,
+#tab-world .quest-widget {
+  margin-bottom: 20px !important;
+}
+#tab-world .world-actions {
+  padding-bottom: 2px;
+}
+
+/* Clean citadel label: the SVG is decorative, and no pseudo-content is permitted. */
+.bottom-nav .nav-tab[data-tab="castle"]::before,
+.bottom-nav .nav-tab[data-tab="castle"]::after,
+.bottom-nav .nav-tab[data-tab="castle"] small::before,
+.bottom-nav .nav-tab[data-tab="castle"] small::after {
+  content: none !important;
+  display: none !important;
+}
+.bottom-nav .nav-tab[data-tab="castle"] small {
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-indent: 0;
+}
+@media (max-width: 760px) {
+  .scene-header .weather { max-width: 46%; padding: 7px 9px; gap: 5px; }
+  .scene-header .weather #phase-label { max-width: 92px; }
+  #travel-map, #world-map { min-height: 180px; }
+  #travel-map .map-location .node-hit-area { r: 32px; }
+  #travel-map .map-location .node-ring { r: 23px; }
+}
+@media (max-width: 760px) {
+  #tab-world #travel-map { min-height: 180px !important; width: 100% !important; }
+}
