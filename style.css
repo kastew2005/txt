@@ -1874,3 +1874,71 @@ body {
 }
 #event-feed .event-entry, .chronicles-list .event-entry { flex: 0 0 auto; }
 .version-badge { color: #f4edff !important; border-color: #a892ee !important; }
+
+
+/* v30.3 — High Contrast Modals, Toast Positioning & Enemy Avatar Hotfix. */
+.modal-overlay, #modal.modal {
+  background: rgba(8, 6, 16, 0.5) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+#modal.modal { background-color: rgba(8, 6, 16, 0.5) !important; }
+.modal-content, #modal .modal-card, #modal .modal-card.panel {
+  background: #241f38 !important;
+  border: 2px solid #8b72de !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95) !important;
+  color: #ffffff !important;
+}
+#modal .modal-card { padding: 20px !important; }
+.modal-content p, .modal-content span, #modal #modal-content p, #modal #modal-content span {
+  color: #e8e3f5 !important;
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+}
+.modal-content button, #modal .modal-card button, #modal #modal-content button {
+  background: #4a3875 !important;
+  border: 1px solid #a892ee !important;
+  color: #ffffff !important;
+  font-weight: bold !important;
+  font-size: 15px !important;
+  padding: 12px !important;
+  opacity: 1 !important;
+}
+.event-card, .quest-card, .road-event-card, .narrative-event-card {
+  height: auto !important;
+  min-height: 75px !important;
+  overflow: visible !important;
+  padding-bottom: 12px !important;
+}
+#toast-container {
+  position: fixed !important;
+  bottom: 95px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 9999 !important;
+  width: max-content;
+  max-width: calc(100vw - 24px);
+  pointer-events: none;
+}
+#toast-container .toast {
+  position: relative !important;
+  left: auto !important;
+  bottom: auto !important;
+  max-width: 100%;
+  white-space: normal;
+  transform: translateY(20px);
+  z-index: 9999 !important;
+  pointer-events: none;
+}
+#toast-container .toast.show { transform: translateY(0); }
+#event-feed, .chronicles-list {
+  max-height: 95px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  overscroll-behavior: contain;
+}
+#event-feed .event-entry, .chronicles-list .event-entry { flex: 0 0 auto; }
+#enemy-icon { display: grid !important; place-items: center !important; min-height: 86px; overflow: visible !important; }
+#enemy-icon .enemy-portrait-svg { display: block !important; width: 72px !important; height: 82px !important; min-width: 48px; min-height: 54px; max-width: 100%; opacity: 1 !important; visibility: visible !important; overflow: visible !important; }
+.version-badge { color: #f4edff !important; border-color: #a892ee !important; }
+@media (max-width: 520px) { #toast-container { bottom: calc(95px + env(safe-area-inset-bottom, 0px)) !important; } }
