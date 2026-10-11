@@ -1,25 +1,14 @@
 {
-  "id": "./",
-  "name": "Пепел Королевства v30.0",
-  "short_name": "Пепел v30",
-  "description": "Dark Fantasy RPG v30.0 — Ultimate Progression, Skill Tree & Endless Abyss",
-  "lang": "ru",
-  "start_url": "./index.html",
+  "name": "Пепел Королевства",
+  "short_name": "Пепел Королевства",
+  "description": "Мрачная мобильная RPG о проклятом королевстве.",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#171326",
   "theme_color": "#171326",
-  "categories": [
-    "games",
-    "entertainment"
-  ],
   "icons": [
-    {
-      "src": "assets/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
   ]
 }

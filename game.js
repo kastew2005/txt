@@ -1,7 +1,16 @@
-/* Dark Fantasy RPG v30.3 — High Contrast Modals, Toast Positioning & Enemy Avatar Hotfix. */
+/* Dark Fantasy RPG v30.4 — Modal DOM Architecture & Blur Separation Fix. */
 "use strict";
 (() => {
   const $ = id => document.getElementById(id);
+  // Keep modal roots outside #app and any ancestor that may create a filter/transform stacking context.
+  // This also repairs an older cached HTML shell when its JavaScript has already been updated.
+  function detachModalRoots(){
+    ["modal", "item-action-modal"].forEach(id=>{
+      const node=document.getElementById(id);
+      if(node && node.parentElement!==document.body) document.body.appendChild(node);
+    });
+  }
+  detachModalRoots();
   // Defensive fallback: ensure the hero portrait remains visible if markup is altered by a stale cache.
   function ensureCombatAvatar(){
     const host=$("player-combatant")?.querySelector(".fighter-icon");
