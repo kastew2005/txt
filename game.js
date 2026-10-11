@@ -1,4 +1,4 @@
-/* Dark Fantasy RPG v30.1 — Version Badge, PWA Cache Busting & Modal Contrast Hotfix. */
+/* Dark Fantasy RPG v30.2 — High Contrast Modal & Layout Overflow Hotfix. */
 "use strict";
 (() => {
   const $ = id => document.getElementById(id);
@@ -161,7 +161,7 @@
   function moveMapToken(locationId){const dest=MAP_LOCATIONS[locationId]||MAP_LOCATIONS.tavern;const token=$("hero-map-token");if(!token){state.locationId=locationId;return Promise.resolve();}const from=MAP_LOCATIONS[currentLocation]||MAP_LOCATIONS.tavern;const start=performance.now(),duration=780;travelAnimating=true;playSfx("wind");if(navigator.vibrate)navigator.vibrate(12);return new Promise(resolve=>{function step(now){const t=clamp((now-start)/duration,0,1),eased=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2,x=from.x+(dest.x-from.x)*eased,y=from.y+(dest.y-from.y)*eased+Math.sin(t*Math.PI*5)*(1-t)*3;token.setAttribute("transform",`translate(${x.toFixed(2)} ${y.toFixed(2)})`);if(t<1)requestAnimationFrame(step);else{token.setAttribute("transform",`translate(${dest.x} ${dest.y})`);currentLocation=locationId;state.locationId=locationId;selectedLocation=locationId;travelAnimating=false;renderTravelMap();playSfx("click");resolve();}}requestAnimationFrame(step);});}
   function escapeHTML(str){return String(str).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
   function toast(message){const el=$("toast");el.textContent=message;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),2300);}
-  function log(message,kind=""){const el=$("combat-log");const p=document.createElement("p");p.textContent=message;if(kind)p.className=kind;el.prepend(p);while(el.children.length>8)el.lastChild.remove();}
+  function log(message,kind=""){const el=$("combat-log");const p=document.createElement("p");p.textContent=message;if(kind)p.className=kind;el.prepend(p);while(el.children.length>2)el.lastChild.remove();}
   function addEvent(title,text,icon="✦",target="event-feed"){const feed=$(target);if(!feed)return;const entry=document.createElement("div");entry.className="event-entry";entry.innerHTML=`<span class="event-symbol">${eventIcon(icon)}</span><div><strong>${escapeHTML(title)}</strong><p>${escapeHTML(text)}</p></div>`;feed.prepend(entry);while(feed.children.length>(target==="event-feed"?3:5))feed.lastChild.remove();}
   function getItem(id){return RPG_DB.items[id] ? {...RPG_DB.items[id]} : null;}
   function addItem(id,count=1){const item=getItem(id);if(!item)return;const stack=state.inventory.find(x=>x.id===id);if(stack)stack.count+=count;else state.inventory.push({...item,count});}

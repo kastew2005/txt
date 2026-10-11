@@ -1829,3 +1829,48 @@ body {
 #tab-arena .mana-panel,#tab-arena .active-skills-panel,#tab-arena .rage-panel{position:relative;z-index:1;flex-shrink:0}
 #event-feed{max-height:140px!important;overflow-y:auto!important}
 @media(max-width:520px){.brand strong{display:flex;align-items:center;gap:4px;flex-wrap:wrap}.version-badge{font-size:9px;margin-left:3px}#tab-arena .arena{padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))!important}}
+
+
+/* v30.2 — High Contrast Modal & Layout Overflow Hotfix. */
+.modal-overlay, #modal.modal {
+  background: rgba(5, 3, 10, 0.45) !important;
+  backdrop-filter: blur(3px) !important;
+  -webkit-backdrop-filter: blur(3px) !important;
+}
+#modal.modal { background-color: rgba(5, 3, 10, 0.45) !important; }
+/* The game uses #modal .modal-card and #modal-content rather than .modal-content. */
+.modal-content, #modal .modal-card, #modal .modal-card.panel {
+  background: #28233d !important;
+  border: 2px solid #a892ee !important;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.9) !important;
+  color: #ffffff !important;
+  padding: 20px !important;
+}
+.modal-content p, .modal-content div, #modal #modal-content p, #modal #modal-content div {
+  color: #e2daf8 !important;
+  font-size: 15px !important;
+}
+.modal-content button, #modal .modal-card button, #modal #modal-content button {
+  background: #4a3e6d !important;
+  border: 1px solid #c4b5fd !important;
+  color: #ffffff !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  padding: 12px !important;
+  opacity: 1 !important;
+}
+.event-card, .quest-card {
+  height: auto !important;
+  min-height: 80px !important;
+  overflow: visible !important;
+  padding-bottom: 14px !important;
+}
+#event-feed, .chronicles-list {
+  max-height: 105px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  margin-bottom: 10px !important;
+  overscroll-behavior: contain;
+}
+#event-feed .event-entry, .chronicles-list .event-entry { flex: 0 0 auto; }
+.version-badge { color: #f4edff !important; border-color: #a892ee !important; }
