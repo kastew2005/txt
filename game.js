@@ -228,6 +228,18 @@
   function mapNodeUnlocked(id){const node=MAP_LOCATIONS[id];if(id==="vault"&&!(state.unlockedMapNodes||[]).includes(id))return false;return !node?.lockRequirement||gateRequirementMet(node);}
   function showRegionGateModal(id){const n=MAP_LOCATIONS[id];if(!n)return;const content=$("modal-content");if(!content)return;content.innerHTML=`<p class="eyebrow">ЗАПЕЧАТАННЫЙ РЕГИОН</p><h3>🔒 ${escapeHTML(n.name)}</h3><p class="muted">Проход запечатан! Требуется: <strong>${escapeHTML(gateRequirementText(n))}</strong>.</p><p>Выполни условие, затем вернись к узлу. Прогресс сохраняется автоматически.</p><button class="btn btn-gold" data-close-modal>Понятно</button>`;const modal=$("modal");if(modal)modal.classList.remove("hidden");}
   function revealMapAround(id){state.discoveredLocations=Array.from(new Set([...(state.discoveredLocations||["tavern","forest"]),id,...(MAP_LINKS[id]||[])]));}
+  // v35.0: compact world-action accordions. Native <details> preserves keyboard and touch accessibility.
+  function initWorldAccordions(){
+    const groups=Array.from(document.querySelectorAll("#tab-world .world-accordion"));
+    if(!groups.length)return;
+    if(!groups.some(group=>group.open))groups[0].open=true;
+    groups.forEach(group=>group.addEventListener("toggle",()=>{
+      if(!group.open)return;
+      groups.forEach(other=>{if(other!==group)other.open=false;});
+    }));
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initWorldAccordions,{once:true});else initWorldAccordions();
+
   function renderTravelMap(){
     const loc=MAP_LOCATIONS[state.locationId]||MAP_LOCATIONS.tavern;currentLocation=state.locationId||"tavern";
     if(!state.discoveredLocations||!state.discoveredLocations.length)state.discoveredLocations=["tavern","forest"];
@@ -838,7 +850,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   function saveGame(show=true){
     if(!state.hero)return false;
     const data={
-      version:"v34.1", timestamp:Date.now(),
+      version:"v35.0", timestamp:Date.now(),
       hero:state.hero, raceId:state.race?.id||state.hero.raceId||"human",
       inventory:state.inventory, equipment:state.equipment,
       reputation:state.reputation, quests:state.quests, questClaimed:state.questClaimed,
@@ -876,7 +888,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
       // Saves without a version are legacy saves and remain supported. Refuse only a newer major schema.
       if(d.version){
         const match=String(d.version).match(/^v?(\d+)(?:\.(\d+))?/i);
-        if(!match||Number(match[1])>34){console.warn("Сохранение создано более новой версией игры:",d.version);return false;}
+        if(!match||Number(match[1])>35){console.warn("Сохранение создано более новой версией игры:",d.version);return false;}
       }
       Object.assign(state,{hero:d.hero,race:RPG_DB.races.find(r=>r.id===d.raceId)||RPG_DB.races[0],inventory:Array.isArray(d.inventory)?d.inventory:[],equipment:d.equipment||{weapon:null,armor:null,helmet:null,shield:null,ring:null},reputation:d.reputation||{common:0,merchants:0,watch:0},quests:d.quests||{first_blood:0,kind_heart:0,road_wanderer:0},questClaimed:d.questClaimed||{},kills:d.kills||0,goodActs:d.goodActs||0,travelCount:d.travelCount||d.map?.travelCount||0,destiny:d.destiny||0,daily:d.daily||{date:todayKey(),progress:{kills:0,potions:0,gold:0,travel:0},claimed:{}},altarBuff:d.altarBuff||null,skillPoints:d.skillPoints||0,skills:d.skills||{},petId:d.petId||"fox",resources:{moon_herb:0,iron_ore:0,ember_dust:0,void_root:0,empty_vial:0,...(d.resources||{})},treasuryStepProgress:Number(d.treasuryStepProgress||0),dungeon:d.dungeon||{active:false,room:0,phase:0,loot:0,bossHp:0},injuries:d.injuries||[],mutations:d.mutations||{},anomaly:d.anomaly||null,anomalyTravelExpiry:d.anomalyTravelExpiry||0,citadel:{forge:0,laboratory:0,treasury:0,barracks:0,walls:0,...(d.citadel||{})},citadelAlert:!!d.citadelAlert,marketEvent:d.marketEvent||"calm",marketDay:d.marketDay||todayKey(),castleIncomeAt:d.castleIncomeAt||Date.now(),mercenaries:d.mercenaries||0,locationId:MAP_LOCATIONS[d.locationId||d.map?.locationId]? (d.locationId||d.map.locationId):"tavern",mapKeys:Number(d.mapKeys||0),discoveredLocations:Array.isArray(d.discoveredLocations)?d.discoveredLocations:(Array.isArray(d.map?.discoveredLocations)?d.map.discoveredLocations:["tavern","forest"]),unlockedMapNodes:Array.isArray(d.unlockedMapNodes)?d.unlockedMapNodes:(d.map?.unlockedMapNodes||[]),defeatedBosses:Array.isArray(d.defeatedBosses)?d.defeatedBosses:[],hardcore:!!d.hardcore,talents:d.talents||{},abyss:d.abyss||{active:false,floor:1,best:0},bestiary:d.bestiary||{},legacy:d.legacy||{shards:0,upgrades:{hp:0,potion:0,weapon:0},dead:false}});
       Object.keys(state.equipment||{}).forEach(slot=>{const equipped=state.equipment[slot];if(equipped&&!raceCanUse(equipped)){addItem(equipped.id);state.equipment[slot]=null;}});

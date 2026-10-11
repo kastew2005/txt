@@ -2786,3 +2786,86 @@ h1, h2, .section-title, .screen-title { font-size: 22px !important; font-weight:
   .bottom-nav .nav-tab small { font-size: 14px !important; }
 }
 @media (prefers-reduced-motion: reduce) { #travel-map .map-location, #travel-map .map-dynamic-node { animation: none !important; } }
+
+
+/* v35.0 — Global Ergonomic Layout / Zero-Overlap System */
+:root{--v350-touch:56px;--v350-gap:16px}
+html,body{min-height:100%;height:auto;overflow-x:hidden;overscroll-behavior-x:none}
+#app,.app-shell,.game-screen,.main-layout{min-width:0;min-height:0;max-width:100%}
+.main-layout{align-items:stretch}
+.content-area.main-content{height:auto!important;min-height:0!important;max-height:none!important;flex:1 1 auto!important;overflow-y:auto!important;overflow-x:hidden!important;display:flex!important;flex-direction:column!important;gap:16px!important;padding:0 0 calc(90px + env(safe-area-inset-bottom,0px))!important;overscroll-behavior-y:contain;scrollbar-gutter:stable; -webkit-overflow-scrolling:touch}
+.main-content>.scene-header{flex:0 0 auto!important;position:relative!important;margin:0 0 2px!important}
+.main-content>.tab-view{flex:0 0 auto!important;min-height:0!important;height:auto!important;max-height:none!important;overflow:visible!important;display:block}
+.main-content>.tab-view.hidden{display:none!important}
+.main-content .panel,.main-content .travel-map-panel,.main-content .feature-panel,.main-content .arena,.main-content .inventory-panel,.main-content .profile-panel,.main-content .castle-building,.main-content .item-card,.main-content .feature-card{height:auto!important;min-height:0;max-height:none;box-sizing:border-box}
+.main-content button{max-width:100%;white-space:normal;overflow-wrap:anywhere;line-height:1.25}
+.main-content .travel-map-panel,.main-content .map-card{width:100%!important;height:auto!important;min-width:0!important;position:relative!important;display:flex!important;flex-direction:column!important;gap:12px!important;overflow:visible!important}
+.main-content .map-canvas-viewport{width:100%!important;min-width:0!important;max-width:100%!important;min-height:220px!important;max-height:46vh!important;overflow:auto!important;overscroll-behavior:contain;position:relative!important}
+.main-content #travel-map{display:block;min-width:760px!important;width:100%;height:auto!important;min-height:342px!important;max-height:none!important;flex:0 0 auto}
+.main-content .map-footer{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:10px!important;width:100%!important;position:relative!important;inset:auto!important;margin-top:4px!important}
+.main-content #travel-btn,.main-content .choose-path-btn{display:flex!important;align-items:center;justify-content:center;width:100%!important;min-height:56px!important;height:auto!important;margin-top:10px!important;padding:14px 16px!important;font-size:17px!important;font-weight:800!important;position:relative!important;inset:auto!important;transform:none}
+.main-content #map-location-status{font-size:15px!important;line-height:1.4;overflow-wrap:anywhere}
+.main-content .map-overhaul-hint{font-size:15px!important;line-height:1.5;margin:0!important}
+.world-accordions{display:flex!important;flex-direction:column!important;gap:12px!important;width:100%!important;margin:0!important}
+.world-accordion{display:block!important;width:100%!important;min-width:0!important;border:1px solid rgba(212,175,95,.38);border-radius:14px;background:linear-gradient(145deg,rgba(43,34,31,.96),rgba(23,19,19,.98));overflow:hidden;position:relative!important}
+.world-accordion>summary{list-style:none;display:flex!important;align-items:center;gap:12px;width:100%;min-height:68px;padding:12px 15px;cursor:pointer;user-select:none;font-size:16px}
+.world-accordion>summary::-webkit-details-marker{display:none}
+.world-accordion>summary>span:first-child{font-size:25px;flex:0 0 32px;text-align:center}
+.world-accordion>summary>span:nth-child(2){display:flex;flex:1;min-width:0;flex-direction:column;gap:4px}
+.world-accordion>summary strong{font-size:17px;line-height:1.25}
+.world-accordion>summary small{font-size:13px;line-height:1.3;color:var(--muted)}
+.world-accordion .accordion-chevron{font-size:25px;transition:transform .18s;flex:0 0 auto}
+.world-accordion[open]>summary{border-bottom:1px solid rgba(212,175,95,.24);background:rgba(192,145,67,.08)}
+.world-accordion[open]>summary .accordion-chevron{transform:rotate(180deg)}
+.accordion-actions{display:flex!important;flex-direction:column!important;gap:10px!important;padding:12px!important}
+.accordion-actions .action-card{display:grid!important;grid-template-columns:38px minmax(0,1fr)!important;grid-template-rows:auto auto;align-items:center;column-gap:12px;row-gap:4px;width:100%!important;min-width:0!important;min-height:58px!important;height:auto!important;padding:12px 14px!important;text-align:left!important;position:relative!important;inset:auto!important}
+.accordion-actions .action-card>span{grid-row:1/3;width:38px!important;height:38px!important;display:grid;place-items:center;font-size:24px!important;position:relative!important;inset:auto!important}
+.accordion-actions .action-card strong{font-size:16px!important;line-height:1.25}
+.accordion-actions .action-card small{display:block!important;font-size:13px!important;line-height:1.35;color:var(--muted)}
+/* Stats are readable on both compact and wide screens. */
+.top-stats .stat small{font-size:12px!important}
+.top-stats .stat strong{font-size:16px!important;font-weight:800!important}
+.top-stats .stat{min-width:0;flex-wrap:nowrap}
+/* Combat controls: full-width, vertically stacked touch targets. */
+#tab-arena .target-zones{display:flex!important;flex-direction:column!important;gap:9px!important}
+#tab-arena .target-zone{width:100%!important;min-height:54px!important;height:auto!important;padding:12px 14px!important;font-size:17px!important;text-align:center;position:relative!important;inset:auto!important}
+#tab-arena .target-zone small{font-size:13px!important}
+#tab-arena #btn-attack,#tab-arena .combat-actions .btn,#tab-arena .qte-panel .btn,#tab-arena .rage-panel>button{width:100%!important;min-height:54px!important;height:auto!important;padding:12px 14px!important;font-size:17px!important;position:relative!important;inset:auto!important}
+#tab-arena .combat-actions{display:flex!important;flex-direction:column!important;gap:9px!important}
+#tab-arena .combatants{height:auto!important;min-height:0!important;align-items:stretch}
+#tab-arena .combat-log{height:auto!important;min-height:56px!important;max-height:180px!important;line-height:1.4}
+/* Inventory, equipment, buildings and generated cards use vertical flow. */
+#tab-inventory .inventory-grid{display:flex!important;flex-direction:column!important;gap:12px!important}
+#tab-inventory .inventory-grid>*{width:100%!important;min-width:0!important;height:auto!important;min-height:90px!important;position:relative!important;inset:auto!important}
+#tab-inventory .item-cell{display:flex!important;align-items:center;gap:12px;padding:12px!important;font-size:16px!important;text-align:left}
+#tab-inventory .inventory-filters{display:flex;flex-wrap:wrap;gap:8px}
+#tab-inventory .inventory-filters button,#tab-inventory .inventory-bulk-actions button{min-height:48px!important;font-size:15px!important}
+#tab-inventory .item-cell button,#tab-inventory .inventory-grid button{min-height:48px!important;font-size:15px!important}
+#tab-castle .feature-grid,.feature-panel .feature-grid,.citadel-alchemy-grid{display:flex!important;flex-direction:column!important;gap:12px!important}
+#tab-castle .feature-grid>*,.feature-panel .feature-grid>*,.citadel-alchemy-grid>*{width:100%!important;min-width:0!important;height:auto!important;min-height:0!important;position:relative!important;inset:auto!important;display:flex;flex-direction:column;gap:10px}
+#tab-castle .feature-grid button,.feature-panel .feature-grid button,.citadel-alchemy-grid button{width:100%!important;min-height:52px!important;height:auto!important;font-size:16px!important;position:relative!important;inset:auto!important}
+#tab-profile .profile-grid,#tab-profile .equipment-slots{display:flex!important;flex-direction:column!important;gap:12px!important}
+#tab-profile .profile-grid>*,#tab-profile .equipment-slots>*{width:100%!important;min-width:0!important;height:auto!important;min-height:0!important;position:relative!important;inset:auto!important}
+/* No fixed-height card or absolutely positioned in-flow buttons in the app content. */
+.main-content .action-card,.main-content .feature-card,.main-content .castle-building,.main-content .inventory-grid>*{height:auto!important;max-height:none!important}
+.main-content .action-card,.main-content .feature-grid button,.main-content .inventory-grid button,.main-content .castle-building button{position:relative!important;inset:auto!important;transform:none;}
+@media(max-width:760px){
+ .app-shell{padding-left:10px!important;padding-right:10px!important;padding-bottom:0!important}
+ .main-layout{padding:8px 0!important;gap:8px!important}
+ .content-area.main-content{gap:14px!important;padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))!important}
+ .scene-header h2{font-size:23px!important}
+ .main-content .section-heading{align-items:flex-start;gap:8px;flex-wrap:wrap}
+ .topbar{align-items:flex-start!important;gap:8px!important;padding:12px 0!important}
+ .top-stats{flex-wrap:wrap!important;justify-content:flex-end;gap:5px!important}
+ .top-stats .stat{padding:5px 7px!important}
+ .top-stats .stat strong{font-size:16px!important}
+ .bottom-nav{position:sticky!important;bottom:0!important;z-index:30!important;flex-shrink:0;}
+}
+@media(max-width:420px){
+ .brand strong{font-size:11px!important;letter-spacing:.5px!important}
+ .version-badge{font-size:10px!important}
+ .top-stats .stat{flex:1 1 auto}
+ .world-accordion>summary{padding:11px 10px;gap:8px}
+ .world-accordion>summary strong{font-size:16px}
+ .accordion-actions{padding:9px!important}
+}
