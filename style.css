@@ -2059,7 +2059,7 @@ body {
 .version-badge { color: #f4edff !important; border-color: #a48fff !important; }
 
 
-/* v30.5 — Modal Blur Isolation & High Contrast Overhaul.
+/* v30.6 — Prior modal rules retained for compatibility; final overrides below.
    Only the overlay backdrop is blurred. Never filter #app, .main-container or body. */
 #app,
 .main-container,
@@ -2220,3 +2220,69 @@ body.modal-open {
   -webkit-backdrop-filter: none !important;
 }
 .version-badge { color: #f4edff !important; border-color: #b8a1ff !important; }
+
+
+/* v30.6 — Radical Modal DOM Re-injection & Blur Annihilation. */
+*,
+*::before,
+*::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+#app,
+.main-container,
+body,
+body.modal-open #app {
+  filter: none !important;
+  -webkit-filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+#rad-modal-root {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  background: rgba(5, 3, 10, 0.8) !important;
+  z-index: 2147483647 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  opacity: 1 !important;
+}
+#rad-modal-root > [role="dialog"] {
+  position: relative !important;
+  width: 88vw !important;
+  max-width: 340px !important;
+  max-height: calc(100dvh - 32px) !important;
+  overflow: auto !important;
+  box-sizing: border-box !important;
+  background: #1e1830 !important;
+  border: 3px solid #b19ffb !important;
+  border-radius: 16px !important;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.99) !important;
+  padding: 24px !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+  isolation: isolate !important;
+}
+#rad-modal-root button {
+  min-height: 44px !important;
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  box-shadow: none !important;
+}
+@supports (height: 100dvh) {
+  #rad-modal-root { height: 100dvh !important; }
+}

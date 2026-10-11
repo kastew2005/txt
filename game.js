@@ -1,4 +1,4 @@
-/* Dark Fantasy RPG v30.5 — Modal Blur Isolation & High Contrast Overhaul. */
+/* Dark Fantasy RPG v30.6 — Radical Modal DOM Re-injection & Blur Annihilation. */
 "use strict";
 (() => {
   const $ = id => document.getElementById(id);
@@ -280,18 +280,91 @@
     return equipped&&equipped.id===item.id?equipped:null;
   }
   function closeItemActionModal(){
-    const modal=$("item-action-modal");
-    if(modal)modal.classList.add("hidden");
+    const root=document.getElementById("rad-modal-root");
+    if(root){if(root._escapeHandler)document.removeEventListener("keydown",root._escapeHandler);root.remove();}
+    const legacyModal=$("item-action-modal");
+    if(legacyModal)legacyModal.classList.add("hidden");
     state.selectedItem=null;
     document.querySelectorAll(".item-card.selected").forEach(card=>card.classList.remove("selected"));
   }
-  function openItemActionModal(item){
+  function showItemModal(item){
     if(!item)return;
+    const previous=document.getElementById("rad-modal-root");
+    if(previous)previous.remove();
+    const legacyModal=$("item-action-modal");
+    if(legacyModal)legacyModal.classList.add("hidden");
     state.selectedItem=item.id;
-    renderItemDetail(item);
-    const modal=$("item-action-modal");
-    if(modal){modal.classList.remove("hidden");const close=$("item-action-close");close?.focus({preventScroll:true});}
+
+    const overlay=document.createElement("div");
+    overlay.id="rad-modal-root";
+    overlay.setAttribute("role","presentation");
+    overlay.style.cssText="position:fixed!important;inset:0!important;top:0!important;left:0!important;width:100vw!important;height:100vh!important;background:rgba(5,3,10,.8)!important;z-index:2147483647!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:16px!important;box-sizing:border-box!important;overflow:auto!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;filter:none!important;-webkit-filter:none!important;opacity:1!important;";
+
+    const content=document.createElement("div");
+    content.setAttribute("role","dialog");
+    content.setAttribute("aria-modal","true");
+    content.setAttribute("aria-label",String(item.name||"Предмет"));
+    content.style.cssText="position:relative!important;box-sizing:border-box!important;background:#1e1830!important;border:3px solid #b19ffb!important;border-radius:16px!important;box-shadow:0 0 50px rgba(0,0,0,.99)!important;padding:24px!important;width:88vw!important;max-width:340px!important;max-height:calc(100dvh - 32px)!important;overflow:auto!important;color:#fff!important;font-family:inherit!important;filter:none!important;-webkit-filter:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;opacity:1!important;transform:none!important;isolation:isolate!important;";
+
+    const heading=document.createElement("h3");
+    heading.textContent=String(item.name||"Неизвестный предмет");
+    heading.style.cssText="color:#fff!important;font-size:20px!important;margin:0 0 10px!important;font-weight:800!important;line-height:1.3!important;";
+    const description=document.createElement("p");
+    description.textContent=String(item.description||item.desc||"Описание отсутствует.");
+    description.style.cssText="color:#e4deff!important;font-size:15px!important;margin:0 0 15px!important;line-height:1.45!important;white-space:pre-wrap!important;";
+    const statsLine=document.createElement("p");
+    const statsText=[item.attack?`Атака +${item.attack}`:"",item.defense?`Защита +${item.defense}`:"",item.heal?`Лечение ${item.heal} HP`:"",item.mana?`Мана +${item.mana}`:"",`Количество: ${Number(item.count)||1}`].filter(Boolean).join(" · ");
+    statsLine.textContent=statsText;
+    statsLine.style.cssText="color:#d5c9ff!important;font-size:14px!important;margin:0 0 18px!important;line-height:1.4!important;";
+    const actions=document.createElement("div");
+    actions.style.cssText="display:flex!important;gap:10px!important;flex-direction:column!important;";
+    const makeButton=(label,background,border,color)=>{
+      const button=document.createElement("button");button.type="button";button.textContent=label;
+      button.style.cssText=`display:block!important;width:100%!important;box-sizing:border-box!important;background:${background}!important;color:${color}!important;border:${border}!important;padding:13px 14px!important;font-size:16px!important;font-weight:800!important;border-radius:10px!important;cursor:pointer!important;opacity:1!important;filter:none!important;-webkit-filter:none!important;`;
+      return button;
+    };
+    let primaryLabel="Надеть / Использовать";
+    if(item.slot)primaryLabel=equippedItemFor(item)?"Снять":"Надеть";
+    else if(item.type==="consumable")primaryLabel="Использовать";
+    else primaryLabel="Осмотреть предмет";
+    const primary=makeButton(primaryLabel,"#e6a100","none","#1a1200");
+    if(item.slot&&!equippedItemFor(item)&&!raceCanUse(item)){primary.textContent="Недоступно для расы";primary.disabled=true;primary.style.opacity=".65";}
+    const sellPrice=Math.max(1,Math.floor((Number(item.price)||2)*.55));
+    const sell=makeButton(`Продать · ${sellPrice} золота`,"#4a3a75","1px solid #b19ffb","#fff");
+    const drop=makeButton("Выбросить предмет","#382b51","1px solid #8d79c6","#fff");
+    const close=makeButton("Закрыть","#4a3a75","1px solid #b19ffb","#fff");
+    actions.append(primary,sell,drop,close);
+    content.append(heading,description,statsLine,actions);
+    overlay.appendChild(content);
+    document.body.appendChild(overlay);
+
+    const closeModal=()=>closeItemActionModal();
+    close.onclick=closeModal;
+    overlay.addEventListener("click",event=>{if(event.target===overlay)closeModal();});
+    primary.onclick=()=>{
+      const live=state.inventory.find(entry=>entry.id===item.id);
+      if(!live){closeModal();return;}
+      if(item.slot){
+        const equipped=equippedItemFor(live);
+        if(equipped){unequip(item.slot);closeModal();renderInventory();updateHUD();saveGame(false);return;}
+        if(raceCanUse(live)&&equipFromInventory(item.id)){closeModal();updateHUD();renderInventory();saveGame(false);}
+        return;
+      }
+      if(item.type==="consumable"){
+        const beforeHp=state.hero?.hp,beforeMp=state.hero?.mp;
+        usePotionFromBag(item.id);
+        if(!state.inventory.some(entry=>entry.id===item.id)||state.hero?.hp!==beforeHp||state.hero?.mp!==beforeMp||item.id==="poison_oil"){closeModal();renderInventory();}
+        return;
+      }
+      description.textContent=String(item.description||item.desc||"Особых действий для этого предмета нет.");
+    };
+    sell.onclick=()=>{const live=state.inventory.find(entry=>entry.id===item.id);if(!live)return;state.hero.gold+=sellPrice;removeItem(item.id);closeModal();updateHUD();renderInventory();toast("Предмет продан");saveGame(false);};
+    drop.onclick=()=>{if(!state.inventory.some(entry=>entry.id===item.id))return;removeItem(item.id);closeModal();updateHUD();renderInventory();toast(`${item.name}: выброшено`);saveGame(false);};
+    overlay._escapeHandler=function escapeHandler(event){if(event.key==="Escape")closeModal();};
+    document.addEventListener("keydown",overlay._escapeHandler);
+    close.focus({preventScroll:true});
   }
+  function openItemActionModal(item){showItemModal(item);}
   function renderInventory(){
     if(!state.hero)return;
     const grid=$("inventory-grid");if(!grid)return;grid.innerHTML="";
