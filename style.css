@@ -2286,3 +2286,65 @@ body.modal-open #app {
 @supports (height: 100dvh) {
   #rad-modal-root { height: 100dvh !important; }
 }
+
+
+/* v30.7 — Ultimate Juice, Filters, Haptics & Citadel Alerts Edition. */
+@keyframes arenaShake {
+  0%,100% { transform: translate3d(0,0,0); }
+  20% { transform: translate3d(-5px,1px,0); }
+  40% { transform: translate3d(5px,-1px,0); }
+  60% { transform: translate3d(-3px,0,0); }
+  80% { transform: translate3d(3px,1px,0); }
+}
+.combat-container.shake-arena { animation: arenaShake 0.2s ease; }
+@media (prefers-reduced-motion: reduce) {
+  .combat-container.shake-arena { animation-duration: 0.01ms; }
+}
+/* High contrast morality aura: values are set from the real, unclamped karma. */
+.morality-stat.karma-aura-gold,
+.profile-panel.karma-aura-gold {
+  box-shadow: 0 0 10px rgba(230,161,0,0.3), inset 0 0 0 1px rgba(230,161,0,0.22) !important;
+}
+.morality-stat.karma-aura-corrupt,
+.profile-panel.karma-aura-corrupt {
+  box-shadow: 0 0 10px rgba(138,43,225,0.4), inset 0 0 0 1px rgba(173,48,93,0.25) !important;
+}
+.notification-dot {
+  display: inline-block !important;
+  width: 8px !important;
+  height: 8px !important;
+  margin-left: 5px !important;
+  vertical-align: middle !important;
+  border-radius: 50% !important;
+  background: #e64b52 !important;
+  box-shadow: 0 0 8px rgba(230,75,82,.65) !important;
+}
+.notification-dot.is-gold { background: #e6a100 !important; box-shadow: 0 0 8px rgba(230,161,0,.75) !important; }
+.notification-dot[hidden] { display: none !important; }
+.recipe-unavailable { filter: grayscale(.82) saturate(.45) !important; opacity: .58 !important; }
+.recipe-unavailable button:disabled { color: #b8b5c2 !important; background: #34313e !important; border-color: #625c70 !important; opacity: 1 !important; }
+.v307-item-comparison .positive { color: #80f0a1 !important; }
+
+/* Mobile PWA viewport lock; scroll is confined to internal game panels/lists. */
+html, body { width: 100%; height: 100%; overflow: hidden !important; overscroll-behavior: none !important; }
+body { position: fixed !important; inset: 0 !important; }
+#app { height: 100vh; height: 100dvh; min-height: 0 !important; overflow: hidden !important; }
+.main-container { min-height: 0 !important; overflow: hidden !important; }
+.tab-view { min-height: 0 !important; overscroll-behavior: contain; }
+#inventory-grid, #combat-log, .combat-log, .event-feed, #tavern-feed { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+#inventory-grid { overflow-y: auto !important; }
+#combat-log, .combat-log, .event-feed, #tavern-feed { overflow-y: auto !important; }
+@supports (height: 100dvh) { #app { height: 100dvh; } }
+
+
+/* v30.7 final polish: isolate combat feedback and improve mobile recipe states. */
+.combat-container { position: relative; transform-origin: center center; }
+.combat-container.shake-arena { animation: arenaShake 0.2s ease !important; }
+/* Never shake the whole app during combat; only the arena receives arenaShake. */
+#app.shake { animation: none !important; }
+.morality-meter.karma-aura-gold { box-shadow: 0 0 10px rgba(230,161,0,0.3) !important; }
+.morality-meter.karma-aura-corrupt { box-shadow: 0 0 10px rgba(138,43,225,0.4) !important; }
+.recipe-unavailable, .forge-gear-card.recipe-unavailable { filter: grayscale(.82) saturate(.45) !important; opacity: .58 !important; }
+.recipe-unavailable button:disabled { color: #b8b5c2 !important; background: #34313e !important; border-color: #625c70 !important; opacity: 1 !important; }
+#tab-inventory .inventory-filters { flex-shrink: 0; }
+#inventory-grid, #combat-log, .combat-log, .event-feed, #tavern-feed { -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
