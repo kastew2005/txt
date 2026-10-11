@@ -2901,3 +2901,65 @@ html,body{min-height:100%;height:auto;overflow-x:hidden;overscroll-behavior-x:no
   #modal .modal-card, #modal .modal-content, #modal-content, .modal-content, .modal-body { max-height:82vh!important; max-height:82dvh!important; padding:16px 14px 24px!important; }
   .more-menu-card { max-height:82vh!important; max-height:82dvh!important; padding:16px 12px 24px!important; }
 }
+
+
+/* v35.2 — hard map/chronicle isolation and strict flex flow */
+#tab-world { display:flex!important; flex-direction:column!important; align-items:stretch!important; gap:16px!important; min-width:0!important; }
+#tab-world .map-section-wrapper {
+  display:flex!important; flex-direction:column!important; gap:12px!important;
+  width:100%!important; min-width:0!important; height:auto!important;
+  background:rgba(20,16,35,.85)!important; border:1px solid rgba(255,215,0,.25)!important;
+  border-radius:16px!important; padding:14px!important; margin:0 0 0!important;
+  box-sizing:border-box!important; position:relative!important; overflow:visible!important;
+}
+#tab-world .travel-map-panel, #tab-world .map-card {
+  display:flex!important; flex-direction:column!important; align-items:stretch!important;
+  gap:12px!important; width:100%!important; height:auto!important; min-height:0!important;
+  margin:0!important; padding:0!important; position:relative!important; inset:auto!important;
+  overflow:visible!important; box-sizing:border-box!important;
+}
+#tab-world .map-canvas-viewport, #tab-world #map-canvas, #tab-world .map-container {
+  display:block!important; flex:0 0 220px!important; width:100%!important; height:220px!important;
+  min-height:220px!important; max-height:220px!important; position:relative!important; inset:auto!important;
+  overflow:auto!important; border-radius:12px!important; box-sizing:border-box!important;
+}
+#tab-world .travel-map { display:block!important; position:relative!important; inset:auto!important; min-width:600px!important; height:100%!important; max-height:none!important; }
+#tab-world .map-footer {
+  position:relative!important; inset:auto!important; transform:none!important; display:flex!important;
+  flex-direction:column!important; align-items:stretch!important; gap:8px!important;
+  width:100%!important; height:auto!important; margin:0!important; padding:0!important;
+}
+#tab-world .map-footer #travel-btn,
+#tab-world .map-footer .map-select-btn,
+#tab-world .map-select-btn {
+  position:relative!important; inset:auto!important; transform:none!important; float:none!important;
+  display:flex!important; flex:0 0 auto!important; width:100%!important; min-width:0!important;
+  min-height:52px!important; height:auto!important; margin:4px 0 0!important;
+  align-items:center!important; justify-content:center!important;
+  background:linear-gradient(135deg,#ffd700 0%,#ffaa00 100%)!important; color:#111!important;
+  font-size:17px!important; font-weight:800!important; border-radius:12px!important;
+  box-shadow:0 4px 15px rgba(255,215,0,.3)!important; box-sizing:border-box!important;
+}
+#tab-world .map-overhaul-hint, #tab-world .anomaly-panel {
+  position:relative!important; inset:auto!important; transform:none!important; width:100%!important;
+  height:auto!important; margin:0!important; box-sizing:border-box!important;
+}
+#tab-world .path-chronicles-flow {
+  display:flex!important; flex-direction:column!important; align-items:stretch!important;
+  gap:14px!important; width:100%!important; min-width:0!important; height:auto!important;
+  margin-top:16px!important; position:relative!important; inset:auto!important;
+  transform:none!important; overflow:visible!important; box-sizing:border-box!important;
+}
+#tab-world .path-chronicles-flow > * {
+  position:relative!important; inset:auto!important; transform:none!important;
+  float:none!important; flex:0 0 auto!important; width:100%!important; min-width:0!important;
+  height:auto!important; max-height:none!important; margin:0!important; box-sizing:border-box!important;
+}
+#tab-world .event-feed, #tab-world .daily-quests, #tab-world .world-actions,
+#tab-world .world-accordions, #tab-world .world-accordion, #tab-world .accordion-actions {
+  position:relative!important; inset:auto!important; transform:none!important; float:none!important;
+  height:auto!important; max-height:none!important; overflow:visible!important;
+}
+#tab-world .world-accordions { display:flex!important; flex-direction:column!important; gap:10px!important; width:100%!important; margin-top:16px!important; }
+#tab-world .accordion-actions { display:flex!important; flex-direction:column!important; gap:10px!important; }
+#tab-world .accordion-actions .action-card { width:100%!important; min-height:54px!important; height:auto!important; position:relative!important; inset:auto!important; }
