@@ -1,4 +1,4 @@
-/* Dark Fantasy RPG v30.4 — Modal DOM Architecture & Blur Separation Fix. */
+/* Dark Fantasy RPG v30.5 — Modal Blur Isolation & High Contrast Overhaul. */
 "use strict";
 (() => {
   const $ = id => document.getElementById(id);
@@ -11,6 +11,21 @@
     });
   }
   detachModalRoots();
+  // Keep a semantic body state for modal visibility, but never blur/dim the app itself.
+  function syncModalOpenState(){
+    const ids=["modal","item-action-modal"];
+    const isOpen=ids.some(id=>{const node=$(id);return !!node&&!node.classList.contains("hidden");});
+    document.body.classList.toggle("modal-open",isOpen);
+  }
+  function installModalIsolation(){
+    ["modal","item-action-modal"].forEach(id=>{
+      const node=$(id);
+      if(!node)return;
+      new MutationObserver(syncModalOpenState).observe(node,{attributes:true,attributeFilter:["class"]});
+    });
+    syncModalOpenState();
+  }
+  installModalIsolation();
   // Defensive fallback: ensure the hero portrait remains visible if markup is altered by a stale cache.
   function ensureCombatAvatar(){
     const host=$("player-combatant")?.querySelector(".fighter-icon");
