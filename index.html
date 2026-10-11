@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <meta name="theme-color" content="#171326">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="description" content="Пепел Королевства v27.4 — Quest Text & UI Polish, офлайн Dark Fantasy PWA.">
+  <meta name="description" content="Пепел Королевства v30.0 — Ultimate Progression, Skill Tree & Endless Abyss, офлайн Dark Fantasy PWA.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Пепел Королевства">
@@ -14,7 +14,7 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#171326">
   <meta name="referrer" content="no-referrer">
-  <title>Пепел Королевства — v27.4 Quest Text & UI Polish</title>
+  <title>Пепел Королевства — v30.0 Ultimate Progression</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -44,6 +44,7 @@
         <label>Выбери происхождение</label>
         <div id="race-options" class="race-grid"></div>
         <div id="race-detail" class="race-detail"></div>
+        <label class="tutorial-optin" for="hardcore-optin"><input id="hardcore-optin" type="checkbox"> <span><strong>Хардкор · Пермасмерть</strong><small>Гибель завершает забег и открывает Наследие</small></span></label>
         <label class="tutorial-optin" for="tutorial-optin"><input id="tutorial-optin" type="checkbox" checked> <span><strong>Пройти обучение</strong><small>Рекомендуется для новых игроков</small></span></label>
         <button id="begin-btn" class="btn btn-gold wide">Начать путь <span>→</span></button>
         <p class="tiny muted">Прогресс автоматически сохраняется в этом браузере.</p>
@@ -103,7 +104,7 @@
             <div class="arena panel">
               <div class="arena-top"><div><p class="eyebrow">ПОШАГОВОЕ СРАЖЕНИЕ</p><h3 id="arena-title">На арене тихо</h3></div><div class="arena-top-actions"><span class="arena-status" id="arena-status">ОЖИДАНИЕ</span><button id="combat-speed-btn" class="btn btn-speed" aria-pressed="false" title="Переключить скорость боя (клавиша F)">Скорость боя · 1×</button></div></div>
               <div class="combatants">
-                <div id="player-combatant" class="combatant player-combatant"><div class="fighter-icon"><svg class="ui-icon fighter-svg"><use href="#profile"/></svg></div><strong id="fighter-player-name">Странник</strong><div class="combat-hp"><i id="fighter-player-hp"></i></div><small id="fighter-player-hp-text">—</small><div class="combat-mp"><i id="fighter-player-mp"></i></div><small id="fighter-player-mp-text">—</small></div>
+                <div id="player-combatant" class="combatant player-combatant player-card"><div class="fighter-icon" aria-label="Аватар героя"><svg class="ui-icon fighter-svg combat-hero-avatar" viewBox="0 0 64 64" role="img" aria-label="Рыцарь в шлеме"><path class="avatar-cape" d="M12 57 17 36 24 29H40L47 36 52 57Z"/><path class="avatar-helmet" d="M18 28V20C18 10 24 5 32 5S46 10 46 20V28L40 35H24Z"/><path class="avatar-visor" d="M21 22H43L40 29H24Z"/><path class="avatar-visor-slit" d="M25 25H39"/><path class="avatar-crest" d="M27 7 32 1 37 7"/></svg></div><strong id="fighter-player-name">Странник</strong><div class="combat-hp"><i id="fighter-player-hp"></i></div><small id="fighter-player-hp-text">—</small><div class="combat-mp"><i id="fighter-player-mp"></i></div><small id="fighter-player-mp-text">—</small></div>
                 <div class="versus">VS</div>
                 <div id="enemy-combatant" class="combatant enemy-combatant"><div id="enemy-icon" class="fighter-icon"><svg class="ui-icon fighter-svg"><use href="#skull"/></svg></div><strong id="enemy-name">Враг</strong><div class="combat-hp"><i id="enemy-hp"></i></div><small id="enemy-hp-text">—</small></div>
               </div>
@@ -134,7 +135,7 @@
             </div>
           </div>
           <div id="tab-profile" class="tab-view hidden">
-            <div class="panel profile-panel"><p class="eyebrow">ЛИЧНОЕ ДЕЛО</p><div id="profile-race-avatar" class="profile-race-avatar" aria-label="Расовый портрет"></div><h3 id="profile-name">—</h3><div class="profile-utility-actions"><button id="save-btn" class="btn btn-ghost" type="button">Сохранить игру</button><button id="reset-btn" class="text-button" type="button">⚠️ Сбросить прогресс и начать заново</button></div><p id="profile-lore" class="muted">—</p><div class="paper-doll-profile" id="profile-paper-doll"></div><div class="profile-grid" id="profile-grid"></div><h4>Состояние</h4><div id="injury-status" class="injury-list"></div><h4>Репутация фракций</h4><div id="reputation-list"></div><h4>Путь судьбы</h4><div id="destiny-box" class="destiny-box"></div></div>
+            <div class="panel profile-panel"><p class="eyebrow">ЛИЧНОЕ ДЕЛО</p><div id="profile-race-avatar" class="profile-race-avatar" aria-label="Расовый портрет"></div><h3 id="profile-name">—</h3><div class="profile-utility-actions"><button id="save-btn" class="btn btn-ghost" type="button">Сохранить игру</button><button id="reset-btn" class="text-button" type="button">⚠️ Сбросить прогресс и начать заново</button></div><p id="profile-lore" class="muted">—</p><div class="paper-doll-profile" id="profile-paper-doll"></div><div class="profile-grid" id="profile-grid"></div><h4>Состояние</h4><div id="injury-status" class="injury-list"></div><h4>Репутация фракций</h4><div id="reputation-list"></div><h4>Путь судьбы</h4><div id="destiny-box" class="destiny-box"></div><div class="profile-utility-actions"><button class="btn btn-gold" type="button" data-tab="skills">🌳 Открыть таланты и дерево навыков</button><button class="btn btn-ghost" type="button" data-tab="legacy">✧ Наследие и постоянные улучшения</button></div></div>
           </div>
 
 
@@ -151,8 +152,17 @@
             <div class="panel feature-panel"><p class="eyebrow">РЕМЕСЛО И АЛХИМИЯ</p><h3>Лагерная мастерская</h3><p class="muted">Собирай травы и руду в путешествиях, затем создавай полезные расходники.</p><div class="resource-row" id="resource-bag"></div><div id="recipe-list" class="feature-grid"></div><button class="btn btn-ghost" id="gather-resources">Собрать ресурсы на карте</button></div>
           </div>
 
+          <div id="tab-abyss" class="tab-view hidden">
+            <div class="panel feature-panel"><p class="eyebrow">БЕСКОНЕЧНЫЙ СПУСК</p><h3>Врата Бездны</h3><p class="muted">Каждый этаж усиливает противников. Каждый пятый этаж охраняет фазовый элитный босс.</p><div id="abyss-status" class="abyss-status">Забег ещё не начат.</div><div id="abyss-rewards" class="resource-row"></div><div id="abyss-actions" class="detail-actions"><button id="abyss-start" class="btn btn-danger">Начать спуск</button></div></div>
+          </div>
+          <div id="tab-bestiary" class="tab-view hidden">
+            <div class="panel feature-panel"><p class="eyebrow">ДНЕВНИК ОХОТНИКА</p><h3>Бестиарий и трофеи</h3><p class="muted">Изучай врагов. Пороги 5, 15 и 30 побед открывают постоянный бонус урона против этого вида.</p><div id="bestiary-list" class="feature-grid"></div></div>
+          </div>
+          <div id="tab-legacy" class="tab-view hidden">
+            <div class="panel feature-panel"><p class="eyebrow">НАСЛЕДИЕ СТРАННИКА</p><h3>Осколки душ</h3><p id="legacy-status" class="muted">Постоянные улучшения наследия сохраняются между забегами.</p><div id="legacy-actions" class="feature-grid"></div></div>
+          </div>
           <div id="tab-castle" class="tab-view hidden">
-            <div class="panel feature-panel"><p class="eyebrow">ВОЗРОЖДЕНИЕ КОРОЛЕВСТВА</p><div id="citadel-visual" class="citadel-visual" aria-label="Иллюстрация цитадели по уровню развития"></div><div class="citadel-stage-copy"><strong id="citadel-stage-title">Разрушенные руины</strong><span id="citadel-stage-desc">Восстанови твердыню из пепла.</span></div><div class="section-heading"><h3>Цитадель</h3><span class="muted">Золото: <strong id="castle-gold">0</strong></span></div><button id="citadel-rest-btn" class="btn btn-gold" type="button">Отдохнуть и исцелить травмы · 15 золота</button><p class="muted">Восстанови пять ключевых сооружений. Каждое здание имеет три уровня, постоянные бонусы и стоимость, зависящую от состояния рынка.</p><p id="castle-income" class="castle-income">Пассивный доход сокровищницы.</p><div id="castle-buildings" class="feature-grid"></div><div class="side-divider"></div><h3>Наёмники</h3><div id="mercenary-panel" class="mercenary-panel"></div><div class="side-divider"></div><h3>Торговец у ворот</h3><p id="market-event" class="muted">Цены меняются вместе с событиями королевства.</p><div id="castle-market" class="feature-grid"></div></div>
+            <div class="panel feature-panel"><p class="eyebrow">ВОЗРОЖДЕНИЕ КОРОЛЕВСТВА</p><div id="citadel-visual" class="citadel-visual" aria-label="Иллюстрация цитадели по уровню развития"></div><div class="citadel-stage-copy"><strong id="citadel-stage-title">Разрушенные руины</strong><span id="citadel-stage-desc">Восстанови твердыню из пепла.</span></div><div class="section-heading"><h3>Цитадель</h3><span class="muted">Золото: <strong id="castle-gold">0</strong></span></div><button id="citadel-rest-btn" class="btn btn-gold" type="button">Отдохнуть и исцелить травмы · 15 золота</button><p class="muted">Восстанови пять ключевых сооружений. Каждое здание имеет три уровня, постоянные бонусы и стоимость, зависящую от состояния рынка.</p><p id="castle-income" class="castle-income">Построй сокровищницу, чтобы получать +5 золота каждые 3 перехода по карте.</p><div id="castle-buildings" class="feature-grid"></div><div class="side-divider"></div><h3>Алхимическая лавка</h3><p class="muted">Создавай лечебные зелья, настои маны и ядовитое масло из собранных ингредиентов.</p><div id="citadel-alchemy-recipes" class="feature-grid citadel-alchemy-grid"></div><div class="side-divider"></div><h3>Кузница · Перековка и сокеты</h3><p class="muted">Улучшай надетое оружие и броню за золото, пробивай гнёзда и инкрустируй созданные руны.</p><div id="citadel-forge-panel" class="citadel-forge-panel"></div><div class="side-divider"></div><h3>Руны в рюкзаке</h3><div id="citadel-rune-panel" class="resource-row"></div><div class="side-divider"></div><h3>Наёмники</h3><div id="mercenary-panel" class="mercenary-panel"></div><div class="side-divider"></div><h3>Торговец у ворот</h3><p id="market-event" class="muted">Цены меняются вместе с событиями королевства.</p><div id="castle-market" class="feature-grid"></div></div>
           </div>
           <div id="tab-tavern" class="tab-view hidden">
             <div class="tavern-scene panel"><p class="eyebrow">«СЛОМАННАЯ КОРОНА»</p><h3>Таверна на краю мира</h3><p>Запах мокрой шерсти, дешёвого эля и старых тайн. Хозяин смотрит на тебя так, словно уже знает конец истории.</p><div class="tavern-options"><button id="rest-btn" class="btn btn-gold">Отдохнуть — 12 золота</button><button id="rumor-btn" class="btn btn-ghost">Выслушать слух — 5 золота</button><button id="tavern-event-btn" class="btn btn-ghost">Заговорить с незнакомцем</button></div></div>
@@ -177,6 +187,9 @@
             <button class="more-menu-item" data-more-tab="pets"><span>♧</span><strong>🐕 Спутники</strong><small>Питомцы и наёмники</small></button>
             <button class="more-menu-item" data-more-tab="dungeon"><span>⌘</span><strong>💀 Подземелья</strong><small>Исследование катакомб</small></button>
             <button class="more-menu-item" data-more-tab="craft"><span>⚗</span><strong>🧪 Алхимия &amp; Руны</strong><small>Крафт и сокеты</small></button>
+            <button class="more-menu-item" data-more-tab="abyss"><span>♜</span><strong>💀 Врата Бездны</strong><small>Бесконечные этажи</small></button>
+            <button class="more-menu-item" data-more-tab="bestiary"><span>📖</span><strong>🐉 Бестиарий</strong><small>Трофеи и слабости</small></button>
+            <button class="more-menu-item" data-more-tab="legacy"><span>✧</span><strong>🕯 Наследие</strong><small>Осколки душ и улучшения</small></button>
             <button class="more-menu-item" id="save-manager-btn"><span>▤</span><strong>💾 Сохранения</strong><small>Экспорт, импорт и сброс</small></button>
             <button class="more-menu-item" id="tutorial-replay-btn"><span>✧</span><strong>🎓 Пройти обучение заново</strong><small>Повторить основы управления</small></button>
           </div>

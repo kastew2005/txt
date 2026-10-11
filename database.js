@@ -1,8 +1,8 @@
-/* RPG database · Active Skills & Multi-Phase Bosses v25.0 */
+/* RPG database · Citadel Crafting, Narrative Events & Web Audio SFX v29.0 */
 /* База данных мира. Все предметы и события описаны здесь, игровая логика находится в game.js. */
 "use strict";
 const RPG_DB = {
-  version: "25.0",
+  version: "30.0",
   races: [
     {id:"human",name:"Человек",icon:"human",summary:"Универсальность и воля",lore:"Люди не сильнее древних рас, но их упорство меняет ход истории.",mods:{hp:0,str:0,dodge:0,crit:0,gold:15},detail:"+15 стартового золота. Без слабых сторон."},
     {id:"elf",name:"Эльф",icon:"leaf",summary:"Ловкость и точность",lore:"Последние дети старых лесов умеют видеть слабые места даже в темноте.",mods:{hp:-8,str:-1,dodge:8,crit:7,gold:0},detail:"+8% уворота, +7% крит. шанса, −8 здоровья, −1 сила."},
@@ -38,7 +38,13 @@ const RPG_DB = {
     bandage:{id:"bandage",name:"Полевой бинт",icon:"potion",type:"consumable",heal:8,price:10,rarity:"rare",description:"Лечит одну боевую травму и восстанавливает немного здоровья."},
     heart_of_ash:{id:"heart_of_ash",name:"Сердце Пепла",icon:"relic",type:"relic",attack:9,defense:0,price:160,rarity:"cursed",stepDamage:2,description:"Проклятая реликвия: +9 атаки, но каждый шаг по карте отнимает 2 HP. Не надевается — действует, пока находится в рюкзаке."},
     thorn_crown:{id:"thorn_crown",name:"Терновая корона",icon:"helmet",type:"helmet",slot:"helmet",attack:5,defense:4,price:190,rarity:"cursed",stepDamage:1,description:"Черно-красная реликвия: усиливает атаку и защиту, но каждый переход по карте причиняет 1 урон."},
-    saint_vessel:{id:"saint_vessel",name:"Сосуд святого",icon:"relic",type:"relic",price:120,rarity:"legendary",description:"Реликвия Света. Усиливает лечение и даёт небольшой бонус к защите, пока хранится в сумке."}
+    saint_vessel:{id:"saint_vessel",name:"Сосуд святого",icon:"relic",type:"relic",price:120,rarity:"legendary",description:"Реликвия Света. Усиливает лечение и даёт небольшой бонус к защите, пока хранится в сумке."},
+    void_root:{id:"void_root",name:"Корень Бездны",icon:"herb",type:"material",price:9,rarity:"rare",description:"Чёрный корень с холодным свечением. Нужен для сильной алхимии."},
+    empty_vial:{id:"empty_vial",name:"Пустая склянка",icon:"potion",type:"material",price:3,rarity:"common",description:"Чистая стеклянная склянка для алхимических смесей."},
+    poison_oil:{id:"poison_oil",name:"Ядовитое масло",icon:"potion",type:"consumable",price:24,rarity:"rare",attackBuff:0.25,buffTurns:3,description:"Нанеси масло на оружие: +25% урона на следующие 3 удара."},
+    blood_rune:{id:"blood_rune",name:"Руна Крови",icon:"cursed_relic",type:"rune",price:42,rarity:"epic",socketAttack:3,description:"Инкрустированная руна даёт +3 атаки экипировке."},
+    void_rune:{id:"void_rune",name:"Руна Бездны",icon:"cursed_relic",type:"rune",price:48,rarity:"epic",socketDefense:2,socketMaxHp:8,description:"Инкрустированная руна даёт +2 защиты и +8 максимального здоровья."},
+    lightning_rune:{id:"lightning_rune",name:"Руна Молнии",icon:"gold_charm",type:"rune",price:52,rarity:"legendary",socketAttack:2,socketCrit:5,description:"Инкрустированная руна даёт +2 атаки и +5% критического шанса."}
   },
   monsters: [
     {id:"wolf",name:"Голодный волк",icon:"wolf",hp:28,attack:5,defense:1,xp:12,gold:[4,10],dodge:8,description:"Зверь с рёбрами, проступающими сквозь шкуру."},
@@ -51,6 +57,22 @@ const RPG_DB = {
     {id:"bandit_ambush",title:"Засада разбойников",icon:"sword",text:"Из-за поваленной телеги выходят трое разбойников. Старший крутит нож и требует плату за проход.",choices:[{id:"fight",label:"Драться",tone:"danger",kind:"fight",result:"Ты не уступил дорогу головорезам."},{id:"pay",label:"Откупиться · 12 золота",tone:"gold",kind:"pay",amount:12,karma:-1,rep:{common:-1},result:"Разбойники забрали плату и скрылись в кустах."},{id:"flee",label:"Сбежать",tone:"ghost",kind:"flee",result:"Ты свернул с тракта и ушёл от засады."}]},
     {id:"wounded_traveler",title:"Раненый путник",icon:"heart",text:"У обочины лежит израненный странник. Он просит о помощи, но рядом валяется его раскрытая сумка.",choices:[{id:"help",label:"Помочь зельем",tone:"gold",kind:"help_potion",karma:3,rep:{common:4},result:"Путник выпил зелье, поблагодарил тебя и рассказал о безопасной тропе."},{id:"rob",label:"Ограбить",tone:"danger",kind:"rob",karma:-4,gold:18,rep:{common:-8},result:"Ты забрал монеты и оставил путника в пыли."},{id:"pass",label:"Пройти мимо",tone:"ghost",kind:"pass",karma:0,result:"Ты продолжил путь, не вмешиваясь в чужую беду."}]},
     {id:"abandoned_altar",title:"Заброшенный алтарь",icon:"sigil",text:"Между корнями выступает древний алтарь. На камне мерцают два знака: рассвет и чёрное солнце.",choices:[{id:"pray",label:"Помолиться · +Карма",tone:"gold",kind:"pray",karma:4,rep:{common:2},result:"Тёплый свет касается лица. Вера укрепила твою защиту."},{id:"desecrate",label:"Осквернить · +Скверна и золото",tone:"danger",kind:"desecrate",karma:-5,gold:22,rep:{common:-6},result:"Ты вырвал из алтаря тёмные монеты. Холодная сила проснулась внутри."}]}
+  ],
+  narrativeEvents: [
+    {id:"corrupted_altar",title:"Осквернённый алтарь",icon:"sigil",text:"На развилке стоит алтарь из чёрного камня. В трещинах мерцает багровый свет, а с высеченных лиц стекает тёплая смола. Кажется, алтарь ждёт решения.",choices:[
+      {label:"Помолиться",kind:"altar_pray",result:"Ты склонил голову перед забытыми именами."},
+      {label:"Осквернить алтарь",kind:"altar_desecrate",result:"Камень треснул, и из него выпала древняя руна."},
+      {label:"Пройти мимо",kind:"leave",result:"Ты оставил алтарь позади, не тревожа его покой."}
+    ]},
+    {id:"abandoned_cart",title:"Заброшенная повозка",icon:"scroll",text:"У дороги лежит перевёрнутая повозка. Колесо всё ещё вращается, хотя ветра нет. Под брезентом слышится тихий звон монет — и ещё что-то шевелится в темноте.",choices:[
+      {label:"Обыскать повозку",kind:"cart_search",result:"Ты осторожно заглянул под порванный брезент."},
+      {label:"Сжечь повозку",kind:"cart_burn",result:"Пламя пожирает брезент и освобождает дорогу."},
+      {label:"Не рисковать",kind:"leave",result:"Ты решил не испытывать судьбу и пошёл дальше."}
+    ]},
+    {id:"pilgrim_note",title:"Записка паломника",icon:"scroll",text:"В расщелине камня спрятана записка: «Если дорога требует цену, спроси, кто её назначил». На обороте нарисован знак сокровищницы.",choices:[
+      {label:"Следовать подсказке",kind:"pilgrim_follow",result:"Под камнем ты находишь припасы и несколько монет."},
+      {label:"Оставить записку",kind:"leave",result:"Ты оставил чужие слова следующему путнику."}
+    ]}
   ],
   events: [
     {id:"beggar",title:"Старик у обочины",icon:"human",text:"Слепой старик просит монету и называет тебя именем, которого ты никогда не слышал.",choices:[{label:"Дать 8 золота",kind:"pay",amount:8,karma:3,rep:{common:2},result:"Старик исчезает, оставив благословение. Дорога кажется чуть светлее."},{label:"Пройти мимо",kind:"ignore",karma:-1,result:"Старик не оборачивается. Но ты слышишь за спиной тихий смешок."}]},
@@ -93,9 +115,30 @@ const RPG_DB = {
     {id:"wisp",name:"Огненный огонёк",icon:"🔥",desc:"Усиливает магию: +2 к атаке.",buff:{attack:2},unlock:5}
   ],
   recipes: [
-    {id:"healing_potion",name:"Сварить лечебное зелье",desc:"2 лунные травы → лечебное зелье",cost:{moon_herb:2},result:"healing_potion",count:1},
-    {id:"mana_tonic",name:"Настой синей луны",desc:"1 лунная трава + 1 пепельная пыль → настой маны",cost:{moon_herb:1,ember_dust:1},result:"mana_tonic",count:1},
-    {id:"iron_ore",name:"Переплавить железную руду",desc:"3 железные руды → 18 золота",cost:{iron_ore:3},result:"gold",count:18}
+    {id:"healing_potion",name:"Сварить лечебное зелье",desc:"2 лунные травы + 1 склянка → лечебное зелье",station:"alchemy",cost:{moon_herb:2,empty_vial:1},result:"healing_potion",count:1},
+    {id:"mana_tonic",name:"Настой синей луны",desc:"1 лунная трава + 1 пепельная пыль + 1 склянка → настой маны",station:"alchemy",cost:{moon_herb:1,ember_dust:1,empty_vial:1},result:"mana_tonic",count:1},
+    {id:"poison_oil",name:"Ядовитое масло",desc:"1 Корень Бездны + 1 пепельная пыль + 1 склянка → масло на 3 удара",station:"alchemy",cost:{void_root:1,ember_dust:1,empty_vial:1},result:"poison_oil",count:1},
+    {id:"blood_rune",name:"Руна Крови",desc:"2 пепельные пыли + 1 Корень Бездны → руна атаки",station:"rune",cost:{ember_dust:2,void_root:1},result:"blood_rune",count:1},
+    {id:"void_rune",name:"Руна Бездны",desc:"2 Корня Бездны + 1 железная руда → защитная руна",station:"rune",cost:{void_root:2,iron_ore:1},result:"void_rune",count:1},
+    {id:"lightning_rune",name:"Руна Молнии",desc:"2 пепельные пыли + 1 железная руда → руна критического удара",station:"rune",cost:{ember_dust:2,iron_ore:1},result:"lightning_rune",count:1},
+    {id:"iron_ore",name:"Переплавить железную руду",desc:"3 железные руды → 18 золота",station:"forge",cost:{iron_ore:3},result:"gold",count:18}
+  ],
+  v30Talents: [
+    {id:"blood_edge",tree:"blood",name:"Кровавое лезвие",icon:"🗡️",desc:"+4% физического урона за ранг",max:5},
+    {id:"blood_thirst",tree:"blood",name:"Жажда крови",icon:"🩸",desc:"Вампиризм 2% за ранг",max:3},
+    {id:"dark_focus",tree:"dark",name:"Фокус Бездны",icon:"🔮",desc:"Заклинания сильнее на 5% за ранг",max:5},
+    {id:"mana_economy",tree:"dark",name:"Тихое течение",icon:"🌑",desc:"Стоимость заклинаний ниже на 1 MP за ранг",max:3},
+    {id:"guardian_vitality",tree:"survival",name:"Стойкость стража",icon:"🛡️",desc:"+8 максимального HP за ранг",max:5},
+    {id:"curse_resist",tree:"survival",name:"Непокорённая воля",icon:"✴️",desc:"Снижает риск негативных эффектов",max:3}
+  ],
+  abyssEnemies: [
+    {id:"skeleton",name:"Костяной страж",icon:"skeleton",hp:38,attack:7,defense:1,xp:18,gold:[8,15],dodge:4,description:"Старый воин, чьи кости скреплены пеплом."},
+    {id:"wraith",name:"Безликий шёпот",icon:"wraith",hp:32,attack:9,defense:0,xp:22,gold:[10,18],dodge:12,description:"Тень, которая помнит каждое имя."},
+    {id:"knight",name:"Рыцарь без знамени",icon:"knight",hp:54,attack:10,defense:4,xp:28,gold:[12,22],dodge:5,description:"Доспехи служат хозяину, которого давно нет."}
+  ],
+  v30Events: [
+    {id:"corrupted_altar",title:"Осквернённый алтарь",icon:"sigil",text:"На чёрном камне мерцает имя давно забытого бога. Алтарь ждёт, что ты выберешь.",choices:[{label:"🙏 Помолиться",kind:"altar_pray",result:"Ты доверился древней силе."},{label:"☠ Осквернить",kind:"altar_desecrate",result:"Ты забрал силу алтаря себе."},{label:"Пройти мимо",kind:"pass",result:"Ты не стал тревожить алтарь."}]},
+    {id:"abandoned_cart",title:"Заброшенная повозка",icon:"chest",text:"Колесо сломано, следы обрываются в грязи. Под брезентом что-то тихо звенит.",choices:[{label:"🔎 Обыскать",kind:"cart_search",result:"Ты исследовал повозку."},{label:"🔥 Сжечь",kind:"cart_burn",result:"Огонь очистил дорогу."},{label:"Оставить в покое",kind:"pass",result:"Ты продолжил путь."}]}
   ],
   quests: [
     {id:"first_blood",name:"Первая кровь",description:"Победи любого врага на дороге.",goal:1,reward:{gold:15,xp:20},type:"kills"},
