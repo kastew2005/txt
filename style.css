@@ -1614,3 +1614,73 @@ body {
 @media (max-width: 760px) {
   #tab-world #travel-map { min-height: 180px !important; width: 100% !important; }
 }
+
+
+/* v27.4 — Quest Text & UI Polish */
+/* Let Chronicle entries grow to fit the complete quest description. */
+#event-feed {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  display: grid !important;
+  grid-auto-rows: auto;
+  align-content: start;
+}
+#event-feed .event-entry,
+.event-feed .event-entry {
+  height: auto !important;
+  min-height: 60px !important;
+  max-height: none !important;
+  padding: 12px !important;
+  overflow: visible !important;
+  box-sizing: border-box;
+  align-items: flex-start;
+}
+#event-feed .event-entry p,
+.event-feed .event-entry p {
+  display: block !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  -webkit-line-clamp: unset !important;
+  -webkit-box-orient: initial !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  line-height: 1.45 !important;
+}
+/* Compact, clean weather badge without a stray decorative glyph. */
+#weather-display.weather {
+  padding: 4px 10px !important;
+  border-radius: 12px !important;
+  background: rgba(255,255,255,0.08) !important;
+  border: 1px solid rgba(255,255,255,0.09) !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  min-width: 0;
+}
+#weather-display::before,
+#weather-display::after { content: none !important; display: none !important; }
+#weather-display #phase-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#weather-display #weather-label { flex: 0 0 auto; white-space: nowrap; margin-left: 0; }
+/* The project calls this row .map-footer; style it as the requested path-selection bar. */
+#tab-world .map-footer,
+#tab-world .path-selection-bar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px;
+  padding: 10px 14px !important;
+  box-sizing: border-box;
+  min-width: 0;
+}
+#tab-world .map-footer #map-location-status,
+#tab-world .path-selection-bar > :first-child { min-width: 0; overflow-wrap: anywhere; }
+#tab-world .map-footer #travel-btn,
+#tab-world .path-selection-bar button { flex: 0 0 auto; }
+@media (max-width: 380px) {
+  #tab-world .map-footer, #tab-world .path-selection-bar { flex-direction: row !important; align-items: center !important; padding: 8px 10px !important; }
+  #tab-world .map-footer #travel-btn { width: auto !important; max-width: 54%; white-space: normal; }
+}
