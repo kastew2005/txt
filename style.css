@@ -2348,3 +2348,161 @@ body { position: fixed !important; inset: 0 !important; }
 .recipe-unavailable button:disabled { color: #b8b5c2 !important; background: #34313e !important; border-color: #625c70 !important; opacity: 1 !important; }
 #tab-inventory .inventory-filters { flex-shrink: 0; }
 #inventory-grid, #combat-log, .combat-log, .event-feed, #tavern-feed { -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+
+
+/* v30.8 — Gorgeous Dark Fantasy Visual Overhaul
+   Premium gold controls, violet-black surfaces, engraved headings, and mobile-safe spacing. */
+:root {
+  --v308-gold: #d4af37;
+  --v308-gold-bright: #ffdf73;
+  --v308-gold-shadow: rgba(212,175,55,.30);
+  --v308-violet: #6b53a0;
+  --v308-panel: #1f1933;
+  --v308-panel-deep: #151124;
+  --v308-text: #eee8ff;
+}
+
+/* Premium primary controls. Preserve named danger/ghost variants where they communicate meaning. */
+button, .btn-primary, .action-btn, .btn-gold,
+.combat-actions .btn:not(.btn-ghost):not(.btn-danger),
+.citadel-actions .btn:not(.btn-ghost):not(.btn-danger) {
+  background: linear-gradient(135deg, #d4af37 0%, #aa771c 100%) !important;
+  color: #1a1209 !important;
+  border: 1px solid #ffdf73 !important;
+  box-shadow: 0 4px 15px rgba(212,175,55,.3), inset 0 1px 0 rgba(255,255,255,.4) !important;
+  font-weight: 800 !important;
+  letter-spacing: .5px !important;
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease, border-color .2s ease !important;
+}
+button:active:not(:disabled), .btn-primary:active:not(:disabled),
+.btn-gold:active:not(:disabled), .action-btn:active:not(:disabled) {
+  transform: scale(.97) !important;
+  box-shadow: 0 2px 8px rgba(212,175,55,.2), inset 0 1px 2px rgba(0,0,0,.3) !important;
+}
+button:hover:not(:disabled), .btn-primary:hover:not(:disabled), .action-btn:hover:not(:disabled) {
+  filter: brightness(1.08) saturate(1.08);
+}
+
+/* Secondary controls use amethyst enamel. Keep tabs and text-only controls distinct. */
+.btn-secondary,
+button:not(.btn-primary):not(.btn-gold):not(.btn-danger):not(.action-btn):not(.btn-execute):not(.btn-potion-slot):not(.btn-rage):not(.nav-tab):not(.text-button):not(.modal-close):not(.filter-btn):not(.inventory-filter):not([data-combat-action]) {
+  background: linear-gradient(135deg, #2b2342 0%, #1d1630 100%) !important;
+  color: #e2dcff !important;
+  border: 1px solid #6b53a0 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.1) !important;
+}
+.btn-danger, button.btn-danger {
+  background: linear-gradient(135deg,#8d393f 0%,#4b1e2b 100%) !important;
+  color: #fff0f0 !important;
+  border-color: #c96a72 !important;
+  box-shadow: 0 4px 13px rgba(120,24,40,.28), inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+.btn-ghost, button.btn-ghost {
+  background: linear-gradient(135deg,#2b2342 0%,#1d1630 100%) !important;
+  color: #e2dcff !important;
+  border-color: #6b53a0 !important;
+}
+button:disabled, .btn:disabled {
+  filter: grayscale(.72) brightness(.62) !important;
+  box-shadow: none !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* A polished edge highlight and comfortable corners for touch targets. */
+.btn, button, .action-btn, .action-card, .feature-card, .spell-card,
+.citadel-card, .citadel-craft-card, .forge-gear-card, .shop-item,
+.inventory-slot, .item-cell, .equip-slot, .event-entry {
+  border-radius: 10px;
+}
+.btn, .btn-primary, .btn-gold, .action-btn, .combat-actions button {
+  min-height: 42px;
+}
+
+/* Noble charcoal-plum cards with restrained gold/violet borders. */
+.card, .citadel-card, .inventory-slot, .shop-item,
+.feature-card, .citadel-craft-card, .forge-gear-card,
+.item-cell, .equip-slot, .inventory-panel, .equipment-panel,
+.profile-panel, .tavern-scene, .arena, .panel, .action-card,
+.mutation-card, .anomaly-card, .spell-card, .room-choice {
+  background: linear-gradient(145deg, #1f1933 0%, #151124 100%);
+  border-color: rgba(139,114,222,.25);
+  box-shadow: 0 8px 24px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.025);
+  border-radius: 14px;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.card:hover, .citadel-card:hover, .feature-card:hover,
+.citadel-craft-card:hover, .forge-gear-card:hover, .shop-item:hover,
+.action-card:hover, .spell-card:hover:not(:disabled), .room-choice:hover {
+  border-color: rgba(212,175,55,.5) !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,.5), 0 0 16px rgba(212,175,55,.055);
+}
+.event-entry {
+  background: linear-gradient(110deg, rgba(43,35,66,.9), rgba(21,17,36,.98));
+  border-color: rgba(139,114,222,.2);
+  border-left: 2px solid rgba(212,175,55,.7);
+}
+
+/* Engraved headings and clearer information hierarchy. */
+h1, h2, h3, h4, .scene-header h2, .section-heading h3,
+.start-panel h1, .banner-copy h3, .tavern-scene h3, .arena h3,
+.profile-panel h3, .side-rail h2 {
+  color: #f1e7ca;
+  text-shadow: 0 1px 0 rgba(255,255,255,.08), 0 2px 12px rgba(212,175,55,.12);
+}
+.eyebrow, .section-heading > span, .arena-status {
+  text-shadow: 0 0 12px rgba(212,175,55,.18);
+}
+.brand strong { color: #f5e9c9; }
+.version-badge {
+  display: inline-block;
+  padding: 3px 7px;
+  margin-left: 5px;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg,#3a2a50,#1c172b) !important;
+  border: 1px solid rgba(212,175,55,.75) !important;
+  color: #ffdf73 !important;
+  font-size: 10px !important;
+  letter-spacing: .7px;
+  box-shadow: 0 0 12px rgba(212,175,55,.12), inset 0 1px 0 rgba(255,255,255,.1);
+}
+
+/* Give the layout a little breathing room without inflating the phone viewport. */
+.main-layout { gap: 24px; }
+.section-heading { margin-top: 28px; margin-bottom: 15px; }
+.event-feed, .world-actions { gap: 12px; }
+.event-entry { padding: 14px 16px; }
+.inventory-grid { gap: 8px; }
+.feature-card, .citadel-craft-card, .forge-gear-card, .shop-item { margin-block: 2px; }
+.panel, .inventory-panel, .equipment-panel { box-shadow: 0 12px 30px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.025); }
+
+/* Keep active navigation recognizable instead of making every tab a gold button. */
+.bottom-nav .nav-tab {
+  background: linear-gradient(180deg,#241d38,#171226) !important;
+  color: #bdb3d9 !important;
+  border: 1px solid rgba(139,114,222,.18) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+.bottom-nav .nav-tab.active, .bottom-nav .nav-tab:hover {
+  background: linear-gradient(180deg,#3a2d50,#21182f) !important;
+  color: #ffdf73 !important;
+  border-color: rgba(212,175,55,.58) !important;
+  box-shadow: inset 0 -2px #d4af37, 0 0 15px rgba(212,175,55,.08) !important;
+}
+.text-button { background: transparent !important; border-color: transparent !important; box-shadow: none !important; color: #b6a7d7 !important; }
+
+/* Respect unavailable crafting states and the existing reduced-motion/accessibility settings. */
+.recipe-unavailable, .forge-gear-card.recipe-unavailable {
+  filter: grayscale(.75) saturate(.45) !important;
+  opacity: .6 !important;
+}
+@media (max-width: 600px) {
+  .main-layout { gap: 12px; }
+  .section-heading { margin-top: 22px; margin-bottom: 12px; }
+  .inventory-grid { gap: 5px; }
+  .event-feed, .world-actions { gap: 8px; }
+  .btn, .btn-primary, .btn-gold, .action-btn, .combat-actions button { min-height: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  button, .btn, .card, .feature-card, .citadel-card, .shop-item { transition: none !important; }
+}
