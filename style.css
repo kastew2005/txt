@@ -3193,3 +3193,102 @@ button, .btn, .action-btn, input[type="button"], input[type="submit"] {
 @media (min-width: 600px) {
   :root { --base-font-size: clamp(12px, 1.7vw, 13.5px); }
 }
+
+
+/* ================================================================
+   v37.0 — Total Layout & UI Architecture Rewrite
+   Scoped, resilient mobile layout overrides; gameplay styles preserved.
+   ================================================================ */
+:root {
+  --base-font-size: clamp(11px, 3.2vw, 13.5px);
+  --header-font-size: clamp(14px, 4vw, 17px);
+  --v370-gap: clamp(6px, 1.8vw, 10px);
+}
+html { min-width: 0 !important; }
+body { min-width: 0 !important; overflow-x: hidden !important; font-size: var(--base-font-size) !important; }
+#app, .app-shell, .game-screen, .main-layout, .content-area, .tab-view { min-width: 0 !important; max-width: 100% !important; box-sizing: border-box !important; }
+#app { overflow-x: clip !important; }
+body p, body span, body label, body li, body .muted, body .eyebrow { overflow-wrap: anywhere; }
+body h1, body h2, body h3, body h4, .section-title { font-size: var(--header-font-size) !important; line-height: 1.2 !important; margin-bottom: 8px !important; overflow-wrap: anywhere; }
+body p { line-height: 1.42 !important; }
+button, .btn, .action-btn { box-sizing: border-box !important; min-height: 38px !important; padding: 8px 12px !important; font-size: var(--base-font-size) !important; border-radius: 8px !important; max-width: 100%; }
+button { white-space: normal; }
+.topbar, .header-container, .top-bar { padding: 6px 8px !important; gap: 4px !important; min-width: 0 !important; }
+.topbar { align-items: center !important; }
+.brand, .brand > div { min-width: 0 !important; }
+.brand strong { overflow-wrap: anywhere; }
+.top-stats { min-width: 0 !important; gap: 5px !important; }
+.top-stats .stat { min-width: 0 !important; box-sizing: border-box !important; }
+.top-stats .stat > div { min-width: 0 !important; }
+.top-stats .stat strong { display: block !important; white-space: nowrap !important; font-variant-numeric: tabular-nums !important; font-size: clamp(11px, 3vw, 14px) !important; }
+.top-stats .stat small.stat-label { display: block !important; font-size: clamp(8px, 2.4vw, 10px) !important; font-weight: 800 !important; line-height: 1.15 !important; white-space: nowrap !important; }
+.stat-box { padding: 4px 2px !important; font-size: 11px !important; box-sizing: border-box !important; }
+/* Character origin/class selection: icon and copy never overlap. */
+.origin-card, .class-card, .race-option {
+  display: flex !important; flex-direction: row !important; align-items: center !important;
+  gap: 10px !important; padding: 10px !important;
+  background: rgba(25, 20, 40, .95) !important;
+  border: 1px solid rgba(255, 215, 0, .3) !important; border-radius: 10px !important;
+  box-sizing: border-box !important; min-width: 0 !important; text-align: left !important;
+}
+.origin-card img, .origin-card .class-icon, .class-card img, .class-card .class-icon,
+.race-option img, .race-option .race-icon {
+  flex: 0 0 36px !important; width: 36px !important; height: 36px !important;
+  min-width: 36px !important; min-height: 36px !important; display: grid !important; place-items: center !important;
+}
+.origin-card .class-info, .origin-card > div, .class-card .class-info, .class-card > div,
+.race-option strong, .race-option small { min-width: 0 !important; }
+.origin-card .class-info, .origin-card > div, .class-card .class-info, .class-card > div {
+  display: flex !important; flex: 1 1 auto !important; flex-direction: column !important; text-align: left !important; font-size: 12px !important;
+}
+.race-option { display: grid !important; grid-template-columns: 36px minmax(0,1fr) !important; grid-template-rows: auto auto !important; column-gap: 9px !important; row-gap: 2px !important; }
+.race-option .race-icon { grid-column: 1; grid-row: 1 / span 2; }
+.race-option strong { grid-column: 2; grid-row: 1; display: block !important; font-size: 12px !important; line-height: 1.2 !important; }
+.race-option small { grid-column: 2; grid-row: 2; display: block !important; font-size: 10px !important; line-height: 1.25 !important; overflow-wrap: anywhere !important; }
+.race-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 145px), 1fr)) !important; gap: 7px !important; min-width: 0 !important; }
+/* World map stays bounded; route button, anomaly details and chronicle remain reachable. */
+.map-section-wrapper {
+  max-height: 55vh !important; overflow-y: auto !important; overflow-x: hidden !important;
+  display: flex !important; flex-direction: column !important; gap: 8px !important;
+  min-height: 0 !important; overscroll-behavior: contain !important;
+}
+#tab-world .travel-map-panel { min-width: 0 !important; overflow: visible !important; }
+#tab-world .map-canvas-viewport, #map-canvas, .map-container {
+  height: 180px !important; min-height: 180px !important; max-height: 180px !important;
+  flex: 0 0 180px !important; min-width: 0 !important; box-sizing: border-box !important;
+  overflow: auto !important; overscroll-behavior: contain !important;
+}
+#travel-map { height: 180px !important; min-height: 180px !important; width: auto !important; min-width: 390px !important; max-width: none !important; display: block !important; }
+.map-footer { display: flex !important; flex-wrap: wrap !important; align-items: center !important; gap: 8px !important; }
+.map-footer > * { min-width: 0 !important; }
+.map-footer #travel-btn { flex: 0 0 auto !important; }
+.map-node-label, .node-title {
+  position: absolute !important; transform: translateX(-50%) !important; font-size: 11px !important;
+  font-weight: 700 !important; white-space: nowrap !important; background: rgba(15, 12, 25, .9) !important;
+  padding: 2px 6px !important; border-radius: 4px !important; border: 1px solid rgba(255, 215, 0, .25) !important;
+}
+#travel-map .node-title { paint-order: stroke fill !important; stroke: rgba(15,12,25,.96) !important; stroke-width: 3px !important; stroke-linejoin: round !important; fill: #fff1cf !important; font-size: 9px !important; font-weight: 800 !important; }
+#travel-map .node-label-bg { fill: rgba(15,12,25,.88) !important; stroke: rgba(255,215,0,.28) !important; stroke-width: 1px !important; }
+/* Strict one-screen router: only the selected screen participates in layout. */
+.tab-view.hidden, .tab-view[aria-hidden="true"] { display: none !important; visibility: hidden !important; pointer-events: none !important; }
+.tab-view:not(.hidden)[aria-hidden="false"] { display: block !important; visibility: visible !important; pointer-events: auto !important; }
+.bottom-nav { display: flex !important; flex-wrap: nowrap !important; gap: 3px !important; }
+.bottom-nav .nav-tab { flex: 1 1 0 !important; min-width: 0 !important; padding: 5px 2px !important; }
+.bottom-nav .nav-tab small { white-space: nowrap !important; word-break: keep-all !important; overflow-wrap: normal !important; hyphens: none !important; font-size: clamp(8px, 2.5vw, 11px) !important; line-height: 1.1 !important; }
+.bottom-nav .nav-tab[data-tab="castle"] small { font-size: clamp(7.5px, 2.2vw, 10px) !important; letter-spacing: -.035em !important; }
+@media (max-width: 380px) {
+  .topbar { padding: 5px 6px !important; }
+  .brand-mark { display: none !important; }
+  .brand strong { font-size: 10px !important; }
+  .top-stats { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+  .top-stats .stat { padding: 3px 2px !important; gap: 3px !important; }
+  .top-stats .stat > span { display: none !important; }
+  .top-stats .stat small.stat-label { font-size: 8px !important; }
+  .top-stats .stat strong { font-size: 10px !important; }
+  .race-option { padding: 7px !important; }
+  .map-section-wrapper { max-height: 52vh !important; }
+}
+@media (min-width: 700px) {
+  .map-section-wrapper { max-height: 58vh !important; }
+  #tab-world .map-canvas-viewport, #map-canvas, .map-container, #travel-map { height: 210px !important; min-height: 210px !important; max-height: 210px !important; }
+}

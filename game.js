@@ -1,4 +1,4 @@
-/* Dark Fantasy RPG v36.3 — Global Compact Scale & Tabs Content Fix. */
+/* Dark Fantasy RPG v37.0 — Total Layout & UI Architecture Rewrite. */
 "use strict";
 (() => {
   // Telegram Web App integration is progressive: normal browser/PWA mode remains unchanged.
@@ -277,7 +277,7 @@
     if(status)status.textContent=selectedLocation===currentLocation?`Ты уже здесь: ${loc.name}`:blocked?`Запечатано: ${chosen.name} · нужен ключ, взлом или Цитадель III`: `Соседняя тропа: ${chosen.name}`;
     if(travelBtn){travelBtn.innerHTML=blocked?"Открыть проход ⛓":selectedLocation===currentLocation?"Ты на месте":"Выбрать путь →";travelBtn.disabled=travelAnimating||state.inCombat||selectedLocation===currentLocation;}
     document.querySelectorAll(".map-location").forEach(node=>{const id=node.dataset.location,revealed=(state.discoveredLocations||[]).includes(id);node.classList.toggle("is-hidden-by-fog",!revealed);node.classList.toggle("is-current",id===currentLocation);node.classList.toggle("is-selected",id===selectedLocation);node.setAttribute("aria-pressed",String(id===selectedLocation));node.setAttribute("aria-hidden",String(!revealed));});
-    const dyn=$("map-dynamic-nodes"),routes=$("map-dynamic-routes");if(dyn)dyn.innerHTML=Object.entries(MAP_LOCATIONS).filter(([id])=>!["forest","ruins","altar","tavern"].includes(id)).map(([id,n])=>{const revealed=(state.discoveredLocations||[]).includes(id),locked=!mapNodeUnlocked(id);return `<g class="map-location map-dynamic-node ${revealed?"":"is-hidden-by-fog"} ${locked?"is-locked-node":""} ${n.lockRequirement?"region-gate":""} ${n.region?"region-"+n.region:""} ${id===currentLocation?"is-current":""} ${id===selectedLocation?"is-selected":""}" data-location="${id}" role="button" tabindex="${revealed?0:-1}" aria-label="${n.name}${locked?", запечатано":""}" aria-hidden="${!revealed}" aria-pressed="${id===selectedLocation}" transform="translate(${n.x} ${n.y})" style="pointer-events:${revealed?"auto":"none"}"><circle class="node-hit-area" r="25" fill="transparent" pointer-events="all"/><circle class="node-halo" r="22"/><circle class="node-ring" r="16"/><text class="node-glyph" text-anchor="middle" y="6">${locked?"🔒":MAP_NODE_ICONS[id]||"✦"}</text><rect class="node-label-bg" x="${-Math.min(92, n.name.length*2.9+7)}" y="${(id==="tavern"?35:id==="ruins"?44:id==="north_pass"?35:35)-10}" width="${Math.min(184,n.name.length*5.8+14)}" height="16" rx="3"/><text class="node-title" x="${id==="tavern"?-8:id==="ruins"?6:id==="north_pass"?10:0}" y="${id==="ruins"?44:35}" text-anchor="middle">${n.name}</text></g>`;}).join("");
+    const dyn=$("map-dynamic-nodes"),routes=$("map-dynamic-routes");if(dyn)dyn.innerHTML=Object.entries(MAP_LOCATIONS).filter(([id])=>!["forest","ruins","altar","tavern"].includes(id)).map(([id,n])=>{const revealed=(state.discoveredLocations||[]).includes(id),locked=!mapNodeUnlocked(id);return `<g class="map-location map-dynamic-node ${revealed?"":"is-hidden-by-fog"} ${locked?"is-locked-node":""} ${n.lockRequirement?"region-gate":""} ${n.region?"region-"+n.region:""} ${id===currentLocation?"is-current":""} ${id===selectedLocation?"is-selected":""}" data-location="${id}" role="button" tabindex="${revealed?0:-1}" aria-label="${n.name}${locked?", запечатано":""}" aria-hidden="${!revealed}" aria-pressed="${id===selectedLocation}" transform="translate(${n.x} ${n.y})" style="pointer-events:${revealed?"auto":"none"}"><circle class="node-hit-area" r="25" fill="transparent" pointer-events="all"/><circle class="node-halo" r="22"/><circle class="node-ring" r="16"/><text class="node-glyph" text-anchor="middle" y="6">${locked?"🔒":MAP_NODE_ICONS[id]||"✦"}</text><rect class="node-label-bg" x="${-Math.min(92, n.name.length*2.9+7)}" y="${(id==="tavern"?35:id==="ruins"?44:id==="north_pass"?35:35)-10}" width="${Math.min(184,n.name.length*5.8+14)}" height="16" rx="3"/><text class="node-title" x="0" y="${id==="ruins"?44:35}" text-anchor="middle">${n.name}</text></g>`;}).join("");
     if(routes)routes.innerHTML=Object.entries(MAP_LINKS).flatMap(([a,links])=>links.filter(b=>MAP_LOCATIONS[a]&&MAP_LOCATIONS[b]&&Object.keys(MAP_LINKS).indexOf(a)<Object.keys(MAP_LINKS).indexOf(b)).map(b=>{const A=MAP_LOCATIONS[a],B=MAP_LOCATIONS[b],visible=(state.discoveredLocations||[]).includes(a)&&(state.discoveredLocations||[]).includes(b);return `<path class="map-road map-overhaul-road ${visible?"":"is-hidden-by-fog"}" d="M${A.x} ${A.y} Q${(A.x+B.x)/2} ${(A.y+B.y)/2-9} ${B.x} ${B.y}"/>`;})).join("");
     const markers=$("map-anomaly-markers");if(markers)markers.innerHTML=state.anomaly?(()=>{const pos={blood_altar:{x:310,y:145,icon:"🩸"},wandering_merchant:{x:315,y:225,icon:"♜"},forgotten_treasury:{x:180,y:55,icon:"✧"},rift:{x:465,y:65,icon:"ϟ"}}[state.anomaly.id]||{x:310,y:145,icon:"✦"};return `<g class="map-anomaly-marker" data-anomaly="${state.anomaly.id}" role="button" tabindex="0" aria-label="${state.anomaly.name}" transform="translate(${pos.x} ${pos.y})"><circle r="17"/><text y="6" text-anchor="middle">${pos.icon}</text></g>`;})():"";
     const route=$("map-selected-route");if(route){const a=MAP_LOCATIONS[currentLocation]||loc,b=chosen;route.setAttribute("d",`M${a.x} ${a.y} Q${(a.x+b.x)/2} ${(a.y+b.y)/2-25} ${b.x} ${b.y}`);route.style.display=selectedLocation===currentLocation||!mapNodeUnlocked(selectedLocation)?"none":"block";}
@@ -421,11 +421,11 @@
     // rendering them here prevents stale/empty Citadel and Hero inventory screens.
     if (state.hero) {
       try {
-        if (tab === "inventory") renderInventory();
+        if (tab === "inventory") renderHeroInventory();
         else if (tab === "profile") renderProfile();
-        else if (tab === "castle") renderCastle();
+        else if (tab === "castle") renderCitadel();
         else if (tab === "arena") renderArena();
-        else if (tab === "world") { renderTravelMap(); updateWorldPhase(); }
+        else if (tab === "world") renderWorldMap();
         else if (tab === "skills") renderSkills();
         else if (tab === "pets") renderPets();
         else if (tab === "dungeon") renderDungeon();
@@ -705,6 +705,29 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   function openSocketRunePicker(slot){const item=state.equipment?.[slot];if(!item)return;const capacity=Number(item.socketCapacity||0),sockets=Array.isArray(item.sockets)?item.sockets:[];if(sockets.length>=capacity){toast("Сначала пробей новое гнездо");return;}const runes=state.inventory.filter(i=>i.type==="rune"&&(i.count||1)>0);if(!runes.length){toast("Нет рун для инкрустации");return;}const content=$("modal-content");content.innerHTML=`<p class="eyebrow">РУНИЧЕСКАЯ КУЗНИЦА</p><h3>Вставить руну · ${escapeHTML(item.name)}</h3><p class="muted">Свободно гнёзд: ${capacity-sockets.length}. Руна исчезнет из рюкзака и навсегда усилит предмет.</p><div class="citadel-rune-picker">${runes.map(r=>`<button class="btn btn-ghost" data-insert-rune="${slot}" data-rune-id="${r.id}">${escapeHTML(r.name)} × ${r.count||1}<small>${escapeHTML(r.description||"")}</small></button>`).join("")}</div><button class="btn btn-ghost" data-close-modal>Отмена</button>`;$("modal").classList.remove("hidden");}
   function insertRune(slot,runeId){const item=state.equipment?.[slot],rune=state.inventory.find(i=>i.id===runeId&&i.type==="rune");if(!item||!rune)return;item.sockets=Array.isArray(item.sockets)?item.sockets:[];if(item.sockets.length>=Number(item.socketCapacity||0)){toast("Нет свободного гнезда");return;}item.sockets.push(runeId);removeItem(runeId);$("modal").classList.add("hidden");playSfx("magic");addEvent("Руна инкрустирована",`${RPG_DB.items[runeId].name} усилила предмет «${item.name}».`,"sigil");updateHUD();saveGame(false);toast("Руна закреплена в гнезде");}
   function openForgeSocket(slot){const item=state.equipment?.[slot];if(!item)return;const cost=45;if(state.hero.gold<cost){toast("Для пробивки гнезда нужно 45 золота");return;}state.hero.gold-=cost;item.socketCapacity=(Number(item.socketCapacity)||0)+1;playSfx("magic");addEvent("Новое гнездо",`Кузнец пробил гнездо в предмете «${item.name}».`,"sigil");updateHUD();saveGame(false);toast("Новое гнездо готово");}
+  // v37.0 stable screen renderers: wrappers reuse the established full game renderers.
+  // They deliberately do not replace existing DOM roots or reset player state.
+  function renderCitadel(){
+    if(!state.hero)return;
+    renderCastle();
+    renderCitadelVisual();
+    renderCitadelWorkshop();
+    updateCitadelNotification();
+    const gold=$("castle-gold");if(gold)gold.textContent=String(Math.max(0,Math.floor(Number(state.hero.gold)||0)));
+  }
+  function renderHeroInventory(){
+    if(!state.hero)return;
+    renderInventory();
+    renderProfile();
+    updateTop();
+    renderSide();
+  }
+  function renderWorldMap(){
+    if(!state.hero)return;
+    renderTravelMap();
+    updateWorldPhase();
+  }
+
   function renderCastle(){const root=$("castle-buildings");if(!root||!state.hero)return;renderCitadelWorkshop();refreshMarketEvent();processCastleIncome();$("castle-gold").textContent=state.hero.gold;const c=state.citadel||{};renderCitadelVisual();root.innerHTML=BUILDINGS.map(b=>{const level=c[b.id]||0,cost=dynamicPrice(b.base*(level+1));return `<article class="castle-building"><div class="castle-building-title"><span class="castle-building-icon">${b.icon}</span><h4>${b.name}</h4></div><span class="castle-level">Уровень ${level}/3</span><p>${b.desc}</p><div class="castle-benefit">${level?`Текущий эффект: ${b.benefit(level)}`:"Здание ещё не построено"}</div>${level<3?`<small>Следующий уровень: ${b.benefit(level+1)}</small>`:"<small>Достигнут максимальный уровень</small>"}<button class="btn btn-gold" data-upgrade="${b.id}" ${level>=3||state.hero.gold<cost?"disabled":""}>${level>=3?"Максимум":`${level===0?"Построить":"Улучшить"} · ${cost} золота`}</button></article>`;}).join("");const names={calm:"Рынок спокоен: обычные цены.",festival:"Праздник урожая: цены снижены на 20%.",shortage:"Дефицит припасов: цены повышены на 35%.",war:"Военное положение: цены повышены на 18%."};$("market-event").textContent=names[state.marketEvent]||names.calm;const market=$("castle-market");const goods=[{id:"healing_potion",name:"Лечебное зелье",base:18,desc:"Восстанавливает здоровье."},{id:"moon_herb",name:"Лунная трава",base:8,desc:"Редкий алхимический ингредиент."},{id:"iron_ore",name:"Железная руда",base:12,desc:"Материал для ремесла."},{id:"void_root",name:"Корень Бездны",base:16,desc:"Редкий корень для ядовитых масел и рун."},{id:"empty_vial",name:"Пустая склянка",base:4,desc:"Стекло для алхимических смесей."}];market.innerHTML=goods.map(g=>{const price=dynamicPrice(g.base);return `<article class="market-item"><strong>${g.name}</strong><p class="muted">${g.desc}</p><button class="btn btn-ghost" data-buy="${g.id}" data-price="${price}" ${state.hero.gold<price?"disabled":""}>Купить · ${price} золота</button></article>`;}).join("");const income=$("castle-income");if(income){const l=state.citadel.treasury||0;income.textContent=l?`Сокровищница приносит +5 золота каждые 3 перехода по карте. Прогресс: ${Number(state.treasuryStepProgress||0)}/3 шагов.`:"Построй сокровищницу, чтобы получать +5 золота каждые 3 перехода по карте.";}const merc=$("mercenary-panel");if(merc){const b=state.citadel.barracks||0;merc.innerHTML=`<p>${b===0?"Казармы нужны для найма спутников-наёмников.":`Доступно мест для наёмников: ${Math.max(0,b-1)}. Наёмники дают +${b*2} к атаке в бою.`}</p>${b>0?`<button class="btn btn-ghost" id="hire-mercenary" ${state.mercenaries>=Math.max(0,b-1)?"disabled":""}>Нанять наёмника · ${35*b} золота</button>`:""}`;}}
   function upgradeBuilding(id){const b=BUILDINGS.find(x=>x.id===id);if(!b)return;const level=state.citadel[id]||0;if(level>=3){toast("Достигнут максимальный уровень");return;}const cost=dynamicPrice(b.base*(level+1));if(state.hero.gold<cost){toast("Недостаточно золота");return;}state.hero.gold-=cost;state.citadel[id]=level+1;if(id==="treasury")state.castleIncomeAt=Date.now();playSfx("victory");addEvent("Цитадель укреплена",`${b.name} улучшена до уровня ${level+1}.`,`sigil`);updateHUD();saveGame(false);toast(`${b.name}: уровень ${level+1}`);}
 
@@ -938,7 +961,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   function saveGame(show=true){
     if(!state.hero)return false;
     const data={
-      version:"v36.2", timestamp:Date.now(),
+      version:"v37.0", timestamp:Date.now(),
       hero:state.hero, raceId:state.race?.id||state.hero.raceId||"human",
       inventory:state.inventory, equipment:state.equipment,
       reputation:state.reputation, quests:state.quests, questClaimed:state.questClaimed,
