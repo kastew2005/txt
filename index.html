@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <meta name="theme-color" content="#171326">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="description" content="Пепел Королевства v50.0 — Cache Reset & Service Worker Cleanup.">
+  <meta name="description" content="Пепел Королевства v34.2 — Expanded Map, Region Gates & Scaling Enemy Overhaul.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Пепел Королевства">
@@ -14,53 +14,20 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#171326">
   <meta name="referrer" content="no-referrer">
-  <title>Пепел Королевства v50.0</title>
-  <!-- ПРИНУДИТЕЛЬНЫЙ СБРОС КЭША И СЕРВИС-ВОРКЕРОВ ДЛЯ ТЕЛЕГРАМА -->
-  <script>
-    (() => {
-      try {
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations()
-            .then(registrations => Promise.all(registrations.map(registration =>
-              registration.unregister().then(success => {
-                if (success) console.log('Service Worker успешно удалён');
-                return success;
-              })
-            )))
-            .catch(error => console.warn('Не удалось удалить Service Worker:', error));
-        }
-        if ('caches' in window) {
-          caches.keys()
-            .then(names => Promise.all(names.map(name =>
-              caches.delete(name).then(success => {
-                if (success) console.log('Кэш браузера очищен:', name);
-                return success;
-              })
-            )))
-            .catch(error => console.warn('Не удалось очистить Cache Storage:', error));
-        }
-      } catch (error) {
-        console.warn('Сброс кэша недоступен в этой среде:', error);
-      }
-    })();
-  </script>
-
-  <!-- Подключение стилей с актуальной версией -->
-  <link rel="stylesheet" href="style.css?v=50.0">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <style>html,body{min-height:100%;overscroll-behavior-y:none}body{padding-bottom:env(safe-area-inset-bottom,0px)}.btn-gold,.btn-gold-pulse{animation:pulseGlow 2.5s ease-in-out infinite}</style>
+  <title>Пепел Королевства — v34.2</title>
+  <link rel="stylesheet" href="style.css?v=34.2">
 </head>
 <body>
   <svg id="inline-icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><symbol id="sigil" viewBox="0 0 24 24"><path d="M32 3 39 23 59 32 39 39 32 61 24 39 4 32 24 23Z"/><circle cx="32" cy="32" r="11"/></symbol><symbol id="sword" viewBox="0 0 24 24"><path d="M5 19 19 5l5-2-3 9L9 24Z M5 19l4 5M3 21l4-4"/></symbol><symbol id="heart" viewBox="0 0 24 24"><path d="M20 8c0 6-8 12-8 12S4 14 4 8a4 4 0 0 1 8-1 4 4 0 0 1 8 1Z"/></symbol><symbol id="coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="6"/><path d="M15 8c-4-3-7 2-3 4s4 5-2 4M12 5v14"/></symbol><symbol id="balance" viewBox="0 0 24 24"><path d="M12 3v18M5 6h14M7 6l-4 8h8ZM17 6l-4 8h8ZM8 21h8"/></symbol><symbol id="potion" viewBox="0 0 24 24"><path d="M9 3h6M10 3v5l-5 8a4 4 0 0 0 4 6h6a4 4 0 0 0 4-6l-5-8V3M7 15h10"/></symbol><symbol id="boot" viewBox="0 0 24 24"><path d="M5 3h6v8l4 3 5 1 2 4v2H3v-5l2-3Z"/></symbol><symbol id="compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15 8-2 5-4 3 2-5Z"/></symbol><symbol id="chest" viewBox="0 0 24 24"><path d="M3 9h18v12H3zM2 9l2-5h16l2 5M12 9v12"/></symbol><symbol id="profile" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2Z"/></symbol><symbol id="mug" viewBox="0 0 24 24"><path d="M4 7h13v10a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4Z M17 9h2a3 3 0 0 1 0 6h-2 M7 3l2 2M13 3l2 2"/></symbol><symbol id="leaf" viewBox="0 0 24 24"><path d="M20 4C9 4 4 8 4 15a5 5 0 0 0 5 5c7 0 11-7 11-16ZM3 22 15 10"/></symbol><symbol id="hammer" viewBox="0 0 24 24"><path d="m4 7 5-5 8 8-5 5ZM10 12l9 9"/></symbol><symbol id="pickaxe" viewBox="0 0 24 24"><path d="M3 7c5-5 12-5 18 0M12 7v15M8 18l4 4 4-4"/></symbol><symbol id="bow" viewBox="0 0 24 24"><path d="M7 3c-7 5-7 13 0 18M7 3l10 9L7 21M17 12h5"/></symbol><symbol id="armor" viewBox="0 0 24 24"><path d="M4 5 12 2l8 3-2 15-6 2-6-2Z M4 5l8 6 8-6M12 11v11"/></symbol><symbol id="helmet" viewBox="0 0 24 24"><path d="M3 14a9 9 0 0 1 18 0v3H3ZM12 5v8M3 17h18"/></symbol><symbol id="ring" viewBox="0 0 24 24"><ellipse cx="12" cy="14" rx="7" ry="8"/><path d="m8 6 4-4 4 4-4 3Z"/></symbol><symbol id="herb" viewBox="0 0 24 24"><path d="M12 22V8M12 14C4 14 3 8 3 5c6 0 9 3 9 9ZM12 11c0-6 4-8 9-8 0 6-3 10-9 10"/></symbol><symbol id="relic" viewBox="0 0 24 24"><path d="M12 2 19 7v10l-7 5-7-5V7Z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="wolf" viewBox="0 0 24 24"><path d="m4 5 5 2 3-4 3 4 5-2-2 8-6 7-6-7Z"/></symbol><symbol id="skull" viewBox="0 0 24 24"><path d="M12 3a8 8 0 0 0-5 14v3h10v-3a8 8 0 0 0-5-14Z M9 11h.1M15 11h.1M10 16h4"/></symbol><symbol id="wraith" viewBox="0 0 24 24"><path d="M5 20V9a7 7 0 0 1 14 0v11l-4-3-3 4-3-4Z M9 10h1M14 10h1"/></symbol><symbol id="knight" viewBox="0 0 24 24"><path d="M6 21V7l6-4 6 4v14M6 11h12M9 7h6"/></symbol><symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3M4 4l2 2M18 18l2 2M20 4l-2 2M6 18l-2 2"/></symbol><symbol id="moon" viewBox="0 0 24 24"><path d="M20 15A8 8 0 0 1 9 4a8 8 0 1 0 11 11Z"/></symbol><symbol id="scales" viewBox="0 0 24 24"><path d="M12 3v18M5 6h14M7 6l-4 8h8ZM17 6l-4 8h8ZM8 21h8"/></symbol><symbol id="speaker-on" viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="M16 9a5 5 0 0 1 0 6M18.5 6.5a9 9 0 0 1 0 11"/></symbol><symbol id="speaker-off" viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="m17 9 5 6m0-6-5 6"/></symbol></svg>
   <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div><canvas id="weather-canvas" aria-hidden="true"></canvas>
-  <main id="app" class="app-shell app-container-v48" data-app-container="v48">
+  <main id="app" class="app-shell">
     <div id="visual-fx-layer" class="visual-fx-layer" aria-hidden="true"></div>
     <header class="topbar">
-      <div class="brand"><span class="brand-mark"><svg class="ui-icon"><use href="#sigil"/></svg></span><div><strong>ПЕПЕЛ КОРОЛЕВСТВА <span class="version-badge" aria-label="Версия игры 50.0">v50.0</span></strong><small>Хроники проклятого престола</small></div></div>
-      <div class="top-stats top-stats-bar">
-        <div class="stat"><span><svg class="ui-icon"><use href="#heart"/></svg></span><div><small class="stat-label">❤️ HP · Здоровье</small><strong id="top-hp">—</strong><div class="mini-bar"><i id="top-hp-bar"></i></div></div></div><div class="stat stat-mana"><span><svg class="ui-icon"><use href="#sigil"/></svg></span><div><small class="stat-label">✨ МАНА</small><strong id="top-mp">—</strong><div class="mini-bar mana-mini-bar"><i id="top-mp-bar"></i></div></div></div>
-        <div class="stat"><span><svg class="ui-icon"><use href="#coin"/></svg></span><div><small class="stat-label">🪙 ЗОЛОТО</small><strong id="top-gold">—</strong></div></div>
-        <div class="stat"><span><svg class="ui-icon"><use href="#sword"/></svg></span><div><small class="stat-label">⭐ УР · Уровень</small><strong id="top-level">—</strong></div></div>
+      <div class="brand"><span class="brand-mark"><svg class="ui-icon"><use href="#sigil"/></svg></span><div><strong>ПЕПЕЛ КОРОЛЕВСТВА <span class="version-badge" aria-label="Версия игры 34.2">v34.2</span></strong><small>Хроники проклятого престола</small></div></div>
+      <div class="top-stats">
+        <div class="stat"><span><svg class="ui-icon"><use href="#heart"/></svg></span><div><small>Здоровье</small><strong id="top-hp">—</strong><div class="mini-bar"><i id="top-hp-bar"></i></div></div></div><div class="stat stat-mana"><span><svg class="ui-icon"><use href="#sigil"/></svg></span><div><small>Мана</small><strong id="top-mp">—</strong><div class="mini-bar mana-mini-bar"><i id="top-mp-bar"></i></div></div></div>
+        <div class="stat"><span><svg class="ui-icon"><use href="#coin"/></svg></span><div><small>Золото</small><strong id="top-gold">—</strong></div></div>
+        <div class="stat"><span><svg class="ui-icon"><use href="#sword"/></svg></span><div><small>Уровень</small><strong id="top-level">—</strong></div></div>
         <div class="stat morality-stat"><span><svg class="ui-icon"><use href="#balance"/></svg></span><div class="morality-copy"><div class="morality-values"><small>Карма</small><strong id="top-karma">—</strong><small class="corruption-label">Скверна</small><strong id="top-corruption">0</strong></div><div class="morality-meter" role="meter" aria-label="Баланс Кармы и Скверны" aria-valuemin="-100" aria-valuemax="100" aria-valuenow="0"><i id="morality-meter-fill"></i></div><small id="morality-label">Нейтральный путь</small></div></div>
         <button id="ambient-btn" class="btn btn-ghost sound-toggle" type="button" aria-label="Выключить звук" aria-pressed="true"><svg class="ui-icon"><use id="sound-icon-use" href="#speaker-on"/></svg><span class="ambient-label" aria-hidden="true">Звук: Вкл</span></button><button id="install-app" class="btn btn-ghost install-app" hidden>Установить</button>
       </div>
@@ -105,7 +72,7 @@
             <div class="weather" id="weather-display" aria-label="Погода"><span id="phase-label">День угасающего солнца</span><small id="weather-label">Туман</small></div>
           </div>
           <div id="tab-world" class="tab-view">
-            <div class="map-section-wrapper"><section class="travel-map-panel panel" aria-label="Интерактивная карта путешествий">
+            <section class="travel-map-panel panel" aria-label="Интерактивная карта путешествий">
               <div class="travel-map-heading"><div><p class="eyebrow">КАРТА ЧЕТЫРЁХ РЕГИОНОВ</p><h3>Выбери следующую тропу</h3></div></div>
               <div class="map-canvas-viewport" tabindex="0" role="region" aria-label="Прокручиваемая карта мира. Проведите по карте вбок, чтобы увидеть удалённые регионы.">
               <svg id="travel-map" class="travel-map" viewBox="0 0 750 338" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Карта четырёх регионов: Земли Севера, Забытый Тракт, Багровое Болото и Цитадель Бездны">
@@ -116,51 +83,26 @@
                 <path class="map-road" d="M510 205 Q448 236 388 88 T235 204 T95 91"/><path class="map-road-highlight" d="M510 205 Q448 236 388 88 T235 204 T95 91"/><path id="map-selected-route" class="map-selected-route" d="" style="display:none"/><g id="map-dynamic-routes"></g><g id="map-dynamic-nodes"></g><g id="map-anomaly-markers"></g>
                 <g class="map-decoration" transform="translate(46 153)"><path d="M0 0l-12 22h24Z M0 8v23m-8-9h16"/><path d="M-15 31h30"/></g><g class="map-decoration" transform="translate(548 61)"><circle r="19"/><path d="M0-15V15M-15 0H15M-10-10L10 10M10-10L-10 10"/></g>
                 <g class="map-location" data-location="forest" role="button" tabindex="0" aria-label="Отправиться в Тёмный лес" transform="translate(105 160)"><circle class="node-hit-area" r="30" cx="0" cy="0" fill="transparent" aria-hidden="true"/><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M0-12-11 5h7l-4 7H8L4 5h7Z"/><text y="39" text-anchor="middle">Тёмный лес</text></g>
-                <g class="map-location" data-location="ruins" role="button" tabindex="0" aria-label="Отправиться к Древним руинам" transform="translate(170 220)"><circle class="node-hit-area" r="30" cx="0" cy="0" fill="transparent" aria-hidden="true"/><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M-11 9V-7h5v7h5v-12h6v12h5V9Z M-13 12h27"/><text y="39" text-anchor="middle">Старые руины</text></g>
+                <g class="map-location" data-location="ruins" role="button" tabindex="0" aria-label="Отправиться к Древним руинам" transform="translate(170 220)"><circle class="node-hit-area" r="30" cx="0" cy="0" fill="transparent" aria-hidden="true"/><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M-11 9V-7h5v7h5v-12h6v12h5V9Z M-13 12h27"/><text y="39" text-anchor="middle">Древние руины</text></g>
                 <g class="map-location" data-location="altar" role="button" tabindex="0" aria-label="Отправиться к Забытому алтарю" transform="translate(220 145)"><circle class="node-hit-area" r="30" cx="0" cy="0" fill="transparent" aria-hidden="true"/><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M0-13 3-3 13 0 3 3 0 13-3 3-13 0-3-3Z"/><text y="39" text-anchor="middle">Забытый алтарь</text></g>
                 <g class="map-location" data-location="tavern" role="button" tabindex="0" aria-label="Отправиться к Прибрежной таверне" transform="translate(45 220)"><circle class="node-hit-area" r="30" cx="0" cy="0" fill="transparent" aria-hidden="true"/><circle class="node-halo" r="24"/><circle class="node-ring" r="17"/><path class="node-glyph" d="M-9-9h13v15a6 6 0 0 1-13 0Zm13 3h5a4 4 0 0 1 0 8H4M-12 13h20"/><text y="39" text-anchor="middle">Прибрежная таверна</text></g>
                 <g id="hero-map-token" class="hero-map-token" transform="translate(45 220)" aria-label="Ваш герой"><circle r="13"/><path class="token-flag" d="M0-10V10 M1-9 8-6 1-3Z"/><circle r="17" class="token-pulse"/></g>
                 </g>
               </svg>
               </div>
-              <div class="map-footer"><span id="map-location-status" aria-live="polite">Выбран маршрут: Тёмный лес</span><button id="travel-btn" class="btn btn-gold" type="button">Выбрать путь / Исследовать <svg class="ui-icon"><use href="#compass"/></svg></button></div><p class="map-overhaul-hint">Туман скрывает неисследованные земли. Выбирай соседние узлы; на развилках можно идти безопасно или рискнуть коротким путём.</p>
+              <div class="map-footer"><span id="map-location-status" aria-live="polite">Выбран маршрут: Тёмный лес</span><button id="travel-btn" class="btn btn-gold" type="button">Отправиться в путь <svg class="ui-icon"><use href="#compass"/></svg></button></div><p class="map-overhaul-hint">Туман скрывает неисследованные земли. Выбирай соседние узлы; на развилках можно идти безопасно или рискнуть коротким путём.</p>
                 <div id="anomaly-panel" class="anomaly-panel" aria-live="polite"></div>
             </section>
             <div class="section-heading"><h3>Хроники Пути</h3><span class="muted">События, квесты и знамения</span></div>
             <div id="event-feed" class="event-feed"></div>
             <button id="daily-quests" class="daily-quests quest-widget panel" type="button" aria-label="Открыть ежедневные задания" aria-live="polite"></button>
-            <div class="section-heading"><h3>Решения странника</h3><span class="muted">Выборы на дороге</span></div>
-            <div class="world-actions world-accordions" aria-label="Категории действий мира">
-              <details class="world-accordion" open>
-                <summary><span aria-hidden="true">⚔️</span><span><strong>Боевые действия</strong><small>Охота на дороге · Осмотр руин</small></span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary>
-                <div class="accordion-actions">
-                  <button class="action-card" data-action="hunt"><span><svg class="ui-icon"><use href="#sword"/></svg></span><strong>Охота на дороге</strong><small>Найти добычу и опыт</small></button>
-                  <button class="action-card" data-action="search"><span><svg class="ui-icon"><use href="#compass"/></svg></span><strong>Осмотреть руины</strong><small>Рискнуть ради сокровищ</small></button>
-                </div>
-              </details>
-              <details class="world-accordion">
-                <summary><span aria-hidden="true">⛩️</span><span><strong>Святые места</strong><small>Молитва · Древний алтарь</small></span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary>
-                <div class="accordion-actions">
-                  <button class="action-card" data-action="pray"><span><svg class="ui-icon"><use href="#sun"/></svg></span><strong>Молиться у святилища</strong><small>Испытать милость судьбы</small></button>
-                  <button class="action-card" data-action="altar"><span><svg class="ui-icon"><use href="#sigil"/></svg></span><strong>Древний алтарь</strong><small>Жертва, реликвия или осквернение</small></button>
-                </div>
-              </details>
-              <details class="world-accordion">
-                <summary><span aria-hidden="true">🧭</span><span><strong>Решения странника</strong><small>Лагерь · ресурсы · трофеи</small></span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary>
-                <div class="accordion-actions">
-                  <button class="action-card" data-action="camp" type="button"><span aria-hidden="true">🔥</span><strong>Разбить лагерь</strong><small>Передохнуть и восстановить силы</small></button>
-                  <button class="action-card" data-action="gather" type="button"><span><svg class="ui-icon"><use href="#herb"/></svg></span><strong>Поиск ресурсов</strong><small>Собрать травы, руду и пепел</small></button>
-                  <button class="action-card" data-action="ruins" type="button"><span><svg class="ui-icon"><use href="#relic"/></svg></span><strong>Осмотреть руины</strong><small>Найти реликвию или опасность</small></button>
-                  <button class="action-card" data-action="trophies" type="button"><span><svg class="ui-icon"><use href="#coin"/></svg></span><strong>Сбыть трофеи</strong><small>Обменять добычу на золото</small></button>
-                </div>
-              </details>
-              <details class="world-accordion">
-                <summary><span aria-hidden="true">🚪</span><span><strong>Опасные подземелья</strong><small>Врата Бездны · Подземелья</small></span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary>
-                <div class="accordion-actions">
-                  <button class="action-card quick-access-card" data-tab="abyss" type="button"><span aria-hidden="true">♜</span><strong>Врата Бездны</strong><small>Быстрый вход · бесконечный спуск</small></button>
-                  <button class="action-card quick-access-card" data-tab="dungeon" type="button"><span aria-hidden="true">⌘</span><strong>Подземелья</strong><small>Быстрый вход · комнаты и добыча</small></button>
-                </div>
-              </details>
+            <div class="world-actions">
+              <button class="action-card" data-action="hunt"><span><svg class="ui-icon"><use href="#sword"/></svg></span><strong>Охота на дороге</strong><small>Найти добычу и опыт</small></button>
+              <button class="action-card" data-action="search"><span><svg class="ui-icon"><use href="#compass"/></svg></span><strong>Осмотреть руины</strong><small>Рискнуть ради сокровищ</small></button>
+              <button class="action-card" data-action="pray"><span><svg class="ui-icon"><use href="#sun"/></svg></span><strong>Молиться у святилища</strong><small>Испытать милость судьбы</small></button>
+              <button class="action-card" data-action="altar"><span><svg class="ui-icon"><use href="#sigil"/></svg></span><strong>Древний алтарь</strong><small>Жертва, реликвия или осквернение</small></button>
+              <button class="action-card quick-access-card" data-tab="abyss" type="button"><span aria-hidden="true">♜</span><strong>Врата Бездны</strong><small>Быстрый вход · бесконечный спуск</small></button>
+              <button class="action-card quick-access-card" data-tab="dungeon" type="button"><span aria-hidden="true">⌘</span><strong>Подземелья</strong><small>Быстрый вход · комнаты и добыча</small></button>
             </div>
           </div>
 
@@ -250,14 +192,14 @@
         <section class="more-menu-card panel">
           <div class="more-menu-heading"><div><p class="eyebrow">ХРОНИКИ СТРАННИКА</p><h3 id="more-menu-title">Другие разделы</h3></div><button class="more-menu-close" data-close-more aria-label="Закрыть">×</button></div>
           <div class="more-menu-grid">
-            <button class="more-menu-item" data-screen="tavern"><span>♨</span><strong>🍺 Таверна</strong><small>Квесты и кости</small></button>
-            <button class="more-menu-item" data-screen="skills"><span>✦</span><strong>🔮 Навыки</strong><small>Древо прокачки</small></button>
-            <button class="more-menu-item" data-screen="pets"><span>♧</span><strong>🐕 Спутники</strong><small>Питомцы и наёмники</small></button>
-            <button class="more-menu-item" data-screen="dungeon"><span>⌘</span><strong>💀 Подземелья</strong><small>Исследование катакомб</small></button>
-            <button class="more-menu-item" data-screen="alchemy"><span>⚗</span><strong>🧪 Алхимия &amp; Руны</strong><small>Крафт и сокеты</small></button>
-            <button class="more-menu-item" data-screen="abyss"><span>♜</span><strong>💀 Врата Бездны</strong><small>Бесконечные этажи</small></button>
-            <button class="more-menu-item" data-screen="bestiary"><span>📖</span><strong>🐉 Бестиарий</strong><small>Трофеи и слабости</small></button>
-            <button class="more-menu-item" data-screen="legacy"><span>✧</span><strong>🕯 Наследие</strong><small>Осколки душ и улучшения</small></button>
+            <button class="more-menu-item" data-more-tab="tavern"><span>♨</span><strong>🍺 Таверна</strong><small>Квесты и кости</small></button>
+            <button class="more-menu-item" data-more-tab="skills"><span>✦</span><strong>🔮 Навыки</strong><small>Древо прокачки</small></button>
+            <button class="more-menu-item" data-more-tab="pets"><span>♧</span><strong>🐕 Спутники</strong><small>Питомцы и наёмники</small></button>
+            <button class="more-menu-item" data-more-tab="dungeon"><span>⌘</span><strong>💀 Подземелья</strong><small>Исследование катакомб</small></button>
+            <button class="more-menu-item" data-more-tab="craft"><span>⚗</span><strong>🧪 Алхимия &amp; Руны</strong><small>Крафт и сокеты</small></button>
+            <button class="more-menu-item" data-more-tab="abyss"><span>♜</span><strong>💀 Врата Бездны</strong><small>Бесконечные этажи</small></button>
+            <button class="more-menu-item" data-more-tab="bestiary"><span>📖</span><strong>🐉 Бестиарий</strong><small>Трофеи и слабости</small></button>
+            <button class="more-menu-item" data-more-tab="legacy"><span>✧</span><strong>🕯 Наследие</strong><small>Осколки душ и улучшения</small></button>
             <button class="more-menu-item" id="more-save-btn" type="button"><span>💾</span><strong>Сохранить игру</strong><small>Записать текущий прогресс</small></button>
             <button class="more-menu-item" id="more-reset-btn" type="button"><span>⚠</span><strong>Сбросить прогресс / Новая игра</strong><small>Потребуется подтверждение</small></button>
             <button class="more-menu-item" id="save-manager-btn"><span>▤</span><strong>💾 Сохранения</strong><small>Экспорт, импорт и сброс</small></button>
@@ -281,6 +223,8 @@
   <!-- Modal roots are siblings of #app, never descendants of filtered/transformed app wrappers. -->
     <div id="modal" class="modal hidden"><div class="modal-card panel"><button id="modal-close" class="modal-close" aria-label="Закрыть окно">×</button><div id="modal-content"></div></div></div>
     <!-- Окно предмета создаётся динамически в document.body: #rad-modal-root. -->
-  <script src="game.js?v=50.0"></script>
+  <script src="database.js?v=34.2"></script>
+  <script src="game.js?v=34.2"></script>
+  <script>if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js?v=34.2", { updateViaCache: "none" }).then(reg => reg.update()).catch(() => {})); }</script>
 </body>
 </html>

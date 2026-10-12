@@ -1,55 +1,6 @@
-/* Dark Fantasy RPG v50.0 — Compact Scale, Vertical Wanderer Actions & Safe Notifications. */
+/* Dark Fantasy RPG v34.1 — Intelligent & Brutal Enemies Overhaul. */
 "use strict";
-/* Self-contained content database fallback: the game remains playable as a three-file package. */
-window.RPG_DB = window.RPG_DB || (() => {
-  const races = [
-    {id:"human",name:"Человек",summary:"Меч и щит · универсальный боец",detail:"Люди выживают благодаря стойкости и умению приспосабливаться. Начальный запас золота выше.",lore:"Человеческие королевства пали первыми, но их воля ещё не сломлена.",mods:{hp:4,gold:12}},
-    {id:"elf",name:"Лесной эльф",summary:"Лук и стрела · меткий следопыт",detail:"Эльфы чувствуют дыхание леса и предпочитают точность грубой силе.",lore:"Лесные эльфы помнят песни древних деревьев и стрелы, что не знают промаха.",mods:{hp:0,gold:4}},
-    {id:"orc",name:"Орк",summary:"Топор и ярость · натиск",detail:"Орки превращают боль в ярость и наносят тяжёлые удары.",lore:"Орочьи кланы чтят силу и не прощают тех, кто предал их кровь.",mods:{hp:12,gold:0}},
-    {id:"dwarf",name:"Гном",summary:"Молот и наковальня · крепкая броня",detail:"Гномы — мастера металла, выносливые и искусные в ремесле.",lore:"Под горными залами гномов всё ещё звучат молоты и древние руны.",mods:{hp:8,gold:6}},
-    {id:"undead",name:"Нежить",summary:"Череп и скверна · вампиризм",detail:"Нежить черпает силу из тёмной магии и умеет обращать чужую жизнь в свою.",lore:"Скверна вернула тебя из могилы, но цена второго рождения ещё не уплачена.",mods:{hp:2,gold:8}}
-  ];
-  const monsters = [
-    {id:"wolf",name:"Пепельный волк",icon:"wolf",hp:28,attack:6,defense:1,xp:12,gold:[3,8],dodge:8,description:"Голодный хищник крадётся по обочине."},
-    {id:"bandit",name:"Дорожный разбойник",icon:"bandit",hp:34,attack:7,defense:2,xp:16,gold:[5,12],dodge:5,description:"Разбойник перекрывает дорогу."},
-    {id:"skeleton",name:"Костяной страж",icon:"skeleton",hp:38,attack:8,defense:3,xp:18,gold:[5,13],dodge:2,description:"Скелет поднимает ржавый клинок."},
-    {id:"wraith",name:"Теневой призрак",icon:"wraith",hp:32,attack:10,defense:1,xp:22,gold:[8,16],dodge:12,description:"Призрак колышется в тумане."},
-    {id:"knight",name:"Павший рыцарь",icon:"knight",hp:52,attack:11,defense:5,xp:28,gold:[12,22],dodge:2,description:"Рыцарь в потемневших доспехах не отступит."},
-    {id:"bone_warden",name:"Костяной Страж",icon:"knight",hp:72,attack:12,defense:5,xp:45,gold:[22,36],dodge:3,description:"Хранитель дороги не пропускает живых."},
-    {id:"marsh_matriarch",name:"Матриарх Топи",icon:"wraith",hp:95,attack:14,defense:4,xp:65,gold:[30,50],dodge:7,description:"Древнее существо поднялось из багрового болота."},
-    {id:"corrupted_archon",name:"Осквернённый архонт",icon:"knight",hp:125,attack:17,defense:7,xp:90,gold:[45,70],dodge:6,description:"Последний страж трона Пустоты."}
-  ];
-  const itemNames={rusty_sword:"Ржавый меч",hunters_bow:"Охотничий лук",moonbow:"Лунный лук",warcleaver:"Боевой колун",forgehammer:"Молот кузнеца",luminous_plate:"Сияющий доспех",bone_mantle:"Костяная мантия",iron_axe:"Железный топор",wooden_shield:"Деревянный щит",leather_armor:"Кожаная броня",chainmail:"Кольчуга",iron_helm:"Железный шлем",wolf_ring:"Кольцо волка",healing_potion:"Лечебное зелье",cursed_relic:"Проклятая реликвия",gold_charm:"Золотой талисман",moon_herb:"Лунная трава",iron_ore:"Железная руда",ember_dust:"Пепельная пыль",void_root:"Корень Бездны",empty_vial:"Пустая склянка",blood_rune:"Руна крови",void_rune:"Руна пустоты",lightning_rune:"Руна молнии",heart_of_ash:"Сердце Пепла",blood_crown:"Кровавая корона",void_heart:"Сердце пустоты"};
-  const items=new Proxy({}, {get(t,k){if(typeof k!=="string")return undefined;if(!t[k])t[k]={id:k,name:itemNames[k]||k.replace(/_/g," ").replace(/^./,c=>c.toUpperCase()),icon:"✦",type:/potion|vial/.test(k)?"consumable":/rune/.test(k)?"rune":"material",description:"Предмет странника.",usable:/potion/.test(k),value:5,attack:/sword|bow|axe|cleaver|hammer/.test(k)?3:0,defense:/armor|plate|mantle|mail|helm|shield/.test(k)?2:0};return t[k];}});
-  return {races,monsters,regionEnemies:monsters,abyssEnemies:monsters,items,pets:[{id:"fox",name:"Лисёнок",desc:"Маленький спутник дороги.",unlock:0,buff:{gold:0}},{id:"raven",name:"Ворон",desc:"Птица дурных предзнаменований.",unlock:3,buff:{gold:2}},{id:"wolf",name:"Волк",desc:"Верный боевой спутник.",unlock:8,buff:{gold:0}}],skills:[{id:"warrior_power",name:"Сильный удар",desc:"Усиливает физический урон.",tree:"warrior",max:3,icon:"⚔"},{id:"rogue_focus",name:"Точный выпад",desc:"Повышает шанс критического удара.",tree:"rogue",max:3,icon:"➶"},{id:"mage_mind",name:"Поток маны",desc:"Увеличивает запас маны.",tree:"mage",max:3,icon:"✧"}],v30Talents:[{id:"survivalist",name:"Выживальщик",desc:"Повышает шансы вернуться с добычей.",tree:"survival",max:3,icon:"♜"}],mutations:[{id:"light_aegis",name:"Светлый оберег",desc:"Сила милосердия укрепляет дух.",path:"light",karma:3,max:3,icon:"☼"},{id:"dark_hunger",name:"Голод скверны",desc:"Тьма отвечает на тёмные поступки.",path:"dark",karma:-3,max:3,icon:"☠"}],anomalies:[],events:[],narrativeEvents:[],rumors:[],roadEncounters:[],quests:[],v30Events:[],recipes:[{id:"herbal_potion",name:"Лечебный настой",desc:"Смешай травы в лечебный настой.",station:"alchemy",cost:{moon_herb:1,empty_vial:1},result:"healing_potion",count:1}]};
-})();
-
 (() => {
-  // Telegram Web App integration is progressive: normal browser/PWA mode remains unchanged.
-  const tg = window.Telegram?.WebApp;
-  if (tg) {
-    try { tg.ready(); } catch (error) { console.warn("Telegram WebApp ready() failed:", error); }
-    try { tg.expand(); window.addEventListener("load", () => { try { tg.expand(); } catch (_) {} }); } catch (error) { console.warn("Telegram WebApp expand() failed:", error); }
-    // Fullscreen is client/version dependent and may require a user gesture or be rejected.
-    if (typeof tg.requestFullscreen === "function") {
-      try {
-        const fullscreenRequest = tg.requestFullscreen();
-        if (fullscreenRequest && typeof fullscreenRequest.catch === "function") {
-          fullscreenRequest.catch(error => console.info("Telegram fullscreen unavailable:", error));
-        }
-      } catch (error) {
-        console.info("Telegram fullscreen unavailable:", error);
-      }
-    }
-    try {
-      if (tg.backgroundColor && document.body) {
-        document.body.style.backgroundColor = tg.backgroundColor;
-      }
-    } catch (error) {
-      console.warn("Telegram theme background could not be applied:", error);
-    }
-  }
-
   const $ = id => document.getElementById(id);
   // Safe, progressive haptics: unsupported browsers and denied vibration are harmless.
   function triggerHaptic(type = "light") {
@@ -141,8 +92,6 @@ window.RPG_DB = window.RPG_DB || (() => {
     root.innerHTML=RPG_DB.recipes.map(r=>{const ready=Object.entries(r.cost).every(([id,n])=>resourceCount(id)>=n);return `<article class="feature-card ${ready?"":"recipe-unavailable"}"><span class="feature-icon">${r.station==="rune"?"ᚱ":r.station==="forge"?"⚒":"⚗"}</span><h4>${r.name}</h4><p>${r.desc}</p><button class="btn ${ready?"btn-gold":"btn-ghost"}" data-recipe="${r.id}" ${ready?"":"disabled"}>${ready?"Создать":"Не хватает ресурсов"}</button></article>`;}).join("");
   }
   function craftRecipe(id){const r=RPG_DB.recipes.find(x=>x.id===id);if(!r||!Object.entries(r.cost).every(([k,n])=>resourceCount(k)>=n))return toast("Не хватает ресурсов");Object.entries(r.cost).forEach(([k,n])=>state.resources[k]-=n);if(r.result==="gold"){state.hero.gold+=r.count;addDailyProgress("gold",r.count);toast(`Переплавка принесла ${r.count} золота`);}else{addItem(r.result,r.count);toast(`Создано: ${RPG_DB.items[r.result].name}`);}playSfx("magic");updateHUD();saveGame(false);}
-  function campRest(){if(!state.hero||state.inCombat){toast("Во время боя нельзя разбивать лагерь");return;}const s=stats(),hp=Math.min(12,Math.max(0,s.maxHp-state.hero.hp)),mp=Math.min(8,Math.max(0,s.maxMp-(state.hero.mp||0)));state.hero.hp=Math.min(s.maxHp,state.hero.hp+12);state.hero.mp=Math.min(s.maxMp,(state.hero.mp||0)+8);state.travelCount++;addDailyProgress("travel",1);addEvent("Лагерь у дороги",`Короткий привал восстановил ${hp} HP и ${mp} MP. Дым костра растворился в тумане.`,"fire");updateHUD();saveGame(false);toast(`Передышка: +${hp} HP · +${mp} MP`);}
-  function sellTrophies(){if(!state.hero||state.inCombat){toast("Нельзя торговать во время боя");return;}const trophies=new Set(["cursed_relic","gold_charm","wolf_ring","blood_rune","void_rune","lightning_rune","heart_of_ash","blood_crown","void_heart"]);let count=0,gold=0;state.inventory=(state.inventory||[]).filter(item=>{if(trophies.has(item.id)){count++;gold+=Math.max(4,Number(item.value||8));return false;}return true;});if(!count){toast("В рюкзаке пока нет трофеев для продажи");return;}state.hero.gold+=gold;addDailyProgress("gold",gold);addEvent("Сбыты трофеи",`Торговец заплатил ${gold} золота за ${count} трофей(ов).`,"coin");updateHUD();saveGame(false);toast(`Продано трофеев: ${count} · +${gold} золота`);}
   function gatherResources(){const found=pick(["moon_herb","moon_herb","iron_ore","ember_dust","void_root","empty_vial"]);state.resources[found]=(state.resources[found]||0)+1;state.travelCount++;addDailyProgress("travel",1);addEvent("Сбор припасов",`Среди корней и камней найдено: ${RPG_DB.items[found].name}.`,"relic");if(Math.random()<.18){const m=pick(["wolf","bandit","skeleton"]);toast("Шорох! На тебя напали");updateHUD();startCombat(m);}else{updateHUD();saveGame(false);toast(`Найдено: ${RPG_DB.items[found].name}`);}}
   function enterDungeon(){if(state.dungeon.active){toast("Ты уже внутри подземелья");renderDungeon();return;}state.dungeon={active:true,room:0,phase:0,loot:0,bossHp:0};addEvent("Вход в подземелье","Ты спускаешься по ступеням, которых нет ни на одной карте.","sigil");renderDungeon();saveGame(false);}
   function renderDungeon(){const status=$("dungeon-status"),root=$("dungeon-rooms"),actions=$("dungeon-actions");if(!status||!root||!state.hero)return;const d=state.dungeon||{active:false,room:0};status.textContent=d.active?`Комната ${d.room+1}/5 · ${d.room===4?"Зал босса":"Выбери следующий проход"}`:"Вход закрыт древней печатью. Спуск доступен в любой момент.";if(!d.active){root.innerHTML="";actions.innerHTML='<button class="btn btn-gold" id="dungeon-enter">Спуститься в подземелье</button>';return;}const choices=d.room===4?[{id:"boss",name:"Фазовый босс: Страж Пепельной Короны",desc:"Две фазы, тяжёлые удары и редкая добыча.",icon:"👑"}]:[{id:"battle",name:"Зал стражей",desc:"Враги охраняют старые реликвии.",icon:"⚔"},{id:"trap",name:"Коридор ловушек",desc:"Проверка внимательности: риск потерять здоровье.",icon:"⚠"},{id:"chest",name:"Запечатанный сундук",desc:"Золото и ресурсы, если замок не проклят.",icon:"🗝"}];root.innerHTML=choices.map(c=>`<button class="feature-card room-choice" data-room="${c.id}"><span class="feature-icon">${c.icon}</span><strong>${c.name}</strong><small>${c.desc}</small></button>`).join("");actions.innerHTML='<button class="btn btn-ghost" id="dungeon-leave">Покинуть подземелье</button>';}
@@ -167,10 +116,10 @@ window.RPG_DB = window.RPG_DB || (() => {
   let combatSpeed = 1;
   let travelAnimating = false;
   const MAP_LOCATIONS = {
-    tavern:{x:45,y:220,name:"Прибрежная таверна",kind:"tavern",region:"north"},forest:{x:105,y:160,name:"Тёмный лес",kind:"forest",region:"north"},ruins:{x:170,y:220,name:"Старые руины",kind:"ruins",region:"north"},altar:{x:220,y:145,name:"Забытый алтарь",kind:"altar",region:"north"},north_pass:{x:270,y:70,name:"Северный перевал",kind:"pass",region:"north"},vault:{x:205,y:65,name:"Запечатанная сокровищница",kind:"vault",locked:true,region:"north"},rift:{x:280,y:220,name:"Пепельный разлом",kind:"rift",region:"north"},
+    tavern:{x:45,y:220,name:"Прибрежная таверна",kind:"tavern",region:"north"},forest:{x:105,y:160,name:"Тёмный лес",kind:"forest",region:"north"},ruins:{x:170,y:220,name:"Древние руины",kind:"ruins",region:"north"},altar:{x:220,y:145,name:"Забытый алтарь",kind:"altar",region:"north"},north_pass:{x:270,y:70,name:"Северный перевал",kind:"pass",region:"north"},vault:{x:205,y:65,name:"Запечатанная сокровищница",kind:"vault",locked:true,region:"north"},rift:{x:280,y:220,name:"Пепельный разлом",kind:"rift",region:"north"},
     forgotten_road:{x:340,y:55,name:"Вход на Забытый Тракт",kind:"gate",region:"road",lockRequirement:{type:"level",value:3}},caravan_rest:{x:365,y:125,name:"Разбитый обоз",kind:"road",region:"road"},old_bridge:{x:420,y:190,name:"Старый мост",kind:"road",region:"road"},bone_camp:{x:440,y:70,name:"Лагерь Костяного Стража",kind:"boss",region:"road",boss:"bone_warden"},crimson_bog:{x:485,y:130,name:"Врата Багрового Болота",kind:"gate",region:"bog",lockRequirement:{type:"boss",value:"bone_warden"}},sunk_shrine:{x:500,y:220,name:"Затонувшее святилище",kind:"bog",region:"bog"},marsh_heart:{x:545,y:70,name:"Сердце топи",kind:"boss",region:"bog",boss:"marsh_matriarch"},abyss_citadel:{x:565,y:155,name:"Цитадель Бездны",kind:"gate",region:"abyss",lockRequirement:{type:"building",value:"forge",level:2}},void_throne:{x:575,y:225,name:"Трон Пустоты",kind:"boss",region:"abyss",boss:"corrupted_archon"}
   };
-  const MAP_LINKS={tavern:["forest"],forest:["tavern","ruins","north_pass"],ruins:["forest","altar","vault","north_pass"],north_pass:["forest","vault","forgotten_road"],vault:["ruins","north_pass"],rift:["altar","forgotten_road"],forgotten_road:["north_pass","rift","caravan_rest"],caravan_rest:["forgotten_road","old_bridge","bone_camp"],old_bridge:["caravan_rest","bone_camp"],bone_camp:["caravan_rest","old_bridge","crimson_bog"],crimson_bog:["bone_camp","sunk_shrine"],sunk_shrine:["crimson_bog","marsh_heart"],marsh_heart:["sunk_shrine","abyss_citadel"],abyss_citadel:["marsh_heart","void_throne"],void_throne:["abyss_citadel"]};
+  const MAP_LINKS={tavern:["forest"],forest:["tavern","ruins","north_pass"],ruins:["forest","altar","vault","north_pass"],altar:["ruins","rift"],north_pass:["forest","vault","forgotten_road"],vault:["ruins","north_pass"],rift:["altar","forgotten_road"],forgotten_road:["north_pass","rift","caravan_rest"],caravan_rest:["forgotten_road","old_bridge","bone_camp"],old_bridge:["caravan_rest","bone_camp"],bone_camp:["caravan_rest","old_bridge","crimson_bog"],crimson_bog:["bone_camp","sunk_shrine"],sunk_shrine:["crimson_bog","marsh_heart"],marsh_heart:["sunk_shrine","abyss_citadel"],abyss_citadel:["marsh_heart","void_throne"],void_throne:["abyss_citadel"]};
   const MAP_NODE_ICONS={north_pass:"⌁",vault:"▣",rift:"ϟ",forgotten_road:"🔒",caravan_rest:"♜",old_bridge:"⚒",bone_camp:"☠",crimson_bog:"🔒",sunk_shrine:"☣",marsh_heart:"👑",abyss_citadel:"🔒",void_throne:"♛"};
   let currentLocation = "tavern";
   let selectedLocation = "forest";
@@ -279,31 +228,18 @@ window.RPG_DB = window.RPG_DB || (() => {
   function mapNodeUnlocked(id){const node=MAP_LOCATIONS[id];if(id==="vault"&&!(state.unlockedMapNodes||[]).includes(id))return false;return !node?.lockRequirement||gateRequirementMet(node);}
   function showRegionGateModal(id){const n=MAP_LOCATIONS[id];if(!n)return;const content=$("modal-content");if(!content)return;content.innerHTML=`<p class="eyebrow">ЗАПЕЧАТАННЫЙ РЕГИОН</p><h3>🔒 ${escapeHTML(n.name)}</h3><p class="muted">Проход запечатан! Требуется: <strong>${escapeHTML(gateRequirementText(n))}</strong>.</p><p>Выполни условие, затем вернись к узлу. Прогресс сохраняется автоматически.</p><button class="btn btn-gold" data-close-modal>Понятно</button>`;const modal=$("modal");if(modal)modal.classList.remove("hidden");}
   function revealMapAround(id){state.discoveredLocations=Array.from(new Set([...(state.discoveredLocations||["tavern","forest"]),id,...(MAP_LINKS[id]||[])]));}
-  // v35.4: compact world-action accordions. Native <details> preserves keyboard and touch accessibility.
-  function initWorldAccordions(){
-    const groups=Array.from(document.querySelectorAll("#tab-world .world-accordion"));
-    if(!groups.length)return;
-    if(!groups.some(group=>group.open))groups[0].open=true;
-    groups.forEach(group=>group.addEventListener("toggle",()=>{
-      if(!group.open)return;
-      groups.forEach(other=>{if(other!==group)other.open=false;});
-    }));
-  }
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initWorldAccordions,{once:true});else initWorldAccordions();
-
   function renderTravelMap(){
     const loc=MAP_LOCATIONS[state.locationId]||MAP_LOCATIONS.tavern;currentLocation=state.locationId||"tavern";
     if(!state.discoveredLocations||!state.discoveredLocations.length)state.discoveredLocations=["tavern","forest"];
     revealMapAround(currentLocation);
     if(!MAP_LOCATIONS[selectedLocation]||!state.discoveredLocations.includes(selectedLocation)||!(MAP_LINKS[currentLocation]||[]).includes(selectedLocation))selectedLocation=(MAP_LINKS[currentLocation]||[]).find(id=>state.discoveredLocations.includes(id)&&mapNodeUnlocked(id))||currentLocation;
     const token=$("hero-map-token");if(token)token.setAttribute("transform",`translate(${loc.x} ${loc.y})`);
-    document.querySelectorAll("#travel-map .map-location > text:not(.node-glyph):not(.node-title)").forEach(label=>label.classList.add("node-title"));
     const status=$("map-location-status"),travelBtn=$("travel-btn"),chosen=MAP_LOCATIONS[selectedLocation]||loc;
     const blocked=selectedLocation!==currentLocation&&!mapNodeUnlocked(selectedLocation);
     if(status)status.textContent=selectedLocation===currentLocation?`Ты уже здесь: ${loc.name}`:blocked?`Запечатано: ${chosen.name} · нужен ключ, взлом или Цитадель III`: `Соседняя тропа: ${chosen.name}`;
     if(travelBtn){travelBtn.innerHTML=blocked?"Открыть проход ⛓":selectedLocation===currentLocation?"Ты на месте":"Выбрать путь →";travelBtn.disabled=travelAnimating||state.inCombat||selectedLocation===currentLocation;}
     document.querySelectorAll(".map-location").forEach(node=>{const id=node.dataset.location,revealed=(state.discoveredLocations||[]).includes(id);node.classList.toggle("is-hidden-by-fog",!revealed);node.classList.toggle("is-current",id===currentLocation);node.classList.toggle("is-selected",id===selectedLocation);node.setAttribute("aria-pressed",String(id===selectedLocation));node.setAttribute("aria-hidden",String(!revealed));});
-    const dyn=$("map-dynamic-nodes"),routes=$("map-dynamic-routes");if(dyn)dyn.innerHTML=Object.entries(MAP_LOCATIONS).filter(([id])=>!["forest","ruins","altar","tavern"].includes(id)).map(([id,n])=>{const revealed=(state.discoveredLocations||[]).includes(id),locked=!mapNodeUnlocked(id);return `<g class="map-location map-dynamic-node ${revealed?"":"is-hidden-by-fog"} ${locked?"is-locked-node":""} ${n.lockRequirement?"region-gate":""} ${n.region?"region-"+n.region:""} ${id===currentLocation?"is-current":""} ${id===selectedLocation?"is-selected":""}" data-location="${id}" role="button" tabindex="${revealed?0:-1}" aria-label="${n.name}${locked?", запечатано":""}" aria-hidden="${!revealed}" aria-pressed="${id===selectedLocation}" transform="translate(${n.x} ${n.y})" style="pointer-events:${revealed?"auto":"none"}"><circle class="node-hit-area" r="25" fill="transparent" pointer-events="all"/><circle class="node-halo" r="22"/><circle class="node-ring" r="16"/><text class="node-glyph" text-anchor="middle" y="6">${locked?"🔒":MAP_NODE_ICONS[id]||"✦"}</text><rect class="node-label-bg" x="${-Math.min(92, n.name.length*2.9+7)}" y="${(id==="tavern"?35:id==="ruins"?44:id==="north_pass"?35:35)-10}" width="${Math.min(184,n.name.length*5.8+14)}" height="16" rx="3"/><text class="node-title" x="0" y="${id==="ruins"?44:35}" text-anchor="middle">${n.name}</text></g>`;}).join("");
+    const dyn=$("map-dynamic-nodes"),routes=$("map-dynamic-routes");if(dyn)dyn.innerHTML=Object.entries(MAP_LOCATIONS).filter(([id])=>!["forest","ruins","altar","tavern"].includes(id)).map(([id,n])=>{const revealed=(state.discoveredLocations||[]).includes(id),locked=!mapNodeUnlocked(id);return `<g class="map-location map-dynamic-node ${revealed?"":"is-hidden-by-fog"} ${locked?"is-locked-node":""} ${n.lockRequirement?"region-gate":""} ${n.region?"region-"+n.region:""} ${id===currentLocation?"is-current":""} ${id===selectedLocation?"is-selected":""}" data-location="${id}" role="button" tabindex="${revealed?0:-1}" aria-label="${n.name}${locked?", запечатано":""}" aria-hidden="${!revealed}" aria-pressed="${id===selectedLocation}" transform="translate(${n.x} ${n.y})" style="pointer-events:${revealed?"auto":"none"}"><circle class="node-hit-area" r="25" fill="transparent" pointer-events="all"/><circle class="node-halo" r="22"/><circle class="node-ring" r="16"/><text class="node-glyph" text-anchor="middle" y="6">${locked?"🔒":MAP_NODE_ICONS[id]||"✦"}</text><text y="35" text-anchor="middle">${n.name}</text></g>`;}).join("");
     if(routes)routes.innerHTML=Object.entries(MAP_LINKS).flatMap(([a,links])=>links.filter(b=>MAP_LOCATIONS[a]&&MAP_LOCATIONS[b]&&Object.keys(MAP_LINKS).indexOf(a)<Object.keys(MAP_LINKS).indexOf(b)).map(b=>{const A=MAP_LOCATIONS[a],B=MAP_LOCATIONS[b],visible=(state.discoveredLocations||[]).includes(a)&&(state.discoveredLocations||[]).includes(b);return `<path class="map-road map-overhaul-road ${visible?"":"is-hidden-by-fog"}" d="M${A.x} ${A.y} Q${(A.x+B.x)/2} ${(A.y+B.y)/2-9} ${B.x} ${B.y}"/>`;})).join("");
     const markers=$("map-anomaly-markers");if(markers)markers.innerHTML=state.anomaly?(()=>{const pos={blood_altar:{x:310,y:145,icon:"🩸"},wandering_merchant:{x:315,y:225,icon:"♜"},forgotten_treasury:{x:180,y:55,icon:"✧"},rift:{x:465,y:65,icon:"ϟ"}}[state.anomaly.id]||{x:310,y:145,icon:"✦"};return `<g class="map-anomaly-marker" data-anomaly="${state.anomaly.id}" role="button" tabindex="0" aria-label="${state.anomaly.name}" transform="translate(${pos.x} ${pos.y})"><circle r="17"/><text y="6" text-anchor="middle">${pos.icon}</text></g>`;})():"";
     const route=$("map-selected-route");if(route){const a=MAP_LOCATIONS[currentLocation]||loc,b=chosen;route.setAttribute("d",`M${a.x} ${a.y} Q${(a.x+b.x)/2} ${(a.y+b.y)/2-25} ${b.x} ${b.y}`);route.style.display=selectedLocation===currentLocation||!mapNodeUnlocked(selectedLocation)?"none":"block";}
@@ -344,33 +280,7 @@ window.RPG_DB = window.RPG_DB || (() => {
     const bestiary=state.bestiary||{};out.bestiaryDamage=Object.values(bestiary).reduce((n,b)=>n+((b.count||0)>=30?0.15:(b.count||0)>=15?0.08:(b.count||0)>=5?0.03:0),0);out.defense+=Number(mutationRanks.light_aegis||0)*2;out.maxHp+=Number(mutationRanks.light_mend||0)*2;const relics=(state.inventory||[]).filter(i=>["heart_of_ash","saint_vessel","void_heart"].includes(i.id));out.attack+=relics.reduce((n,i)=>n+(Number(i.attack)||0),0);out.maxHp+=relics.reduce((n,i)=>n+(Number(i.maxHp)||0),0);if(relics.some(i=>i.id==="saint_vessel"))out.defense+=2;const morality=Number(h.karma||0);if(morality>0)out.defense+=Math.min(3,Math.floor(morality/3));if(morality<0)out.attack+=Math.min(4,Math.floor(Math.abs(morality)/3));if((state.injuries||[]).includes("rib")){out.attack=Math.max(1,out.attack-2);out.defense=Math.max(0,out.defense-1);}if((state.injuries||[]).includes("arm"))out.attack=Math.max(1,out.attack-4);if((state.injuries||[]).includes("leg"))out.dodge=0;if((state.injuries||[]).includes("fear"))out.crit=Math.max(0,out.crit-4);return out;}
   function xpNeed(){return 35+state.hero.level*22;}
   function recalcHP(){const s=stats();state.hero.maxHp=s.maxHp;state.hero.hp=clamp(state.hero.hp,0,s.maxHp);}
-  function updateTop(){
-    if(!state.hero)return; // The start screen may show placeholders; once a hero exists, render real numbers.
-    const h=state.hero,s=stats();
-    const maxHp=Math.max(1,Number(s.maxHp)||1);
-    const hp=clamp(Number(h.hp??maxHp)||0,0,maxHp);
-    const maxMp=Math.max(1,Number(s.maxMp)||1);
-    const mp=clamp(Number(h.mp??maxMp)||0,0,maxMp);
-    const gold=Math.max(0,Math.floor(Number(h.gold)||0));
-    const level=Math.max(1,Math.floor(Number(h.level)||1));
-    const karmaValue=Number(h.karma)||0;
-    const karma=clamp(karmaValue,-10,10),corruption=Math.max(0,-karmaValue);
-    document.body.classList.toggle("low-health",hp/maxHp<.2);
-    const setText=(id,value)=>{const node=$(id);if(node)node.textContent=String(value);};
-    setText("top-hp",`${Math.floor(hp)}/${Math.floor(maxHp)}`);
-    setText("top-mp",`${Math.floor(mp)}/${Math.floor(maxMp)}`);
-    setText("top-gold",gold);setText("top-level",level);
-    setText("top-karma",(karmaValue>0?"+":"")+karmaValue);setText("top-corruption",corruption);
-    const topMpBar=$("top-mp-bar");if(topMpBar)topMpBar.style.width=`${clamp(mp/maxMp*100,0,100)}%`;
-    const meter=$("morality-meter-fill"),meterWrap=document.querySelector(".morality-meter"),label=$("morality-label");
-    if(meter)meter.style.width=`${(karma+10)*5}%`;
-    if(meterWrap)meterWrap.setAttribute("aria-valuenow",String(karma));
-    if(label)label.textContent=karma>=5?"Светлый путь · бонус к защите":karma<=-5?"Скверна · бонус к атаке":"Баланс поступков";
-    if(meter)meter.classList.toggle("is-corrupt",karma<0);
-    const moralStat=document.querySelector(".morality-stat"),profilePanel=document.querySelector(".profile-panel");
-    [moralStat,profilePanel,meterWrap].forEach(node=>{if(!node)return;node.classList.toggle("karma-aura-gold",karmaValue>10);node.classList.toggle("karma-aura-corrupt",karmaValue<-10);});
-    const topHpBar=$("top-hp-bar");if(topHpBar)topHpBar.style.width=`${clamp(hp/maxHp*100,0,100)}%`;
-  }
+  function updateTop(){if(!state.hero)return;const h=state.hero,s=stats(),karma=clamp(Number(h.karma||0),-10,10),corruption=Math.max(0,-Number(h.karma||0));document.body.classList.toggle("low-health",h.hp/s.maxHp<.2);$("top-hp").textContent=`${h.hp}/${s.maxHp}`;$("top-gold").textContent=h.gold;$("top-level").textContent=h.level;$("top-karma").textContent=(h.karma>0?"+":"")+h.karma;const corruptionEl=$("top-corruption");if(corruptionEl)corruptionEl.textContent=corruption;const topMp=$("top-mp"),topMpBar=$("top-mp-bar");if(topMp)topMp.textContent=`${h.mp??s.maxMp}/${s.maxMp}`;if(topMpBar)topMpBar.style.width=`${clamp((h.mp||0)/s.maxMp*100,0,100)}%`;const meter=$("morality-meter-fill"),meterWrap=document.querySelector(".morality-meter"),label=$("morality-label");if(meter)meter.style.width=`${(karma+10)*5}%`;if(meterWrap)meterWrap.setAttribute("aria-valuenow",String(karma));if(label)label.textContent=karma>=5?"Светлый путь · бонус к защите":karma<=-5?"Скверна · бонус к атаке":"Баланс поступков";if(meter)meter.classList.toggle("is-corrupt",karma<0);const moralStat=document.querySelector(".morality-stat"),profilePanel=document.querySelector(".profile-panel"),meterPanel=document.querySelector(".morality-meter");[moralStat,profilePanel,meterPanel].forEach(node=>{if(!node)return;node.classList.toggle("karma-aura-gold",Number(h.karma)>10);node.classList.toggle("karma-aura-corrupt",Number(h.karma)<-10);});$("top-hp-bar").style.width=`${h.hp/s.maxHp*100}%`; }
   function renderSide(){if(!state.hero)return;const h=state.hero,s=stats();$("side-name").textContent=h.name;$("side-race").textContent=state.race.name;$("side-attack").textContent=s.attack;$("side-defense").textContent=s.defense;$("side-dodge").textContent=s.dodge+"%";$("side-crit").textContent=s.crit+"%";$("side-xp").textContent=`${h.xp}/${xpNeed()}`;$("xp-bar").style.width=`${Math.min(100,h.xp/xpNeed()*100)}%`;$("hero-medallion").innerHTML=svgIcon(state.race.id,"medallion-svg");}
   function updateCitadelNotification(){
     const button=document.querySelector('.nav-tab[data-tab="castle"]');
@@ -397,7 +307,7 @@ window.RPG_DB = window.RPG_DB || (() => {
   }
   let selectedRace="human";
   let inventoryFilter="all";
-  function renderRaces(){const container=$("race-options");container.innerHTML="";RPG_DB.races.forEach(r=>{const b=document.createElement("button");b.className="race-option class-card-v43"+(r.id===selectedRace?" selected":"");b.innerHTML=`<span class="race-icon">${svgIcon(r.id)}</span><strong>${r.name}</strong><small>${r.summary}</small>`;b.onclick=()=>{selectedRace=r.id;renderRaces();$("race-detail").textContent=r.detail;};container.appendChild(b);});$("race-detail").textContent=RPG_DB.races[0].detail;}
+  function renderRaces(){const container=$("race-options");container.innerHTML="";RPG_DB.races.forEach(r=>{const b=document.createElement("button");b.className="race-option"+(r.id===selectedRace?" selected":"");b.innerHTML=`<span class="race-icon">${svgIcon(r.id)}</span><strong>${r.name}</strong><small>${r.summary}</small>`;b.onclick=()=>{selectedRace=r.id;renderRaces();$("race-detail").textContent=r.detail;};container.appendChild(b);});$("race-detail").textContent=RPG_DB.races[0].detail;}
   function syncCombatTabLock(){
     const combatButton=document.querySelector('.nav-tab[data-tab="arena"]');
     if(combatButton){
@@ -415,77 +325,35 @@ window.RPG_DB = window.RPG_DB || (() => {
       button.title=locked?"Сначала заверши бой или отступи!":"";
     });
   }
-  function switchTab(targetTab){
-    const requested=String(targetTab||"").trim();
-    let tab=requested==="hero"?"inventory":requested;
+  function switchTab(requestedTab){
+    let tab=requestedTab==="hero"?"inventory":requestedTab;
     if(tab==="combat")tab="arena";
-    const screen=$("tab-"+tab);
-    if(!screen||!screen.classList.contains("tab-view"))return false;
     // During an active fight, keep the player in the arena until victory or retreat.
-    if(state.inCombat&&tab!=="arena"){
-      syncCombatTabLock();toast("Сначала заверши бой или отступи!");return false;
+    // Do not set aria-disabled on these nav buttons: delegated clicks must still reach
+    // this guard so the player receives the explanatory toast.
+    if(state.inCombat && tab!=="arena"){
+      syncCombatTabLock();
+      toast("Сначала заверши бой или отступи!");
+      return;
     }
-    // The arena remains navigable when idle; renderArena shows its waiting state.
-    // Actual combat controls are enabled only while a live enemy is present.
+    if(tab==="arena"&&!(state.inCombat&&state.enemy)){
+      syncCombatTabLock();
+      toast("Вокруг нет врагов. Исследуйте карту!");
+      return;
+    }
+    if(!$(`tab-${tab}`))return;
     state.currentTab=tab;
     if(tab==="castle"&&state.citadelAlert){state.citadelAlert=false;saveGame(false);}
-
-    // Single-screen invariant: all views are explicitly hidden before the target is shown.
-    document.querySelectorAll(".tab-view").forEach(view=>{
-      view.classList.add("hidden");
-      view.setAttribute("aria-hidden","true");
-      view.style.setProperty("display","none","important");
-      view.style.setProperty("visibility","hidden","important");
-    });
-    screen.classList.remove("hidden");
-    screen.setAttribute("aria-hidden","false");
-    screen.style.setProperty("display","flex","important");
-    screen.style.setProperty("flex-direction","column","important");
-    screen.style.setProperty("visibility","visible","important");
-    screen.style.setProperty("position","relative","important");
-    screen.style.setProperty("inset","auto","important");
-    screen.style.setProperty("flex-direction","column","important");
-    screen.style.setProperty("min-height","0","important");
-    screen.style.setProperty("overflow-y","auto","important");
-    screen.style.setProperty("inset","auto","important");
-
-    // Refresh dynamic content on entry. Some panels are hidden during most game updates;
-    // rendering them here prevents stale/empty Citadel and Hero inventory screens.
-    if (state.hero) {
-      try {
-        if (tab === "inventory") renderHeroInventory();
-        else if (tab === "profile") renderProfile();
-        else if (tab === "castle") renderCitadel();
-        else if (tab === "arena") renderBattleArena();
-        else if (tab === "world") renderWorldMap();
-        else if (tab === "skills") renderSkills();
-        else if (tab === "pets") renderPets();
-        else if (tab === "dungeon") renderDungeon();
-        else if (tab === "craft") renderCraft();
-        else if (tab === "abyss") renderAbyss();
-        else if (tab === "bestiary") renderBestiary();
-        else if (tab === "legacy") renderLegacy();
-      } catch (error) {
-        console.error(`Не удалось обновить экран «${tab}»:`, error);
-      }
-    }
-
-    const primaryTabs=new Set(["world","arena","castle","inventory","profile"]);
-    const heroSelected=tab==="inventory"||tab==="profile";
-    document.querySelectorAll(".bottom-nav .nav-tab").forEach(button=>{
-      const buttonTab=button.dataset.tab;
-      const active=button.id==="more-nav-btn"?!primaryTabs.has(tab):
-        (buttonTab===tab||(buttonTab==="hero"&&heroSelected));
-      button.classList.toggle("active",active);
-      if(active)button.setAttribute("aria-current","page");else button.removeAttribute("aria-current");
+    document.querySelectorAll(".nav-tab").forEach(b=>{
+      const isHero=b.dataset.tab==="hero"&&(tab==="inventory"||tab==="profile");
+      b.classList.toggle("active",b.dataset.tab===tab||isHero);
     });
     syncCombatTabLock();
+    document.querySelectorAll(".tab-view").forEach(v=>v.classList.add("hidden"));
+    $(`tab-${tab}`).classList.remove("hidden");
     const titles={world:["ЗЕМЛИ СЕВЕРА","Перекрёсток судьбы"],arena:["КРОВАВЫЙ ПЕСОК","Арена боя"],inventory:["СНАРЯЖЕНИЕ","Герой · Инвентарь"],profile:["ХРОНИКИ СТРАННИКА","Герой · Профиль"],tavern:["УБЕЖИЩЕ ПУТНИКА","Таверна"],skills:["ПУТЬ МАСТЕРСТВА","Древо навыков"],pets:["ВЕРНЫЕ СПУТНИКИ","Питомцы и спутники"],dungeon:["ЗАБЫТЫЕ ГЛУБИНЫ","Подземелье"],craft:["ЛАГЕРНАЯ МАСТЕРСКАЯ","Крафт и алхимия"],castle:["ВОЗРОЖДЕНИЕ КОРОЛЕВСТВА","Цитадель и торговец"],abyss:["БЕСКОНЕЧНЫЙ СПУСК","Врата Бездны"],bestiary:["ДНЕВНИК ОХОТНИКА","Бестиарий и трофеи"],legacy:["ПАМЯТЬ ПОКОЛЕНИЙ","Наследие"]};
-    const title=titles[tab];
-    if(title){const eyebrow=$("scene-eyebrow"),heading=$("scene-title");if(eyebrow)eyebrow.textContent=title[0];if(heading)heading.textContent=title[1];}
-    const more=$("more-menu");if(more)more.classList.add("hidden");
-    const moreBtn=$("more-nav-btn");if(moreBtn)moreBtn.setAttribute("aria-expanded","false");
-    return true;
+    $("scene-eyebrow").textContent=titles[tab][0];$("scene-title").textContent=titles[tab][1];
+    const more=$("more-menu");if(more)more.classList.add("hidden");const moreBtn=$("more-nav-btn");if(moreBtn)moreBtn.setAttribute("aria-expanded","false");
   }
   function equipFromInventory(id,quiet=false){const item=state.inventory.find(x=>x.id===id);if(!item||!item.slot)return false;if(!raceCanUse(item)){toast(`Экипировка недоступна. ${raceUseLabel(item)}.`);return false;}const slot=item.slot;const previous=state.equipment[slot];if(previous)addItem(previous.id);state.equipment[slot]={...item,count:1};removeItem(id);recalcHP();if(!quiet)toast(`${item.name}: экипировано`);return true;}
   function unequip(slot){const item=state.equipment[slot];if(!item)return;addItem(item.id);state.equipment[slot]=null;recalcHP();updateHUD();toast("Предмет снят");}
@@ -737,38 +605,6 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   function openSocketRunePicker(slot){const item=state.equipment?.[slot];if(!item)return;const capacity=Number(item.socketCapacity||0),sockets=Array.isArray(item.sockets)?item.sockets:[];if(sockets.length>=capacity){toast("Сначала пробей новое гнездо");return;}const runes=state.inventory.filter(i=>i.type==="rune"&&(i.count||1)>0);if(!runes.length){toast("Нет рун для инкрустации");return;}const content=$("modal-content");content.innerHTML=`<p class="eyebrow">РУНИЧЕСКАЯ КУЗНИЦА</p><h3>Вставить руну · ${escapeHTML(item.name)}</h3><p class="muted">Свободно гнёзд: ${capacity-sockets.length}. Руна исчезнет из рюкзака и навсегда усилит предмет.</p><div class="citadel-rune-picker">${runes.map(r=>`<button class="btn btn-ghost" data-insert-rune="${slot}" data-rune-id="${r.id}">${escapeHTML(r.name)} × ${r.count||1}<small>${escapeHTML(r.description||"")}</small></button>`).join("")}</div><button class="btn btn-ghost" data-close-modal>Отмена</button>`;$("modal").classList.remove("hidden");}
   function insertRune(slot,runeId){const item=state.equipment?.[slot],rune=state.inventory.find(i=>i.id===runeId&&i.type==="rune");if(!item||!rune)return;item.sockets=Array.isArray(item.sockets)?item.sockets:[];if(item.sockets.length>=Number(item.socketCapacity||0)){toast("Нет свободного гнезда");return;}item.sockets.push(runeId);removeItem(runeId);$("modal").classList.add("hidden");playSfx("magic");addEvent("Руна инкрустирована",`${RPG_DB.items[runeId].name} усилила предмет «${item.name}».`,"sigil");updateHUD();saveGame(false);toast("Руна закреплена в гнезде");}
   function openForgeSocket(slot){const item=state.equipment?.[slot];if(!item)return;const cost=45;if(state.hero.gold<cost){toast("Для пробивки гнезда нужно 45 золота");return;}state.hero.gold-=cost;item.socketCapacity=(Number(item.socketCapacity)||0)+1;playSfx("magic");addEvent("Новое гнездо",`Кузнец пробил гнездо в предмете «${item.name}».`,"sigil");updateHUD();saveGame(false);toast("Новое гнездо готово");}
-  // v44.0 stable screen renderers: wrappers reuse the established full game renderers.
-  // They deliberately do not replace existing DOM roots or reset player state.
-  function renderCitadel(){
-    if(!state.hero)return;
-    renderCastle();
-    renderCitadelVisual();
-    renderCitadelWorkshop();
-    updateCitadelNotification();
-    const gold=$("castle-gold");if(gold)gold.textContent=String(Math.max(0,Math.floor(Number(state.hero.gold)||0)));
-  }
-  function renderHeroInventory(){
-    if(!state.hero)return;
-    renderInventory();
-    renderProfile();
-    updateTop();
-    renderSide();
-  }
-  function renderWorldMap(){
-    if(!state.hero)return;
-    renderTravelMap();
-    updateWorldPhase();
-  }
-  // v48.0: always render the full arena panel, including the no-enemy waiting state.
-  function renderBattleArena(){
-    if(!state.hero)return;
-    renderArena();
-    const title=$("arena-title");
-    if(title&&!state.inCombat)title.textContent="На арене тихо";
-    const status=$("arena-status");
-    if(status&&!state.inCombat)status.textContent="ОЖИДАНИЕ · ИССЛЕДУЙ МИР, ЧТОБЫ НАЙТИ ВРАГА";
-  }
-
   function renderCastle(){const root=$("castle-buildings");if(!root||!state.hero)return;renderCitadelWorkshop();refreshMarketEvent();processCastleIncome();$("castle-gold").textContent=state.hero.gold;const c=state.citadel||{};renderCitadelVisual();root.innerHTML=BUILDINGS.map(b=>{const level=c[b.id]||0,cost=dynamicPrice(b.base*(level+1));return `<article class="castle-building"><div class="castle-building-title"><span class="castle-building-icon">${b.icon}</span><h4>${b.name}</h4></div><span class="castle-level">Уровень ${level}/3</span><p>${b.desc}</p><div class="castle-benefit">${level?`Текущий эффект: ${b.benefit(level)}`:"Здание ещё не построено"}</div>${level<3?`<small>Следующий уровень: ${b.benefit(level+1)}</small>`:"<small>Достигнут максимальный уровень</small>"}<button class="btn btn-gold" data-upgrade="${b.id}" ${level>=3||state.hero.gold<cost?"disabled":""}>${level>=3?"Максимум":`${level===0?"Построить":"Улучшить"} · ${cost} золота`}</button></article>`;}).join("");const names={calm:"Рынок спокоен: обычные цены.",festival:"Праздник урожая: цены снижены на 20%.",shortage:"Дефицит припасов: цены повышены на 35%.",war:"Военное положение: цены повышены на 18%."};$("market-event").textContent=names[state.marketEvent]||names.calm;const market=$("castle-market");const goods=[{id:"healing_potion",name:"Лечебное зелье",base:18,desc:"Восстанавливает здоровье."},{id:"moon_herb",name:"Лунная трава",base:8,desc:"Редкий алхимический ингредиент."},{id:"iron_ore",name:"Железная руда",base:12,desc:"Материал для ремесла."},{id:"void_root",name:"Корень Бездны",base:16,desc:"Редкий корень для ядовитых масел и рун."},{id:"empty_vial",name:"Пустая склянка",base:4,desc:"Стекло для алхимических смесей."}];market.innerHTML=goods.map(g=>{const price=dynamicPrice(g.base);return `<article class="market-item"><strong>${g.name}</strong><p class="muted">${g.desc}</p><button class="btn btn-ghost" data-buy="${g.id}" data-price="${price}" ${state.hero.gold<price?"disabled":""}>Купить · ${price} золота</button></article>`;}).join("");const income=$("castle-income");if(income){const l=state.citadel.treasury||0;income.textContent=l?`Сокровищница приносит +5 золота каждые 3 перехода по карте. Прогресс: ${Number(state.treasuryStepProgress||0)}/3 шагов.`:"Построй сокровищницу, чтобы получать +5 золота каждые 3 перехода по карте.";}const merc=$("mercenary-panel");if(merc){const b=state.citadel.barracks||0;merc.innerHTML=`<p>${b===0?"Казармы нужны для найма спутников-наёмников.":`Доступно мест для наёмников: ${Math.max(0,b-1)}. Наёмники дают +${b*2} к атаке в бою.`}</p>${b>0?`<button class="btn btn-ghost" id="hire-mercenary" ${state.mercenaries>=Math.max(0,b-1)?"disabled":""}>Нанять наёмника · ${35*b} золота</button>`:""}`;}}
   function upgradeBuilding(id){const b=BUILDINGS.find(x=>x.id===id);if(!b)return;const level=state.citadel[id]||0;if(level>=3){toast("Достигнут максимальный уровень");return;}const cost=dynamicPrice(b.base*(level+1));if(state.hero.gold<cost){toast("Недостаточно золота");return;}state.hero.gold-=cost;state.citadel[id]=level+1;if(id==="treasury")state.castleIncomeAt=Date.now();playSfx("victory");addEvent("Цитадель укреплена",`${b.name} улучшена до уровня ${level+1}.`,`sigil`);updateHUD();saveGame(false);toast(`${b.name}: уровень ${level+1}`);}
 
@@ -1002,7 +838,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   function saveGame(show=true){
     if(!state.hero)return false;
     const data={
-      version:"v44.0", timestamp:Date.now(),
+      version:"v34.1", timestamp:Date.now(),
       hero:state.hero, raceId:state.race?.id||state.hero.raceId||"human",
       inventory:state.inventory, equipment:state.equipment,
       reputation:state.reputation, quests:state.quests, questClaimed:state.questClaimed,
@@ -1040,7 +876,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
       // Saves without a version are legacy saves and remain supported. Refuse only a newer major schema.
       if(d.version){
         const match=String(d.version).match(/^v?(\d+)(?:\.(\d+))?/i);
-        if(!match||Number(match[1])>35){console.warn("Сохранение создано более новой версией игры:",d.version);return false;}
+        if(!match||Number(match[1])>34){console.warn("Сохранение создано более новой версией игры:",d.version);return false;}
       }
       Object.assign(state,{hero:d.hero,race:RPG_DB.races.find(r=>r.id===d.raceId)||RPG_DB.races[0],inventory:Array.isArray(d.inventory)?d.inventory:[],equipment:d.equipment||{weapon:null,armor:null,helmet:null,shield:null,ring:null},reputation:d.reputation||{common:0,merchants:0,watch:0},quests:d.quests||{first_blood:0,kind_heart:0,road_wanderer:0},questClaimed:d.questClaimed||{},kills:d.kills||0,goodActs:d.goodActs||0,travelCount:d.travelCount||d.map?.travelCount||0,destiny:d.destiny||0,daily:d.daily||{date:todayKey(),progress:{kills:0,potions:0,gold:0,travel:0},claimed:{}},altarBuff:d.altarBuff||null,skillPoints:d.skillPoints||0,skills:d.skills||{},petId:d.petId||"fox",resources:{moon_herb:0,iron_ore:0,ember_dust:0,void_root:0,empty_vial:0,...(d.resources||{})},treasuryStepProgress:Number(d.treasuryStepProgress||0),dungeon:d.dungeon||{active:false,room:0,phase:0,loot:0,bossHp:0},injuries:d.injuries||[],mutations:d.mutations||{},anomaly:d.anomaly||null,anomalyTravelExpiry:d.anomalyTravelExpiry||0,citadel:{forge:0,laboratory:0,treasury:0,barracks:0,walls:0,...(d.citadel||{})},citadelAlert:!!d.citadelAlert,marketEvent:d.marketEvent||"calm",marketDay:d.marketDay||todayKey(),castleIncomeAt:d.castleIncomeAt||Date.now(),mercenaries:d.mercenaries||0,locationId:MAP_LOCATIONS[d.locationId||d.map?.locationId]? (d.locationId||d.map.locationId):"tavern",mapKeys:Number(d.mapKeys||0),discoveredLocations:Array.isArray(d.discoveredLocations)?d.discoveredLocations:(Array.isArray(d.map?.discoveredLocations)?d.map.discoveredLocations:["tavern","forest"]),unlockedMapNodes:Array.isArray(d.unlockedMapNodes)?d.unlockedMapNodes:(d.map?.unlockedMapNodes||[]),defeatedBosses:Array.isArray(d.defeatedBosses)?d.defeatedBosses:[],hardcore:!!d.hardcore,talents:d.talents||{},abyss:d.abyss||{active:false,floor:1,best:0},bestiary:d.bestiary||{},legacy:d.legacy||{shards:0,upgrades:{hp:0,potion:0,weapon:0},dead:false}});
       Object.keys(state.equipment||{}).forEach(slot=>{const equipped=state.equipment[slot];if(equipped&&!raceCanUse(equipped)){addItem(equipped.id);state.equipment[slot]=null;}});
@@ -1056,30 +892,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
     const modal=$("modal"),content=$("modal-content");if(!modal||!content)return;
     content.innerHTML=`<p class="eyebrow">НЕОБРАТИМОЕ ДЕЙСТВИЕ</p><h3>Начать заново?</h3><p class="reset-warning-copy">Все достижения, предметы, золото и текущий прогресс будут удалены с этого устройства.</p><div class="reset-confirm-actions"><button id="confirm-reset-game" class="btn btn-danger" type="button">⚠️ Да, сбросить прогресс</button><button id="cancel-reset-game" class="btn btn-ghost" type="button">Отмена</button></div>`;modal.classList.remove("hidden");
   }
-  let resetInProgress = false;
-  function confirmResetGame(){
-    if(resetInProgress)return;
-    resetInProgress=true;
-    try{
-      if(window.__ashesAutosaveTimer){clearInterval(window.__ashesAutosaveTimer);window.__ashesAutosaveTimer=null;}
-      if(window.__ashesAutosaveTimer2){clearInterval(window.__ashesAutosaveTimer2);window.__ashesAutosaveTimer2=null;}
-      if(typeof combatTimers!=="undefined"&&combatTimers&&combatTimers.forEach){combatTimers.forEach(id=>clearTimeout(id));combatTimers.clear();}
-      if(typeof clearTurnSafetyTimers==="function")clearTurnSafetyTimers();
-      if(typeof state==="object"&&state){state.inCombat=false;state.combatBusy=false;state.enemy=null;state.combatToken=(state.combatToken||0)+1;}
-      localStorage.removeItem("ashes_of_the_kingdom_save");
-      localStorage.removeItem(STORAGE_KEY);
-      localStorage.removeItem("tutorial_passed");
-      localStorage.removeItem("ashes_sound_v29");
-      localStorage.removeItem(V30_KEY);
-      localStorage.removeItem("ashes_sound_v18");
-      localStorage.removeItem("ashes_sound_v14");
-      localStorage.removeItem("ashes_of_the_kingdom_save_backup");
-      // Avoid replaying the first-run tutorial after an intentional hard reset.
-      localStorage.setItem("tutorial_passed","1");
-    }catch(e){console.error("Не удалось полностью очистить сохранение",e);}
-    // reload(true) is ignored by modern browsers; location.reload() is the supported cold-reload path.
-    window.setTimeout(()=>{try{window.location.reload(true);}catch(_){window.location.reload();}},40);
-  }
+  function confirmResetGame(){try{localStorage.removeItem(STORAGE_KEY);localStorage.removeItem("tutorial_passed");localStorage.removeItem("ashes_sound_v29");localStorage.removeItem(V30_KEY);localStorage.removeItem("ashes_sound_v18");localStorage.removeItem("ashes_sound_v14");}catch(e){}location.reload();}
   function saveEnvelope(){const raw=(()=>{try{return localStorage.getItem(STORAGE_KEY)||"";}catch(_){return "";}})();const passed=(()=>{try{return localStorage.getItem("tutorial_passed")==="1";}catch(_){return false;}})();let save=null;try{save=raw?JSON.parse(raw):null;}catch(_){save=null;}return {format:"ashes-kingdom-save",version:22,save,tutorial_passed:passed};}
   const SAVE_MASK_V18="AshesOfTheNorthernKingdom::AK18::offline";
   const SAVE_MASK_V17="AshesOfTheNorthernKingdom::AK17::offline";
@@ -1154,17 +967,8 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
     const el=e.target.closest("button,a,[role=button],.map-location");
     if(!el||el.disabled)return;
     if(el.closest("#tutorial-overlay"))return;
-    // v50.0 — Back controls use the same immediate router as the main navigation.
-    if(el.hasAttribute("data-back")){
-      e.preventDefault();
-      if(state.inCombat){toast("Сначала заверши бой или отступи!");return;}
-      $("more-menu")?.classList.add("hidden");
-      $("more-nav-btn")?.setAttribute("aria-expanded","false");
-      switchTab("world");
-      return;
-    }
     const id=el.id,tab=el.dataset.tab,action=el.dataset.action;
-    if(state.inCombat && (el.matches(".bottom-nav .nav-tab:not([data-tab=\"arena\"])") || id==="more-nav-btn" || el.matches("[data-more-tab], [data-screen]"))){
+    if(state.inCombat && (el.matches(".bottom-nav .nav-tab:not([data-tab=\"arena\"])") || id==="more-nav-btn" || el.matches("[data-more-tab]"))){
       e.preventDefault();
       toast("Сначала заверши бой или отступи!");
       return;
@@ -1181,31 +985,9 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
       switchTab(tab);return;
     }
     if(el.matches(".nav-tab:not(.nav-more)")){e.preventDefault();switchTab(tab);return;}
-    if(el.matches("[data-tab]:not(.nav-tab)")){
-      e.preventDefault();
-      const aliases={battle:"arena",combat:"arena",citadel:"castle",hero:"inventory",taverna:"tavern",alchemy:"craft",wanderer:"world"};
-      switchTab(aliases[tab]||tab);return;
-    }
+    if(el.matches("[data-tab]:not(.nav-tab)")){e.preventDefault();switchTab(tab);return;}
     if(id==="more-nav-btn"){const menu=$("more-menu"),opening=menu.classList.contains("hidden");menu.classList.toggle("hidden",!opening);el.setAttribute("aria-expanded",String(opening));return;}
     if(el.hasAttribute("data-close-more")){ $("more-menu")?.classList.add("hidden");$("more-nav-btn")?.setAttribute("aria-expanded","false");return; }
-    // v48.0 Universal sub-module router: use existing full-featured screens rather than replacing their DOM.
-    if(el.dataset.screen){
-      const routeMap={
-        world:"world",battle:"arena",arena:"arena",citadel:"castle",castle:"castle",
-        hero:"inventory",inventory:"inventory",more:"world",
-        tavern:"tavern",taverna:"tavern",skills:"skills",pets:"pets",dungeon:"dungeon",
-        alchemy:"craft",craft:"craft",abyss:"abyss",bestiary:"bestiary",legacy:"legacy"
-      };
-      const destination=routeMap[el.dataset.screen];
-      if(destination){e.preventDefault();$("more-menu")?.classList.add("hidden");$("more-nav-btn")?.setAttribute("aria-expanded","false");switchTab(destination);return;}
-    }
-    if(el.dataset.modal){
-      e.preventDefault();
-      const modalId=el.dataset.modal;
-      const modal=$(modalId) || $("modal");
-      if(modal){modal.classList.remove("hidden");modal.style.display="flex";}
-      return;
-    }
     if(el.dataset.moreTab){switchTab(el.dataset.moreTab);return;}
     if(id==="save-manager-btn"){openSaveManager();return;}
     if(id==="tutorial-replay-btn"||id==="save-tutorial-replay-btn"){replayTutorial();return;}
@@ -1219,7 +1001,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
     if(id==="cancel-reset-game"){$("modal")?.classList.add("hidden");return;}
     if(el.matches("[data-inventory-filter]")){inventoryFilter=el.dataset.inventoryFilter||"all";renderInventory();return;}
     if(el.matches(".map-location")){if(lastMapTouch.id===el.dataset.location&&Date.now()-lastMapTouch.at<550)return;selectMapLocation(el.dataset.location);return;}if(el.matches("[data-route-choice]")){const choice=el.dataset.routeChoice,dest=el.dataset.destination;$("modal").classList.add("hidden");if(dest&&choice!=="cancel")travel(dest,choice);return;}if(el.matches("[data-unlock-map]")){unlockMapNode(el.dataset.unlockMap);return;}
-    if(action){if(action==="hunt")startCombat(pick(RPG_DB.monsters.slice(0,3)).id);else if(action==="search"||action==="ruins")searchRuins();else if(action==="pray")pray();else if(action==="altar")openAltar();else if(action==="camp")campRest();else if(action==="gather")gatherResources();else if(action==="trophies")sellTrophies();return;}
+    if(action){if(action==="hunt")startCombat(pick(RPG_DB.monsters.slice(0,3)).id);else if(action==="search")searchRuins();else if(action==="pray")pray();else if(action==="altar")openAltar();return;}
     if(el.matches("[data-mutation]")){buyMutation(el.dataset.mutation);return;}if(el.matches("[data-anomaly]")){resolveAnomaly();return;}if(el.matches("[data-skill]")){const sk=RPG_DB.skills.find(x=>x.id===el.dataset.skill);if(!sk||(state.skillPoints||0)<1||skillRank(sk.id)>=sk.max)return;state.skillPoints--;state.skills[sk.id]=skillRank(sk.id)+1;playSfx("magic");updateHUD();saveGame(false);toast(`Изучен навык: ${sk.name}`);renderSkills();return;}
     if(el.matches("[data-pet]")){state.petId=el.dataset.pet;updateHUD();saveGame(false);toast("Спутник присоединился к тебе");renderPets();return;}
     if(el.matches("[data-recipe]")){craftRecipe(el.dataset.recipe);return;}
@@ -1288,7 +1070,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   new MutationObserver(()=>updateRainSound()).observe(document.body,{attributes:true,attributeFilter:["class"]});
   let savedV30Meta=null;try{savedV30Meta=JSON.parse(localStorage.getItem(V30_KEY)||"null");if(savedV30Meta){state.legacy={...state.legacy,...savedV30Meta,upgrades:{...state.legacy.upgrades,...(savedV30Meta.upgrades||{})}};const hardcoreOpt=$("hardcore-optin");if(hardcoreOpt)hardcoreOpt.checked=!!savedV30Meta.hardcore;}}catch(_){}renderRaces();bindEvents();syncSoundButton();const hasSave=loadGame();if(hasSave&&savedV30Meta&&state.legacy?.shards===0){state.legacy={...state.legacy,...savedV30Meta,upgrades:{...state.legacy.upgrades,...(savedV30Meta.upgrades||{})}};}if(!hasSave){$("start-screen").classList.remove("hidden");$("game-screen").classList.add("hidden");}else{setTimeout(()=>{initTutorial();updateRainSound();},450);}
   // Небольшая страховка для автосохранения при активной игре.
-  window.__ashesAutosaveTimer=setInterval(()=>{if(!resetInProgress&&state.hero)saveGame(false);},30000);
+  setInterval(()=>{if(state.hero)saveGame(false);},30000);
   // Позволяет увидеть возможный финал после достаточного числа событий, не блокируя основной цикл.
   document.addEventListener("click",e=>{if(e.target.closest(".nav-tab")&&state.hero&&state.kills>=5&&state.travelCount>=5&&!state.ending)showEnding();});
   let installPrompt=null;const installButton=$("install-app");
