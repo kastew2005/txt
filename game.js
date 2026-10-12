@@ -850,7 +850,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"Ð
   function saveGame(show=true){
     if(!state.hero)return false;
     const data={
-      version:"v35.2", timestamp:Date.now(),
+      version:"v35.3", timestamp:Date.now(),
       hero:state.hero, raceId:state.race?.id||state.hero.raceId||"human",
       inventory:state.inventory, equipment:state.equipment,
       reputation:state.reputation, quests:state.quests, questClaimed:state.questClaimed,
