@@ -1,4 +1,4 @@
-/* Dark Fantasy RPG v47.0 â€” Compact World Grid & Active Arena Render. */
+/* Dark Fantasy RPG v48.0 â€” Compact World Grid & Active Arena Render. */
 "use strict";
 /* Self-contained content database fallback: the game remains playable as a three-file package. */
 window.RPG_DB = window.RPG_DB || (() => {
@@ -759,7 +759,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"Ð
     renderTravelMap();
     updateWorldPhase();
   }
-  // v47.0: always render the full arena panel, including the no-enemy waiting state.
+  // v48.0: always render the full arena panel, including the no-enemy waiting state.
   function renderBattleArena(){
     if(!state.hero)return;
     renderArena();
@@ -1172,12 +1172,21 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"Ð
       switchTab(tab);return;
     }
     if(el.matches(".nav-tab:not(.nav-more)")){e.preventDefault();switchTab(tab);return;}
-    if(el.matches("[data-tab]:not(.nav-tab)")){e.preventDefault();switchTab(tab);return;}
+    if(el.matches("[data-tab]:not(.nav-tab)")){
+      e.preventDefault();
+      const aliases={battle:"arena",citadel:"castle",hero:"inventory",taverna:"tavern",alchemy:"craft"};
+      switchTab(aliases[tab]||tab);return;
+    }
     if(id==="more-nav-btn"){const menu=$("more-menu"),opening=menu.classList.contains("hidden");menu.classList.toggle("hidden",!opening);el.setAttribute("aria-expanded",String(opening));return;}
     if(el.hasAttribute("data-close-more")){ $("more-menu")?.classList.add("hidden");$("more-nav-btn")?.setAttribute("aria-expanded","false");return; }
-    // v47.0 Universal sub-module router: use existing full-featured screens rather than replacing their DOM.
+    // v48.0 Universal sub-module router: use existing full-featured screens rather than replacing their DOM.
     if(el.dataset.screen){
-      const routeMap={tavern:"tavern",skills:"skills",pets:"pets",dungeon:"dungeon",alchemy:"craft",craft:"craft",abyss:"abyss",bestiary:"bestiary",legacy:"legacy"};
+      const routeMap={
+        world:"world",battle:"arena",arena:"arena",citadel:"castle",castle:"castle",
+        hero:"inventory",inventory:"inventory",more:"world",
+        tavern:"tavern",taverna:"tavern",skills:"skills",pets:"pets",dungeon:"dungeon",
+        alchemy:"craft",craft:"craft",abyss:"abyss",bestiary:"bestiary",legacy:"legacy"
+      };
       const destination=routeMap[el.dataset.screen];
       if(destination){e.preventDefault();$("more-menu")?.classList.add("hidden");$("more-nav-btn")?.setAttribute("aria-expanded","false");switchTab(destination);return;}
     }
