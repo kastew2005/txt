@@ -3089,3 +3089,107 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .stat-box { padding: 6px 2px !important; font-size: 11px !important; }
   .map-location text { font-size: 10px !important; stroke-width: 4px !important; }
 }
+
+
+/* v36.3 — Global Compact Scale & Tabs Content Fix */
+:root {
+  --base-font-size: clamp(11px, 3.2vw, 13.5px);
+  --header-font-size: clamp(14px, 4vw, 17px);
+  --compact-gap: clamp(4px, 1.3vw, 8px);
+  --compact-panel-padding: clamp(7px, 2vw, 12px);
+}
+html, body, #app, .app-shell, .game-screen {
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+body, p, span, div, label {
+  font-size: var(--base-font-size) !important;
+}
+h1, h2, h3, .section-title, .section-heading h3, .scene-header h2 {
+  font-size: var(--header-font-size) !important;
+  line-height: 1.2 !important;
+  margin-bottom: 8px !important;
+}
+p { line-height: 1.35 !important; }
+button, .btn, .action-btn, input[type="button"], input[type="submit"] {
+  min-height: 38px !important;
+  height: auto !important;
+  max-width: 100% !important;
+  padding: 8px 12px !important;
+  font-size: var(--base-font-size) !important;
+  line-height: 1.2 !important;
+  border-radius: 8px !important;
+  overflow-wrap: normal !important;
+}
+.panel, .feature-panel, .profile-panel, .arena, .travel-map-panel,
+.castle-building, .market-item, .action-card, .feature-card {
+  min-width: 0 !important;
+  padding: var(--compact-panel-padding) !important;
+}
+.topbar, .header-container, .top-bar {
+  padding: 6px 8px !important;
+  gap: 4px !important;
+}
+.top-stats { gap: 4px !important; }
+.top-stats .stat { padding: 4px 3px !important; }
+.top-stats .stat small { font-size: 10px !important; }
+.top-stats .stat strong { font-size: clamp(10px, 2.8vw, 13px) !important; }
+.stat-box {
+  padding: 4px 2px !important;
+  font-size: 11px !important;
+}
+.main-layout { gap: var(--compact-gap) !important; }
+.content-area { gap: var(--compact-gap) !important; min-width: 0 !important; }
+.tab-view { padding: 0 2px 6px !important; }
+.bottom-nav {
+  gap: 3px !important;
+  min-height: 62px !important;
+  padding: 4px 4px max(4px, env(safe-area-inset-bottom, 0px)) !important;
+}
+.bottom-nav .nav-tab {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  min-height: 50px !important;
+  padding: 5px 2px !important;
+  gap: 3px !important;
+  border-radius: 7px !important;
+}
+.bottom-nav .nav-tab .ui-icon,
+.bottom-nav .nav-tab svg {
+  width: 21px !important;
+  height: 21px !important;
+  min-width: 21px !important;
+  min-height: 21px !important;
+}
+.bottom-nav .nav-tab small {
+  display: block !important;
+  max-width: 100% !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  text-overflow: clip !important;
+  font-size: clamp(9px, 2.55vw, 11px) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -.02em !important;
+}
+.bottom-nav .nav-tab[data-tab="castle"] small { font-size: clamp(8px, 2.25vw, 10px) !important; }
+.tab-view.hidden, .tab-view[aria-hidden="true"] {
+  display: none !important;
+  visibility: hidden !important;
+}
+.tab-view:not(.hidden)[aria-hidden="false"] {
+  display: block !important;
+  visibility: visible !important;
+}
+@media (max-width: 360px) {
+  .brand strong { font-size: 10px !important; }
+  .version-badge { font-size: 9px !important; }
+  .bottom-nav .nav-tab small { font-size: 8.5px !important; }
+  .bottom-nav .nav-tab[data-tab="castle"] small { font-size: 8px !important; }
+  .top-stats .stat { padding: 3px 2px !important; }
+  .stat-box { padding: 4px 1px !important; }
+}
+@media (min-width: 600px) {
+  :root { --base-font-size: clamp(12px, 1.7vw, 13.5px); }
+}

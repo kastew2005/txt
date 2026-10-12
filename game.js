@@ -1,4 +1,4 @@
-/* Dark Fantasy RPG v36.2 — Telegram UI, Stats Stability & Tab Router Polish. */
+/* Dark Fantasy RPG v36.3 — Global Compact Scale & Tabs Content Fix. */
 "use strict";
 (() => {
   // Telegram Web App integration is progressive: normal browser/PWA mode remains unchanged.
@@ -416,6 +416,27 @@
     screen.setAttribute("aria-hidden","false");
     screen.style.setProperty("display","block","important");
     screen.style.setProperty("visibility","visible","important");
+
+    // Refresh dynamic content on entry. Some panels are hidden during most game updates;
+    // rendering them here prevents stale/empty Citadel and Hero inventory screens.
+    if (state.hero) {
+      try {
+        if (tab === "inventory") renderInventory();
+        else if (tab === "profile") renderProfile();
+        else if (tab === "castle") renderCastle();
+        else if (tab === "arena") renderArena();
+        else if (tab === "world") { renderTravelMap(); updateWorldPhase(); }
+        else if (tab === "skills") renderSkills();
+        else if (tab === "pets") renderPets();
+        else if (tab === "dungeon") renderDungeon();
+        else if (tab === "craft") renderCraft();
+        else if (tab === "abyss") renderAbyss();
+        else if (tab === "bestiary") renderBestiary();
+        else if (tab === "legacy") renderLegacy();
+      } catch (error) {
+        console.error(`Не удалось обновить экран «${tab}»:`, error);
+      }
+    }
 
     const primaryTabs=new Set(["world","arena","castle","inventory","profile"]);
     const heroSelected=tab==="inventory"||tab==="profile";
