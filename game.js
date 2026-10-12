@@ -1,4 +1,4 @@
-/* Dark Fantasy RPG v48.0 — Compact World Grid & Active Arena Render. */
+/* Dark Fantasy RPG v50.0 — Compact Scale, Vertical Wanderer Actions & Safe Notifications. */
 "use strict";
 /* Self-contained content database fallback: the game remains playable as a three-file package. */
 window.RPG_DB = window.RPG_DB || (() => {
@@ -1154,6 +1154,15 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
     const el=e.target.closest("button,a,[role=button],.map-location");
     if(!el||el.disabled)return;
     if(el.closest("#tutorial-overlay"))return;
+    // v50.0 — Back controls use the same immediate router as the main navigation.
+    if(el.hasAttribute("data-back")){
+      e.preventDefault();
+      if(state.inCombat){toast("Сначала заверши бой или отступи!");return;}
+      $("more-menu")?.classList.add("hidden");
+      $("more-nav-btn")?.setAttribute("aria-expanded","false");
+      switchTab("world");
+      return;
+    }
     const id=el.id,tab=el.dataset.tab,action=el.dataset.action;
     if(state.inCombat && (el.matches(".bottom-nav .nav-tab:not([data-tab=\"arena\"])") || id==="more-nav-btn" || el.matches("[data-more-tab], [data-screen]"))){
       e.preventDefault();
@@ -1174,7 +1183,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
     if(el.matches(".nav-tab:not(.nav-more)")){e.preventDefault();switchTab(tab);return;}
     if(el.matches("[data-tab]:not(.nav-tab)")){
       e.preventDefault();
-      const aliases={battle:"arena",citadel:"castle",hero:"inventory",taverna:"tavern",alchemy:"craft"};
+      const aliases={battle:"arena",combat:"arena",citadel:"castle",hero:"inventory",taverna:"tavern",alchemy:"craft",wanderer:"world"};
       switchTab(aliases[tab]||tab);return;
     }
     if(id==="more-nav-btn"){const menu=$("more-menu"),opening=menu.classList.contains("hidden");menu.classList.toggle("hidden",!opening);el.setAttribute("aria-expanded",String(opening));return;}
