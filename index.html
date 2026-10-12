@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <meta name="theme-color" content="#171326">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="description" content="Пепел Королевства v42.0 — Global Micro Scale & Z-Index Layering Fix.">
+  <meta name="description" content="Пепел Королевства v43.0 — Global Micro Scale & Z-Index Layering Fix.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Пепел Королевства">
@@ -14,8 +14,8 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#171326">
   <meta name="referrer" content="no-referrer">
-  <title>Пепел Королевства — v42.0</title>
-  <link rel="stylesheet" href="style.css?v=42.0">
+  <title>Пепел Королевства — v43.0</title>
+  <link rel="stylesheet" href="style.css?v=43.0">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>html,body{min-height:100%;overscroll-behavior-y:none}body{padding-bottom:env(safe-area-inset-bottom,0px)}.btn-gold,.btn-gold-pulse{animation:pulseGlow 2.5s ease-in-out infinite}</style>
 </head>
@@ -25,7 +25,7 @@
   <main id="app" class="app-shell">
     <div id="visual-fx-layer" class="visual-fx-layer" aria-hidden="true"></div>
     <header class="topbar">
-      <div class="brand"><span class="brand-mark"><svg class="ui-icon"><use href="#sigil"/></svg></span><div><strong>ПЕПЕЛ КОРОЛЕВСТВА <span class="version-badge" aria-label="Версия игры 41.0">v42.0</span></strong><small>Хроники проклятого престола</small></div></div>
+      <div class="brand"><span class="brand-mark"><svg class="ui-icon"><use href="#sigil"/></svg></span><div><strong>ПЕПЕЛ КОРОЛЕВСТВА <span class="version-badge" aria-label="Версия игры 43.0">v43.0</span></strong><small>Хроники проклятого престола</small></div></div>
       <div class="top-stats top-stats-bar">
         <div class="stat"><span><svg class="ui-icon"><use href="#heart"/></svg></span><div><small class="stat-label">❤️ HP · Здоровье</small><strong id="top-hp">—</strong><div class="mini-bar"><i id="top-hp-bar"></i></div></div></div><div class="stat stat-mana"><span><svg class="ui-icon"><use href="#sigil"/></svg></span><div><small class="stat-label">✨ МАНА</small><strong id="top-mp">—</strong><div class="mini-bar mana-mini-bar"><i id="top-mp-bar"></i></div></div></div>
         <div class="stat"><span><svg class="ui-icon"><use href="#coin"/></svg></span><div><small class="stat-label">🪙 ЗОЛОТО</small><strong id="top-gold">—</strong></div></div>
@@ -250,7 +250,7 @@
   <!-- Modal roots are siblings of #app, never descendants of filtered/transformed app wrappers. -->
     <div id="modal" class="modal hidden"><div class="modal-card panel"><button id="modal-close" class="modal-close" aria-label="Закрыть окно">×</button><div id="modal-content"></div></div></div>
     <!-- Окно предмета создаётся динамически в document.body: #rad-modal-root. -->
-  <script src="game.js?v=42.0"></script>
-  <script>if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js?v=42.0", { updateViaCache: "none" }).then(reg => reg.update()).catch(() => {})); }</script>
+  <script src="game.js?v=43.0"></script>
+  <script>if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js?v=43.0", { updateViaCache: "none" }).then(reg => reg.update()).catch(() => {})); }</script>
 </body>
 </html>

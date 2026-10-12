@@ -1,4 +1,4 @@
-/* Dark Fantasy RPG v41.0 — Global Micro Scale & Z-Index Layering Fix. */
+/* Dark Fantasy RPG v43.0 — Global Micro Scale & Z-Index Layering Fix. */
 "use strict";
 /* Self-contained content database fallback: the game remains playable as a three-file package. */
 window.RPG_DB = window.RPG_DB || (() => {
@@ -397,7 +397,7 @@ window.RPG_DB = window.RPG_DB || (() => {
   }
   let selectedRace="human";
   let inventoryFilter="all";
-  function renderRaces(){const container=$("race-options");container.innerHTML="";RPG_DB.races.forEach(r=>{const b=document.createElement("button");b.className="race-option"+(r.id===selectedRace?" selected":"");b.innerHTML=`<span class="race-icon">${svgIcon(r.id)}</span><strong>${r.name}</strong><small>${r.summary}</small>`;b.onclick=()=>{selectedRace=r.id;renderRaces();$("race-detail").textContent=r.detail;};container.appendChild(b);});$("race-detail").textContent=RPG_DB.races[0].detail;}
+  function renderRaces(){const container=$("race-options");container.innerHTML="";RPG_DB.races.forEach(r=>{const b=document.createElement("button");b.className="race-option class-card-v43"+(r.id===selectedRace?" selected":"");b.innerHTML=`<span class="race-icon">${svgIcon(r.id)}</span><strong>${r.name}</strong><small>${r.summary}</small>`;b.onclick=()=>{selectedRace=r.id;renderRaces();$("race-detail").textContent=r.detail;};container.appendChild(b);});$("race-detail").textContent=RPG_DB.races[0].detail;}
   function syncCombatTabLock(){
     const combatButton=document.querySelector('.nav-tab[data-tab="arena"]');
     if(combatButton){
@@ -444,6 +444,10 @@ window.RPG_DB = window.RPG_DB || (() => {
     screen.style.setProperty("flex-direction","column","important");
     screen.style.setProperty("visibility","visible","important");
     screen.style.setProperty("position","relative","important");
+    screen.style.setProperty("inset","auto","important");
+    screen.style.setProperty("flex-direction","column","important");
+    screen.style.setProperty("min-height","0","important");
+    screen.style.setProperty("overflow-y","auto","important");
     screen.style.setProperty("inset","auto","important");
 
     // Refresh dynamic content on entry. Some panels are hidden during most game updates;
@@ -734,7 +738,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   function openSocketRunePicker(slot){const item=state.equipment?.[slot];if(!item)return;const capacity=Number(item.socketCapacity||0),sockets=Array.isArray(item.sockets)?item.sockets:[];if(sockets.length>=capacity){toast("Сначала пробей новое гнездо");return;}const runes=state.inventory.filter(i=>i.type==="rune"&&(i.count||1)>0);if(!runes.length){toast("Нет рун для инкрустации");return;}const content=$("modal-content");content.innerHTML=`<p class="eyebrow">РУНИЧЕСКАЯ КУЗНИЦА</p><h3>Вставить руну · ${escapeHTML(item.name)}</h3><p class="muted">Свободно гнёзд: ${capacity-sockets.length}. Руна исчезнет из рюкзака и навсегда усилит предмет.</p><div class="citadel-rune-picker">${runes.map(r=>`<button class="btn btn-ghost" data-insert-rune="${slot}" data-rune-id="${r.id}">${escapeHTML(r.name)} × ${r.count||1}<small>${escapeHTML(r.description||"")}</small></button>`).join("")}</div><button class="btn btn-ghost" data-close-modal>Отмена</button>`;$("modal").classList.remove("hidden");}
   function insertRune(slot,runeId){const item=state.equipment?.[slot],rune=state.inventory.find(i=>i.id===runeId&&i.type==="rune");if(!item||!rune)return;item.sockets=Array.isArray(item.sockets)?item.sockets:[];if(item.sockets.length>=Number(item.socketCapacity||0)){toast("Нет свободного гнезда");return;}item.sockets.push(runeId);removeItem(runeId);$("modal").classList.add("hidden");playSfx("magic");addEvent("Руна инкрустирована",`${RPG_DB.items[runeId].name} усилила предмет «${item.name}».`,"sigil");updateHUD();saveGame(false);toast("Руна закреплена в гнезде");}
   function openForgeSocket(slot){const item=state.equipment?.[slot];if(!item)return;const cost=45;if(state.hero.gold<cost){toast("Для пробивки гнезда нужно 45 золота");return;}state.hero.gold-=cost;item.socketCapacity=(Number(item.socketCapacity)||0)+1;playSfx("magic");addEvent("Новое гнездо",`Кузнец пробил гнездо в предмете «${item.name}».`,"sigil");updateHUD();saveGame(false);toast("Новое гнездо готово");}
-  // v41.0 stable screen renderers: wrappers reuse the established full game renderers.
+  // v43.0 stable screen renderers: wrappers reuse the established full game renderers.
   // They deliberately do not replace existing DOM roots or reset player state.
   function renderCitadel(){
     if(!state.hero)return;
@@ -990,7 +994,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   function saveGame(show=true){
     if(!state.hero)return false;
     const data={
-      version:"v41.0", timestamp:Date.now(),
+      version:"v43.0", timestamp:Date.now(),
       hero:state.hero, raceId:state.race?.id||state.hero.raceId||"human",
       inventory:state.inventory, equipment:state.equipment,
       reputation:state.reputation, quests:state.quests, questClaimed:state.questClaimed,
