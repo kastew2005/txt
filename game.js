@@ -1,6 +1,31 @@
-/* Dark Fantasy RPG v34.1 — Intelligent & Brutal Enemies Overhaul. */
+/* Dark Fantasy RPG v36.0 — Telegram Web App & Fullscreen Integration. */
 "use strict";
 (() => {
+  // Telegram Web App integration is progressive: normal browser/PWA mode remains unchanged.
+  const tg = window.Telegram?.WebApp;
+  if (tg) {
+    try { tg.ready(); } catch (error) { console.warn("Telegram WebApp ready() failed:", error); }
+    try { tg.expand(); } catch (error) { console.warn("Telegram WebApp expand() failed:", error); }
+    // Fullscreen is client/version dependent and may require a user gesture or be rejected.
+    if (typeof tg.requestFullscreen === "function") {
+      try {
+        const fullscreenRequest = tg.requestFullscreen();
+        if (fullscreenRequest && typeof fullscreenRequest.catch === "function") {
+          fullscreenRequest.catch(error => console.info("Telegram fullscreen unavailable:", error));
+        }
+      } catch (error) {
+        console.info("Telegram fullscreen unavailable:", error);
+      }
+    }
+    try {
+      if (tg.backgroundColor && document.body) {
+        document.body.style.backgroundColor = tg.backgroundColor;
+      }
+    } catch (error) {
+      console.warn("Telegram theme background could not be applied:", error);
+    }
+  }
+
   const $ = id => document.getElementById(id);
   // Safe, progressive haptics: unsupported browsers and denied vibration are harmless.
   function triggerHaptic(type = "light") {
@@ -228,7 +253,7 @@
   function mapNodeUnlocked(id){const node=MAP_LOCATIONS[id];if(id==="vault"&&!(state.unlockedMapNodes||[]).includes(id))return false;return !node?.lockRequirement||gateRequirementMet(node);}
   function showRegionGateModal(id){const n=MAP_LOCATIONS[id];if(!n)return;const content=$("modal-content");if(!content)return;content.innerHTML=`<p class="eyebrow">ЗАПЕЧАТАННЫЙ РЕГИОН</p><h3>🔒 ${escapeHTML(n.name)}</h3><p class="muted">Проход запечатан! Требуется: <strong>${escapeHTML(gateRequirementText(n))}</strong>.</p><p>Выполни условие, затем вернись к узлу. Прогресс сохраняется автоматически.</p><button class="btn btn-gold" data-close-modal>Понятно</button>`;const modal=$("modal");if(modal)modal.classList.remove("hidden");}
   function revealMapAround(id){state.discoveredLocations=Array.from(new Set([...(state.discoveredLocations||["tavern","forest"]),id,...(MAP_LINKS[id]||[])]));}
-  // v35.0: compact world-action accordions. Native <details> preserves keyboard and touch accessibility.
+  // v35.4: compact world-action accordions. Native <details> preserves keyboard and touch accessibility.
   function initWorldAccordions(){
     const groups=Array.from(document.querySelectorAll("#tab-world .world-accordion"));
     if(!groups.length)return;
@@ -246,12 +271,13 @@
     revealMapAround(currentLocation);
     if(!MAP_LOCATIONS[selectedLocation]||!state.discoveredLocations.includes(selectedLocation)||!(MAP_LINKS[currentLocation]||[]).includes(selectedLocation))selectedLocation=(MAP_LINKS[currentLocation]||[]).find(id=>state.discoveredLocations.includes(id)&&mapNodeUnlocked(id))||currentLocation;
     const token=$("hero-map-token");if(token)token.setAttribute("transform",`translate(${loc.x} ${loc.y})`);
+    document.querySelectorAll("#travel-map .map-location > text:not(.node-glyph):not(.node-title)").forEach(label=>label.classList.add("node-title"));
     const status=$("map-location-status"),travelBtn=$("travel-btn"),chosen=MAP_LOCATIONS[selectedLocation]||loc;
     const blocked=selectedLocation!==currentLocation&&!mapNodeUnlocked(selectedLocation);
     if(status)status.textContent=selectedLocation===currentLocation?`Ты уже здесь: ${loc.name}`:blocked?`Запечатано: ${chosen.name} · нужен ключ, взлом или Цитадель III`: `Соседняя тропа: ${chosen.name}`;
     if(travelBtn){travelBtn.innerHTML=blocked?"Открыть проход ⛓":selectedLocation===currentLocation?"Ты на месте":"Выбрать путь →";travelBtn.disabled=travelAnimating||state.inCombat||selectedLocation===currentLocation;}
     document.querySelectorAll(".map-location").forEach(node=>{const id=node.dataset.location,revealed=(state.discoveredLocations||[]).includes(id);node.classList.toggle("is-hidden-by-fog",!revealed);node.classList.toggle("is-current",id===currentLocation);node.classList.toggle("is-selected",id===selectedLocation);node.setAttribute("aria-pressed",String(id===selectedLocation));node.setAttribute("aria-hidden",String(!revealed));});
-    const dyn=$("map-dynamic-nodes"),routes=$("map-dynamic-routes");if(dyn)dyn.innerHTML=Object.entries(MAP_LOCATIONS).filter(([id])=>!["forest","ruins","altar","tavern"].includes(id)).map(([id,n])=>{const revealed=(state.discoveredLocations||[]).includes(id),locked=!mapNodeUnlocked(id);return `<g class="map-location map-dynamic-node ${revealed?"":"is-hidden-by-fog"} ${locked?"is-locked-node":""} ${n.lockRequirement?"region-gate":""} ${n.region?"region-"+n.region:""} ${id===currentLocation?"is-current":""} ${id===selectedLocation?"is-selected":""}" data-location="${id}" role="button" tabindex="${revealed?0:-1}" aria-label="${n.name}${locked?", запечатано":""}" aria-hidden="${!revealed}" aria-pressed="${id===selectedLocation}" transform="translate(${n.x} ${n.y})" style="pointer-events:${revealed?"auto":"none"}"><circle class="node-hit-area" r="25" fill="transparent" pointer-events="all"/><circle class="node-halo" r="22"/><circle class="node-ring" r="16"/><text class="node-glyph" text-anchor="middle" y="6">${locked?"🔒":MAP_NODE_ICONS[id]||"✦"}</text><text y="35" text-anchor="middle">${n.name}</text></g>`;}).join("");
+    const dyn=$("map-dynamic-nodes"),routes=$("map-dynamic-routes");if(dyn)dyn.innerHTML=Object.entries(MAP_LOCATIONS).filter(([id])=>!["forest","ruins","altar","tavern"].includes(id)).map(([id,n])=>{const revealed=(state.discoveredLocations||[]).includes(id),locked=!mapNodeUnlocked(id);return `<g class="map-location map-dynamic-node ${revealed?"":"is-hidden-by-fog"} ${locked?"is-locked-node":""} ${n.lockRequirement?"region-gate":""} ${n.region?"region-"+n.region:""} ${id===currentLocation?"is-current":""} ${id===selectedLocation?"is-selected":""}" data-location="${id}" role="button" tabindex="${revealed?0:-1}" aria-label="${n.name}${locked?", запечатано":""}" aria-hidden="${!revealed}" aria-pressed="${id===selectedLocation}" transform="translate(${n.x} ${n.y})" style="pointer-events:${revealed?"auto":"none"}"><circle class="node-hit-area" r="25" fill="transparent" pointer-events="all"/><circle class="node-halo" r="22"/><circle class="node-ring" r="16"/><text class="node-glyph" text-anchor="middle" y="6">${locked?"🔒":MAP_NODE_ICONS[id]||"✦"}</text><rect class="node-label-bg" x="${-Math.min(92, n.name.length*2.9+7)}" y="${(id==="tavern"?35:id==="ruins"?44:id==="north_pass"?35:35)-10}" width="${Math.min(184,n.name.length*5.8+14)}" height="16" rx="3"/><text class="node-title" x="${id==="tavern"?-8:id==="ruins"?6:id==="north_pass"?10:0}" y="${id==="ruins"?44:35}" text-anchor="middle">${n.name}</text></g>`;}).join("");
     if(routes)routes.innerHTML=Object.entries(MAP_LINKS).flatMap(([a,links])=>links.filter(b=>MAP_LOCATIONS[a]&&MAP_LOCATIONS[b]&&Object.keys(MAP_LINKS).indexOf(a)<Object.keys(MAP_LINKS).indexOf(b)).map(b=>{const A=MAP_LOCATIONS[a],B=MAP_LOCATIONS[b],visible=(state.discoveredLocations||[]).includes(a)&&(state.discoveredLocations||[]).includes(b);return `<path class="map-road map-overhaul-road ${visible?"":"is-hidden-by-fog"}" d="M${A.x} ${A.y} Q${(A.x+B.x)/2} ${(A.y+B.y)/2-9} ${B.x} ${B.y}"/>`;})).join("");
     const markers=$("map-anomaly-markers");if(markers)markers.innerHTML=state.anomaly?(()=>{const pos={blood_altar:{x:310,y:145,icon:"🩸"},wandering_merchant:{x:315,y:225,icon:"♜"},forgotten_treasury:{x:180,y:55,icon:"✧"},rift:{x:465,y:65,icon:"ϟ"}}[state.anomaly.id]||{x:310,y:145,icon:"✦"};return `<g class="map-anomaly-marker" data-anomaly="${state.anomaly.id}" role="button" tabindex="0" aria-label="${state.anomaly.name}" transform="translate(${pos.x} ${pos.y})"><circle r="17"/><text y="6" text-anchor="middle">${pos.icon}</text></g>`;})():"";
     const route=$("map-selected-route");if(route){const a=MAP_LOCATIONS[currentLocation]||loc,b=chosen;route.setAttribute("d",`M${a.x} ${a.y} Q${(a.x+b.x)/2} ${(a.y+b.y)/2-25} ${b.x} ${b.y}`);route.style.display=selectedLocation===currentLocation||!mapNodeUnlocked(selectedLocation)?"none":"block";}
@@ -850,7 +876,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   function saveGame(show=true){
     if(!state.hero)return false;
     const data={
-      version:"v35.3", timestamp:Date.now(),
+      version:"v36.0", timestamp:Date.now(),
       hero:state.hero, raceId:state.race?.id||state.hero.raceId||"human",
       inventory:state.inventory, equipment:state.equipment,
       reputation:state.reputation, quests:state.quests, questClaimed:state.questClaimed,
