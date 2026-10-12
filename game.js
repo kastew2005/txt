@@ -29,7 +29,7 @@ window.RPG_DB = window.RPG_DB || (() => {
   const tg = window.Telegram?.WebApp;
   if (tg) {
     try { tg.ready(); } catch (error) { console.warn("Telegram WebApp ready() failed:", error); }
-    try { tg.expand(); } catch (error) { console.warn("Telegram WebApp expand() failed:", error); }
+    try { tg.expand(); window.addEventListener("load", () => { try { tg.expand(); } catch (_) {} }); } catch (error) { console.warn("Telegram WebApp expand() failed:", error); }
     // Fullscreen is client/version dependent and may require a user gesture or be rejected.
     if (typeof tg.requestFullscreen === "function") {
       try {
@@ -440,8 +440,11 @@ window.RPG_DB = window.RPG_DB || (() => {
     });
     screen.classList.remove("hidden");
     screen.setAttribute("aria-hidden","false");
-    screen.style.setProperty("display","block","important");
+    screen.style.setProperty("display","flex","important");
+    screen.style.setProperty("flex-direction","column","important");
     screen.style.setProperty("visibility","visible","important");
+    screen.style.setProperty("position","relative","important");
+    screen.style.setProperty("inset","auto","important");
 
     // Refresh dynamic content on entry. Some panels are hidden during most game updates;
     // rendering them here prevents stale/empty Citadel and Hero inventory screens.
