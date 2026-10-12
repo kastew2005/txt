@@ -1,4 +1,4 @@
-/* Dark Fantasy RPG v45.0 — Compact World Grid & Active Arena Render. */
+/* Dark Fantasy RPG v47.0 — Compact World Grid & Active Arena Render. */
 "use strict";
 /* Self-contained content database fallback: the game remains playable as a three-file package. */
 window.RPG_DB = window.RPG_DB || (() => {
@@ -759,7 +759,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
     renderTravelMap();
     updateWorldPhase();
   }
-  // v45.0: always render the full arena panel, including the no-enemy waiting state.
+  // v47.0: always render the full arena panel, including the no-enemy waiting state.
   function renderBattleArena(){
     if(!state.hero)return;
     renderArena();
@@ -1155,7 +1155,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
     if(!el||el.disabled)return;
     if(el.closest("#tutorial-overlay"))return;
     const id=el.id,tab=el.dataset.tab,action=el.dataset.action;
-    if(state.inCombat && (el.matches(".bottom-nav .nav-tab:not([data-tab=\"arena\"])") || id==="more-nav-btn" || el.matches("[data-more-tab]"))){
+    if(state.inCombat && (el.matches(".bottom-nav .nav-tab:not([data-tab=\"arena\"])") || id==="more-nav-btn" || el.matches("[data-more-tab], [data-screen]"))){
       e.preventDefault();
       toast("Сначала заверши бой или отступи!");
       return;
@@ -1175,6 +1175,19 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
     if(el.matches("[data-tab]:not(.nav-tab)")){e.preventDefault();switchTab(tab);return;}
     if(id==="more-nav-btn"){const menu=$("more-menu"),opening=menu.classList.contains("hidden");menu.classList.toggle("hidden",!opening);el.setAttribute("aria-expanded",String(opening));return;}
     if(el.hasAttribute("data-close-more")){ $("more-menu")?.classList.add("hidden");$("more-nav-btn")?.setAttribute("aria-expanded","false");return; }
+    // v47.0 Universal sub-module router: use existing full-featured screens rather than replacing their DOM.
+    if(el.dataset.screen){
+      const routeMap={tavern:"tavern",skills:"skills",pets:"pets",dungeon:"dungeon",alchemy:"craft",craft:"craft",abyss:"abyss",bestiary:"bestiary",legacy:"legacy"};
+      const destination=routeMap[el.dataset.screen];
+      if(destination){e.preventDefault();$("more-menu")?.classList.add("hidden");$("more-nav-btn")?.setAttribute("aria-expanded","false");switchTab(destination);return;}
+    }
+    if(el.dataset.modal){
+      e.preventDefault();
+      const modalId=el.dataset.modal;
+      const modal=$(modalId) || $("modal");
+      if(modal){modal.classList.remove("hidden");modal.style.display="flex";}
+      return;
+    }
     if(el.dataset.moreTab){switchTab(el.dataset.moreTab);return;}
     if(id==="save-manager-btn"){openSaveManager();return;}
     if(id==="tutorial-replay-btn"||id==="save-tutorial-replay-btn"){replayTutorial();return;}
