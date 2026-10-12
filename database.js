@@ -2,7 +2,7 @@
 /* База данных мира. Все предметы и события описаны здесь, игровая логика находится в game.js. */
 "use strict";
 const RPG_DB = {
-  version: "33.0",
+  version: "30.0",
   races: [
     {id:"human",name:"Человек",icon:"human",summary:"Универсальность и воля",lore:"Люди не сильнее древних рас, но их упорство меняет ход истории.",mods:{hp:0,str:0,dodge:0,crit:0,gold:15},detail:"+15 стартового золота. Без слабых сторон."},
     {id:"elf",name:"Эльф",icon:"leaf",summary:"Ловкость и точность",lore:"Последние дети старых лесов умеют видеть слабые места даже в темноте.",mods:{hp:-8,str:-1,dodge:8,crit:7,gold:0},detail:"+8% уворота, +7% крит. шанса, −8 здоровья, −1 сила."},
@@ -47,11 +47,11 @@ const RPG_DB = {
     lightning_rune:{id:"lightning_rune",name:"Руна Молнии",icon:"gold_charm",type:"rune",price:52,rarity:"legendary",socketAttack:2,socketCrit:5,description:"Инкрустированная руна даёт +2 атаки и +5% критического шанса."}
   },
   monsters: [
-    {id:"wolf",name:"Голодный волк",icon:"wolf",hp:28,attack:5,defense:1,xp:12,gold:[4,10],dodge:8,stance:"Aggressive",specialCooldown:3,weakness:["fire"],resist:["physical"],description:"Зверь с рёбрами, проступающими сквозь шкуру."},
-    {id:"bandit",name:"Дорожный головорез",icon:"sword",hp:36,attack:7,defense:2,xp:18,gold:[8,17],dodge:4,stance:"Aggressive",specialCooldown:3,weakness:["holy"],resist:["physical"],description:"Когда-то он тоже искал честную жизнь."},
-    {id:"skeleton",name:"Костяной страж",icon:"skull",hp:43,attack:8,defense:3,xp:22,gold:[5,14],dodge:2,stance:"Defensive",specialCooldown:3,weakness:["fire","holy"],resist:["physical","poison"],description:"Старая броня звенит на костях безымянного воина."},
-    {id:"wraith",name:"Пепельный призрак",icon:"wraith",hp:51,attack:10,defense:2,xp:29,gold:[12,24],dodge:12,stance:"Parry",specialCooldown:2,weakness:["holy","fire"],resist:["physical","poison"],description:"Его шёпот напоминает голос того, кого ты потерял."},
-    {id:"knight",name:"Падший рыцарь",icon:"knight",hp:72,attack:12,defense:5,xp:42,gold:[20,36],dodge:3,stance:"Defensive",specialCooldown:2,weakness:["lightning","holy"],resist:["physical","poison"],description:"Он всё ещё охраняет корону, которой больше нет."}
+    {id:"wolf",name:"Голодный волк",icon:"wolf",hp:28,attack:5,defense:1,xp:12,gold:[4,10],dodge:8,description:"Зверь с рёбрами, проступающими сквозь шкуру."},
+    {id:"bandit",name:"Дорожный головорез",icon:"sword",hp:36,attack:7,defense:2,xp:18,gold:[8,17],dodge:4,description:"Когда-то он тоже искал честную жизнь."},
+    {id:"skeleton",name:"Костяной страж",icon:"skull",hp:43,attack:8,defense:3,xp:22,gold:[5,14],dodge:2,description:"Старая броня звенит на костях безымянного воина."},
+    {id:"wraith",name:"Пепельный призрак",icon:"wraith",hp:51,attack:10,defense:2,xp:29,gold:[12,24],dodge:12,description:"Его шёпот напоминает голос того, кого ты потерял."},
+    {id:"knight",name:"Падший рыцарь",icon:"knight",hp:72,attack:12,defense:5,xp:42,gold:[20,36],dodge:3,description:"Он всё ещё охраняет корону, которой больше нет."}
   ],
   roadEncounters: [
     {id:"bandit_ambush",title:"Засада разбойников",icon:"sword",text:"Из-за поваленной телеги выходят трое разбойников. Старший крутит нож и требует плату за проход.",choices:[{id:"fight",label:"Драться",tone:"danger",kind:"fight",result:"Ты не уступил дорогу головорезам."},{id:"pay",label:"Откупиться · 12 золота",tone:"gold",kind:"pay",amount:12,karma:-1,rep:{common:-1},result:"Разбойники забрали плату и скрылись в кустах."},{id:"flee",label:"Сбежать",tone:"ghost",kind:"flee",result:"Ты свернул с тракта и ушёл от засады."}]},
