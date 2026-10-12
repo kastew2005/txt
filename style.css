@@ -3013,3 +3013,79 @@ img, svg, video, canvas, iframe, table { max-width:100%; }
   .stat-box, .stat-card, .header-stat, .stat-item { padding:5px 2px !important; font-size:11px !important; }
   .header-container, .top-bar, .app-header, .game-header, header { padding:8px !important; }
 }
+
+
+/* v35.4 — Map Labels Fix & Ultimate Responsive Polish */
+.map-node-label, .node-title {
+  position: absolute; z-index: 5; display: block;
+  max-width: min(220px, 72vw); overflow: hidden; text-overflow: ellipsis;
+  font-size: 11px !important; font-weight: 700 !important; line-height: 1.25 !important;
+  white-space: nowrap !important; background: rgba(15, 12, 25, 0.85) !important;
+  color: #f5e8c6; padding: 2px 6px !important; border-radius: 4px !important;
+  border: 1px solid rgba(255, 215, 0, 0.2) !important;
+  transform: translate(-50%, 4px); box-sizing: border-box; pointer-events: none;
+}
+.map-node { isolation: isolate; box-sizing: border-box; }
+.stats-row { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: clamp(3px, 1.1vw, 8px) !important; width: 100%; min-width: 0; max-width: 100%; box-sizing: border-box; align-items: stretch; }
+.stats-row > *, .stat-box { min-width: 0 !important; max-width: 100%; box-sizing: border-box; }
+.stat-box { overflow: hidden; padding-inline: clamp(3px, 1vw, 10px); }
+.stat-box :is(span, small, strong, b, .stat-value, .stat-label) { min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.stats-row :is(.stat-value, .value, strong, b) { white-space: nowrap; font-size: clamp(10px, 2.7vw, 16px); }
+.stats-row :is(.stat-label, small, .label) { white-space: nowrap; font-size: clamp(8px, 2.1vw, 11px); }
+html, body { max-width: 100%; overflow-x: hidden; }
+#app, .app, .game-container, .main-container, header, .game-header { min-width: 0; max-width: 100%; box-sizing: border-box; }
+@media (max-width: 380px) { .stats-row { gap: 3px !important; } .stat-box { padding-inline: 2px !important; } .stats-row :is(.stat-value, .value, strong, b) { font-size: 10px !important; } .stats-row :is(.stat-label, small, .label) { font-size: 8px !important; } .map-node-label, .node-title { font-size: 10px !important; max-width: 64vw; } }
+
+
+/* v36.2 — Telegram stats stability, single-screen router and centered map labels */
+.topbar, .topbar * { box-sizing: border-box; }
+.top-stats { min-width: 0 !important; max-width: 100% !important; }
+.top-stats .stat { min-width: 0 !important; box-sizing: border-box !important; }
+.top-stats .stat > div { min-width: 0 !important; max-width: 100% !important; }
+.top-stats .stat strong {
+  display: block !important; min-width: 0 !important; max-width: 100% !important;
+  white-space: nowrap !important; overflow: visible !important; text-overflow: clip !important;
+  overflow-wrap: normal !important; word-break: keep-all !important;
+  font-variant-numeric: tabular-nums lining-nums !important; line-height: 1.2 !important;
+}
+.top-stats .stat small { white-space: nowrap !important; overflow: visible !important; text-overflow: clip !important; }
+.stats-row {
+  display: grid !important; grid-template-columns: repeat(4, 1fr) !important;
+  gap: 6px !important; width: 100% !important; min-width: 0 !important;
+  max-width: 100% !important; box-sizing: border-box !important;
+}
+.stat-box {
+  background: rgba(25, 20, 40, 0.95) !important;
+  border: 1px solid rgba(255, 215, 0, 0.3) !important;
+  border-radius: 8px !important; padding: 6px 2px !important;
+  text-align: center !important; font-size: 12px !important;
+  font-weight: 700 !important; color: #f3f0ff !important;
+  min-width: 0 !important; box-sizing: border-box !important;
+}
+.stat-box strong, .stat-box .stat-value, .stat-box b {
+  white-space: nowrap !important; word-break: normal !important;
+  overflow-wrap: normal !important; font-variant-numeric: tabular-nums !important;
+}
+.map-node-label, .node-title {
+  position: absolute !important; transform: translateX(-50%) !important;
+  font-size: 11px !important; font-weight: 700 !important; white-space: nowrap !important;
+  background: rgba(15, 12, 25, 0.9) !important; padding: 2px 6px !important;
+  border-radius: 4px !important; border: 1px solid rgba(255, 215, 0, 0.25) !important;
+  color: #f5e8c6 !important; box-sizing: border-box !important;
+}
+/* Map locations are SVG groups in this build; center their real SVG text labels too. */
+.map-location text {
+  text-anchor: middle !important; dominant-baseline: auto !important;
+  font-size: 11px !important; font-weight: 700 !important; fill: #f5e8c6 !important;
+  paint-order: stroke fill !important; stroke: rgba(15, 12, 25, .94) !important;
+  stroke-width: 5px !important; stroke-linejoin: round !important;
+  pointer-events: none !important; white-space: nowrap !important;
+}
+.tab-view.hidden, .tab-view[aria-hidden="true"] { display: none !important; visibility: hidden !important; }
+.tab-view:not(.hidden)[aria-hidden="false"] { visibility: visible !important; }
+@media (max-width: 380px) {
+  .top-stats .stat strong { font-size: 10px !important; letter-spacing: -.02em !important; }
+  .stats-row { gap: 4px !important; }
+  .stat-box { padding: 6px 2px !important; font-size: 11px !important; }
+  .map-location text { font-size: 10px !important; stroke-width: 4px !important; }
+}

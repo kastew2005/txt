@@ -1,4 +1,4 @@
-/* Dark Fantasy RPG v36.0 — Telegram Web App & Fullscreen Integration. */
+/* Dark Fantasy RPG v36.2 — Telegram UI, Stats Stability & Tab Router Polish. */
 "use strict";
 (() => {
   // Telegram Web App integration is progressive: normal browser/PWA mode remains unchanged.
@@ -318,7 +318,33 @@
     const bestiary=state.bestiary||{};out.bestiaryDamage=Object.values(bestiary).reduce((n,b)=>n+((b.count||0)>=30?0.15:(b.count||0)>=15?0.08:(b.count||0)>=5?0.03:0),0);out.defense+=Number(mutationRanks.light_aegis||0)*2;out.maxHp+=Number(mutationRanks.light_mend||0)*2;const relics=(state.inventory||[]).filter(i=>["heart_of_ash","saint_vessel","void_heart"].includes(i.id));out.attack+=relics.reduce((n,i)=>n+(Number(i.attack)||0),0);out.maxHp+=relics.reduce((n,i)=>n+(Number(i.maxHp)||0),0);if(relics.some(i=>i.id==="saint_vessel"))out.defense+=2;const morality=Number(h.karma||0);if(morality>0)out.defense+=Math.min(3,Math.floor(morality/3));if(morality<0)out.attack+=Math.min(4,Math.floor(Math.abs(morality)/3));if((state.injuries||[]).includes("rib")){out.attack=Math.max(1,out.attack-2);out.defense=Math.max(0,out.defense-1);}if((state.injuries||[]).includes("arm"))out.attack=Math.max(1,out.attack-4);if((state.injuries||[]).includes("leg"))out.dodge=0;if((state.injuries||[]).includes("fear"))out.crit=Math.max(0,out.crit-4);return out;}
   function xpNeed(){return 35+state.hero.level*22;}
   function recalcHP(){const s=stats();state.hero.maxHp=s.maxHp;state.hero.hp=clamp(state.hero.hp,0,s.maxHp);}
-  function updateTop(){if(!state.hero)return;const h=state.hero,s=stats(),karma=clamp(Number(h.karma||0),-10,10),corruption=Math.max(0,-Number(h.karma||0));document.body.classList.toggle("low-health",h.hp/s.maxHp<.2);$("top-hp").textContent=`${h.hp}/${s.maxHp}`;$("top-gold").textContent=h.gold;$("top-level").textContent=h.level;$("top-karma").textContent=(h.karma>0?"+":"")+h.karma;const corruptionEl=$("top-corruption");if(corruptionEl)corruptionEl.textContent=corruption;const topMp=$("top-mp"),topMpBar=$("top-mp-bar");if(topMp)topMp.textContent=`${h.mp??s.maxMp}/${s.maxMp}`;if(topMpBar)topMpBar.style.width=`${clamp((h.mp||0)/s.maxMp*100,0,100)}%`;const meter=$("morality-meter-fill"),meterWrap=document.querySelector(".morality-meter"),label=$("morality-label");if(meter)meter.style.width=`${(karma+10)*5}%`;if(meterWrap)meterWrap.setAttribute("aria-valuenow",String(karma));if(label)label.textContent=karma>=5?"Светлый путь · бонус к защите":karma<=-5?"Скверна · бонус к атаке":"Баланс поступков";if(meter)meter.classList.toggle("is-corrupt",karma<0);const moralStat=document.querySelector(".morality-stat"),profilePanel=document.querySelector(".profile-panel"),meterPanel=document.querySelector(".morality-meter");[moralStat,profilePanel,meterPanel].forEach(node=>{if(!node)return;node.classList.toggle("karma-aura-gold",Number(h.karma)>10);node.classList.toggle("karma-aura-corrupt",Number(h.karma)<-10);});$("top-hp-bar").style.width=`${h.hp/s.maxHp*100}%`; }
+  function updateTop(){
+    if(!state.hero)return; // The start screen may show placeholders; once a hero exists, render real numbers.
+    const h=state.hero,s=stats();
+    const maxHp=Math.max(1,Number(s.maxHp)||1);
+    const hp=clamp(Number(h.hp??maxHp)||0,0,maxHp);
+    const maxMp=Math.max(1,Number(s.maxMp)||1);
+    const mp=clamp(Number(h.mp??maxMp)||0,0,maxMp);
+    const gold=Math.max(0,Math.floor(Number(h.gold)||0));
+    const level=Math.max(1,Math.floor(Number(h.level)||1));
+    const karmaValue=Number(h.karma)||0;
+    const karma=clamp(karmaValue,-10,10),corruption=Math.max(0,-karmaValue);
+    document.body.classList.toggle("low-health",hp/maxHp<.2);
+    const setText=(id,value)=>{const node=$(id);if(node)node.textContent=String(value);};
+    setText("top-hp",`${Math.floor(hp)}/${Math.floor(maxHp)}`);
+    setText("top-mp",`${Math.floor(mp)}/${Math.floor(maxMp)}`);
+    setText("top-gold",gold);setText("top-level",level);
+    setText("top-karma",(karmaValue>0?"+":"")+karmaValue);setText("top-corruption",corruption);
+    const topMpBar=$("top-mp-bar");if(topMpBar)topMpBar.style.width=`${clamp(mp/maxMp*100,0,100)}%`;
+    const meter=$("morality-meter-fill"),meterWrap=document.querySelector(".morality-meter"),label=$("morality-label");
+    if(meter)meter.style.width=`${(karma+10)*5}%`;
+    if(meterWrap)meterWrap.setAttribute("aria-valuenow",String(karma));
+    if(label)label.textContent=karma>=5?"Светлый путь · бонус к защите":karma<=-5?"Скверна · бонус к атаке":"Баланс поступков";
+    if(meter)meter.classList.toggle("is-corrupt",karma<0);
+    const moralStat=document.querySelector(".morality-stat"),profilePanel=document.querySelector(".profile-panel");
+    [moralStat,profilePanel,meterWrap].forEach(node=>{if(!node)return;node.classList.toggle("karma-aura-gold",karmaValue>10);node.classList.toggle("karma-aura-corrupt",karmaValue<-10);});
+    const topHpBar=$("top-hp-bar");if(topHpBar)topHpBar.style.width=`${clamp(hp/maxHp*100,0,100)}%`;
+  }
   function renderSide(){if(!state.hero)return;const h=state.hero,s=stats();$("side-name").textContent=h.name;$("side-race").textContent=state.race.name;$("side-attack").textContent=s.attack;$("side-defense").textContent=s.defense;$("side-dodge").textContent=s.dodge+"%";$("side-crit").textContent=s.crit+"%";$("side-xp").textContent=`${h.xp}/${xpNeed()}`;$("xp-bar").style.width=`${Math.min(100,h.xp/xpNeed()*100)}%`;$("hero-medallion").innerHTML=svgIcon(state.race.id,"medallion-svg");}
   function updateCitadelNotification(){
     const button=document.querySelector('.nav-tab[data-tab="castle"]');
@@ -363,35 +389,50 @@
       button.title=locked?"Сначала заверши бой или отступи!":"";
     });
   }
-  function switchTab(requestedTab){
-    let tab=requestedTab==="hero"?"inventory":requestedTab;
+  function switchTab(targetTab){
+    const requested=String(targetTab||"").trim();
+    let tab=requested==="hero"?"inventory":requested;
     if(tab==="combat")tab="arena";
+    const screen=$("tab-"+tab);
+    if(!screen||!screen.classList.contains("tab-view"))return false;
     // During an active fight, keep the player in the arena until victory or retreat.
-    // Do not set aria-disabled on these nav buttons: delegated clicks must still reach
-    // this guard so the player receives the explanatory toast.
-    if(state.inCombat && tab!=="arena"){
-      syncCombatTabLock();
-      toast("Сначала заверши бой или отступи!");
-      return;
+    if(state.inCombat&&tab!=="arena"){
+      syncCombatTabLock();toast("Сначала заверши бой или отступи!");return false;
     }
     if(tab==="arena"&&!(state.inCombat&&state.enemy)){
-      syncCombatTabLock();
-      toast("Вокруг нет врагов. Исследуйте карту!");
-      return;
+      syncCombatTabLock();toast("Вокруг нет врагов. Исследуйте карту!");return false;
     }
-    if(!$(`tab-${tab}`))return;
     state.currentTab=tab;
     if(tab==="castle"&&state.citadelAlert){state.citadelAlert=false;saveGame(false);}
-    document.querySelectorAll(".nav-tab").forEach(b=>{
-      const isHero=b.dataset.tab==="hero"&&(tab==="inventory"||tab==="profile");
-      b.classList.toggle("active",b.dataset.tab===tab||isHero);
+
+    // Single-screen invariant: all views are explicitly hidden before the target is shown.
+    document.querySelectorAll(".tab-view").forEach(view=>{
+      view.classList.add("hidden");
+      view.setAttribute("aria-hidden","true");
+      view.style.setProperty("display","none","important");
+      view.style.setProperty("visibility","hidden","important");
+    });
+    screen.classList.remove("hidden");
+    screen.setAttribute("aria-hidden","false");
+    screen.style.setProperty("display","block","important");
+    screen.style.setProperty("visibility","visible","important");
+
+    const primaryTabs=new Set(["world","arena","castle","inventory","profile"]);
+    const heroSelected=tab==="inventory"||tab==="profile";
+    document.querySelectorAll(".bottom-nav .nav-tab").forEach(button=>{
+      const buttonTab=button.dataset.tab;
+      const active=button.id==="more-nav-btn"?!primaryTabs.has(tab):
+        (buttonTab===tab||(buttonTab==="hero"&&heroSelected));
+      button.classList.toggle("active",active);
+      if(active)button.setAttribute("aria-current","page");else button.removeAttribute("aria-current");
     });
     syncCombatTabLock();
-    document.querySelectorAll(".tab-view").forEach(v=>v.classList.add("hidden"));
-    $(`tab-${tab}`).classList.remove("hidden");
     const titles={world:["ЗЕМЛИ СЕВЕРА","Перекрёсток судьбы"],arena:["КРОВАВЫЙ ПЕСОК","Арена боя"],inventory:["СНАРЯЖЕНИЕ","Герой · Инвентарь"],profile:["ХРОНИКИ СТРАННИКА","Герой · Профиль"],tavern:["УБЕЖИЩЕ ПУТНИКА","Таверна"],skills:["ПУТЬ МАСТЕРСТВА","Древо навыков"],pets:["ВЕРНЫЕ СПУТНИКИ","Питомцы и спутники"],dungeon:["ЗАБЫТЫЕ ГЛУБИНЫ","Подземелье"],craft:["ЛАГЕРНАЯ МАСТЕРСКАЯ","Крафт и алхимия"],castle:["ВОЗРОЖДЕНИЕ КОРОЛЕВСТВА","Цитадель и торговец"],abyss:["БЕСКОНЕЧНЫЙ СПУСК","Врата Бездны"],bestiary:["ДНЕВНИК ОХОТНИКА","Бестиарий и трофеи"],legacy:["ПАМЯТЬ ПОКОЛЕНИЙ","Наследие"]};
-    $("scene-eyebrow").textContent=titles[tab][0];$("scene-title").textContent=titles[tab][1];
-    const more=$("more-menu");if(more)more.classList.add("hidden");const moreBtn=$("more-nav-btn");if(moreBtn)moreBtn.setAttribute("aria-expanded","false");
+    const title=titles[tab];
+    if(title){const eyebrow=$("scene-eyebrow"),heading=$("scene-title");if(eyebrow)eyebrow.textContent=title[0];if(heading)heading.textContent=title[1];}
+    const more=$("more-menu");if(more)more.classList.add("hidden");
+    const moreBtn=$("more-nav-btn");if(moreBtn)moreBtn.setAttribute("aria-expanded","false");
+    return true;
   }
   function equipFromInventory(id,quiet=false){const item=state.inventory.find(x=>x.id===id);if(!item||!item.slot)return false;if(!raceCanUse(item)){toast(`Экипировка недоступна. ${raceUseLabel(item)}.`);return false;}const slot=item.slot;const previous=state.equipment[slot];if(previous)addItem(previous.id);state.equipment[slot]={...item,count:1};removeItem(id);recalcHP();if(!quiet)toast(`${item.name}: экипировано`);return true;}
   function unequip(slot){const item=state.equipment[slot];if(!item)return;addItem(item.id);state.equipment[slot]=null;recalcHP();updateHUD();toast("Предмет снят");}
@@ -876,7 +917,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   function saveGame(show=true){
     if(!state.hero)return false;
     const data={
-      version:"v36.0", timestamp:Date.now(),
+      version:"v36.2", timestamp:Date.now(),
       hero:state.hero, raceId:state.race?.id||state.hero.raceId||"human",
       inventory:state.inventory, equipment:state.equipment,
       reputation:state.reputation, quests:state.quests, questClaimed:state.questClaimed,
