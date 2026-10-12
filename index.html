@@ -5,20 +5,23 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <meta name="theme-color" content="#0d0a1a">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Пепел Королевства v38.0 — компактная RPG для Telegram Mini App.">
-  <title>Пепел Королевства — v38.0</title>
-  <link rel="stylesheet" href="style.css?v=38.0">
+  <meta name="description" content="Пепел Королевства v39.0 — компактная RPG для Telegram Mini App.">
+  <title>Пепел Королевства — v39.0</title>
+  <link rel="stylesheet" href="style.css?v=39.0">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
   <div id="app-root">
-    <header class="top-bar-v38">
-      <div class="brand-mini"><span class="brand-sigil">✦</span><strong>ПЕПЕЛ <span class="version-badge">v38.0</span></strong></div>
+    <header class="top-bar-v39">
+      <div class="brand-mini"><span class="brand-sigil">✦</span><strong>ПЕПЕЛ КОРОЛЕВСТВА</strong><span class="version-badge">v39.0</span></div>
       <div class="stat-pill"><span>❤️ HP</span><strong id="stat-hp">70/70</strong></div>
       <div class="stat-pill"><span>✨ МАНА</span><strong id="stat-mana">30/30</strong></div>
       <div class="stat-pill"><span>🪙 ЗОЛОТО</span><strong id="stat-gold">55</strong></div>
       <div class="stat-pill"><span>⭐ УР</span><strong id="stat-lvl">1</strong></div>
     </header>
+    <div class="karma-strip" aria-label="Баланс кармы и скверны">
+      <span class="karma-label">☼ Карма</span><div class="karma-track"><i id="karma-bar"></i></div><span class="karma-label">Скверна ☾</span>
+    </div>
 
     <main class="main-content-area">
       <section id="start-screen" class="start-screen screen-card">
@@ -66,7 +69,11 @@
             <button class="location-card" data-travel="swamp"><span>☠️</span><strong>Багровое болото</strong><small>Редкие ресурсы</small></button>
             <button class="location-card" data-travel="ruins"><span>🏚️</span><strong>Старые руины</strong><small>Риск и награда</small></button>
           </div>
-          <div class="action-row"><button id="explore-btn" class="btn btn-gold">Исследовать область</button><button id="rest-btn" class="btn btn-secondary">Отдохнуть · 8 🪙</button></div>
+          <section class="panel journey-panel">
+            <div class="panel-heading"><h3>Решения странника</h3><span class="status-chip">Путь: <b id="selected-location-name">Тёмный лес</b></span></div>
+            <div class="action-row"><button id="explore-btn" class="btn btn-gold">🧭 Выбрать путь / Исследовать</button><button id="rest-btn" class="btn btn-secondary">⛺ Разбить лагерь · 8 🪙</button></div>
+            <div class="action-row action-row-three"><button id="search-btn" class="btn btn-secondary">🌿 Поиск ресурсов</button><button id="ruins-btn" class="btn btn-secondary">🏚️ Осмотреть руины</button><button id="sell-trophies-btn" class="btn btn-secondary">🪙 Сбыть трофеи</button></div>
+          </section>
           <section class="panel log-panel"><div class="panel-heading"><h3>Хроники пути</h3><span class="live-dot"></span></div><div id="world-log" class="world-log"><p>Пепел оседает на старой дороге. Твой путь начинается.</p></div></section>
         </section>
 
@@ -86,9 +93,11 @@
         <section id="screen-hero" class="tab-screen" hidden>
           <div class="section-heading"><div><p class="eyebrow">СНАРЯЖЕНИЕ</p><h2>Герой и инвентарь</h2></div><span class="status-chip">🎒 <span id="inventory-count">0</span>/12</span></div>
           <div class="equipment-grid">
+            <div class="equipment-slot"><small>ШЛЕМ</small><strong id="equip-helmet">Пусто</strong></div>
+            <div class="equipment-slot"><small>ДОСПЕХ</small><strong id="equip-armor">Кожаная броня</strong></div>
             <div class="equipment-slot"><small>ОРУЖИЕ</small><strong id="equip-weapon">Ржавый меч</strong></div>
-            <div class="equipment-slot"><small>БРОНЯ</small><strong id="equip-armor">Кожаная броня</strong></div>
             <div class="equipment-slot"><small>АМУЛЕТ</small><strong id="equip-amulet">Пусто</strong></div>
+            <div class="equipment-slot"><small>КОЛЬЦО</small><strong id="equip-ring">Пусто</strong></div>
           </div>
           <div class="panel inventory-panel"><div class="panel-heading"><h3>Рюкзак · 4 × 3</h3><small>Предметы похода</small></div><div id="inventory-grid" class="inventory-grid"></div></div>
           <div class="panel stats-panel"><h3>Характеристики</h3><div class="detail-stats"><span>⚔️ Атака</span><strong id="detail-attack">5</strong><span>🛡️ Защита</span><strong id="detail-defense">1</strong><span>✨ Мана</span><strong id="detail-mana">30/30</strong><span>⭐ Опыт</span><strong id="detail-xp">0/100</strong></div></div>
@@ -116,6 +125,6 @@
     </nav>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
   </div>
-  <script src="game.js?v=38.0"></script>
+  <script src="game.js?v=39.0"></script>
 </body>
 </html>
