@@ -2,24 +2,7 @@
 /* База данных мира. Все предметы и события описаны здесь, игровая логика находится в game.js. */
 "use strict";
 const RPG_DB = {
-  version: "34.1",
-
-  regions: [
-    {id:"north",name:"Земли Севера",tier:1,description:"Начальные тропы: разбойники и дикие звери."},
-    {id:"road",name:"Забытый Тракт",tier:2,description:"Закалённые налётчики, вампиризм и ядовитые клинки."},
-    {id:"bog",name:"Багровое Болото",tier:3,description:"Ядовитые ауры, тяжёлая броня и периодический урон."},
-    {id:"abyss",name:"Цитадель Бездны",tier:4,description:"Элитные твари, выжигание маны и скверна."}
-  ],
-  regionEnemies: {
-    road: ["road_reaver","blood_hound","bone_warden"],
-    bog: ["bog_stalker","marsh_matriarch","plague_knight"],
-    abyss: ["void_elite","abyss_sentinel","corrupted_archon"]
-  },
-  regionGateInfo: {
-    forgotten_road: {type:"level",value:3,label:"Уровень 3+"},
-    crimson_bog: {type:"boss",value:"bone_warden",label:"победа над Костяным Стражем"},
-    abyss_citadel: {type:"building",value:"forge",level:2,label:"Кузница Цитадели II"}
-  },
+  version: "33.0",
   races: [
     {id:"human",name:"Человек",icon:"human",summary:"Универсальность и воля",lore:"Люди не сильнее древних рас, но их упорство меняет ход истории.",mods:{hp:0,str:0,dodge:0,crit:0,gold:15},detail:"+15 стартового золота. Без слабых сторон."},
     {id:"elf",name:"Эльф",icon:"leaf",summary:"Ловкость и точность",lore:"Последние дети старых лесов умеют видеть слабые места даже в темноте.",mods:{hp:-8,str:-1,dodge:8,crit:7,gold:0},detail:"+8% уворота, +7% крит. шанса, −8 здоровья, −1 сила."},
@@ -69,17 +52,6 @@ const RPG_DB = {
     {id:"skeleton",name:"Костяной страж",icon:"skull",hp:43,attack:8,defense:3,xp:22,gold:[5,14],dodge:2,stance:"Defensive",specialCooldown:3,weakness:["fire","holy"],resist:["physical","poison"],description:"Старая броня звенит на костях безымянного воина."},
     {id:"wraith",name:"Пепельный призрак",icon:"wraith",hp:51,attack:10,defense:2,xp:29,gold:[12,24],dodge:12,stance:"Parry",specialCooldown:2,weakness:["holy","fire"],resist:["physical","poison"],description:"Его шёпот напоминает голос того, кого ты потерял."},
     {id:"knight",name:"Падший рыцарь",icon:"knight",hp:72,attack:12,defense:5,xp:42,gold:[20,36],dodge:3,stance:"Defensive",specialCooldown:2,weakness:["lightning","holy"],resist:["physical","poison"],description:"Он всё ещё охраняет корону, которой больше нет."}
-
-    ,{id:"road_reaver",name:"Палач Забытого Тракта",icon:"bandit",hp:68,attack:13,defense:5,xp:38,gold:[18,34],dodge:7,stance:"Aggressive",specialCooldown:3,weakness:["holy"],resist:["physical"],traits:["🩸 Вампиризм HP","🛡️ Закалённая броня"],vampirism:.16,region:"road",description:"Бывший рыцарь, который лечится кровью поверженных."}
-    ,{id:"blood_hound",name:"Кровавый гончий",icon:"wolf",hp:61,attack:15,defense:3,xp:34,gold:[14,29],dodge:15,stance:"Aggressive",specialCooldown:2,weakness:["fire"],resist:["poison"],traits:["☣️ Ядовитый укус","⚡ Быстрый охотник"],poisonDamage:4,region:"road",description:"Его клыки оставляют яд, который действует несколько ходов."}
-    ,{id:"bone_warden",name:"Костяной Страж",icon:"skeleton",hp:118,attack:17,defense:9,xp:95,gold:[40,65],dodge:2,stance:"Defensive",specialCooldown:2,weakness:["fire","holy"],resist:["physical","poison"],traits:["🛡️ Высокая броня","⚡ Иммунитет к оглушению"],immuneStun:true,region:"road",regionBossKey:"bone_warden",isWorldBoss:true,description:"Ключевой страж, запечатывающий вход в Багровое Болото."}
-    ,{id:"bog_stalker",name:"Болотный потрошитель",icon:"wraith",hp:132,attack:22,defense:8,xp:76,gold:[31,54],dodge:10,stance:"Parry",specialCooldown:2,weakness:["fire"],resist:["physical"],traits:["☣️ Ядовитая аура","🩸 Периодический урон"],poisonAura:true,poisonDamage:5,region:"bog",description:"Токсичная слизь продолжает жечь раны после удара."}
-    ,{id:"marsh_matriarch",name:"Матриарх Багрового Болота",icon:"wraith",hp:205,attack:25,defense:12,xp:160,gold:[70,105],dodge:6,stance:"Defensive",specialCooldown:2,weakness:["fire","lightning"],resist:["physical","poison"],traits:["☣️ Ядовитая аура","🩸 Вампиризм HP"],poisonAura:true,vampirism:.2,region:"bog",regionBossKey:"marsh_matriarch",isWorldBoss:true,description:"Хозяйка топей впитывает жизненную силу тех, кто ступает в её воды."}
-    ,{id:"plague_knight",name:"Рыцарь Чумной Тины",icon:"knight",hp:178,attack:28,defense:16,xp:118,gold:[48,78],dodge:3,stance:"Defensive",specialCooldown:2,weakness:["holy"],resist:["physical","poison"],traits:["🛡️ Высокая броня","☣️ Чумной клинок"],poisonDamage:6,region:"bog",description:"Броня впитала десятилетия болотной скверны."}
-    ,{id:"void_elite",name:"Элитная тварь Бездны",icon:"wraith",hp:245,attack:34,defense:18,xp:180,gold:[85,130],dodge:12,stance:"Parry",specialCooldown:2,weakness:["holy"],resist:["physical","poison","fire"],traits:["🔮 Сжигание маны","☠️ Аура осквернения"],manaBurn:7,corruptionAura:4,region:"abyss",description:"Её присутствие выжигает магию и ослабляет волю."}
-    ,{id:"abyss_sentinel",name:"Страж Цитадели Бездны",icon:"knight",hp:310,attack:39,defense:23,xp:245,gold:[110,165],dodge:5,stance:"Defensive",specialCooldown:2,weakness:["holy","lightning"],resist:["physical","fire","poison"],traits:["🛡️ Панцирь Бездны","⚡ Иммунитет к оглушению","🔮 Сжигание маны"],immuneStun:true,manaBurn:10,region:"abyss",description:"Его чёрный панцирь выдерживает обычные клинки."}
-    ,{id:"corrupted_archon",name:"Осквернённый Архонт",icon:"knight",hp:420,attack:45,defense:25,xp:420,gold:[180,260],dodge:8,stance:"Parry",specialCooldown:1,weakness:["holy"],resist:["physical","fire","poison"],traits:["☠️ Аура осквернения","☣️ Ядовитые криты","🔮 Сжигание маны"],manaBurn:13,corruptionAura:7,poisonCrit:true,region:"abyss",regionBossKey:"corrupted_archon",isWorldBoss:true,description:"Последний владыка глубин отравляет каждый критический удар."}
-
   ],
   roadEncounters: [
     {id:"bandit_ambush",title:"Засада разбойников",icon:"sword",text:"Из-за поваленной телеги выходят трое разбойников. Старший крутит нож и требует плату за проход.",choices:[{id:"fight",label:"Драться",tone:"danger",kind:"fight",result:"Ты не уступил дорогу головорезам."},{id:"pay",label:"Откупиться · 12 золота",tone:"gold",kind:"pay",amount:12,karma:-1,rep:{common:-1},result:"Разбойники забрали плату и скрылись в кустах."},{id:"flee",label:"Сбежать",tone:"ghost",kind:"flee",result:"Ты свернул с тракта и ушёл от засады."}]},
