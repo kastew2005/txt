@@ -1,4 +1,4 @@
-/* Dark Fantasy RPG v44.0 — Global Micro Scale & Z-Index Layering Fix. */
+/* Dark Fantasy RPG v45.0 — Compact World Grid & Active Arena Render. */
 "use strict";
 /* Self-contained content database fallback: the game remains playable as a three-file package. */
 window.RPG_DB = window.RPG_DB || (() => {
@@ -425,9 +425,8 @@ window.RPG_DB = window.RPG_DB || (() => {
     if(state.inCombat&&tab!=="arena"){
       syncCombatTabLock();toast("Сначала заверши бой или отступи!");return false;
     }
-    if(tab==="arena"&&!(state.inCombat&&state.enemy)){
-      syncCombatTabLock();toast("Вокруг нет врагов. Исследуйте карту!");return false;
-    }
+    // The arena remains navigable when idle; renderArena shows its waiting state.
+    // Actual combat controls are enabled only while a live enemy is present.
     state.currentTab=tab;
     if(tab==="castle"&&state.citadelAlert){state.citadelAlert=false;saveGame(false);}
 
@@ -457,7 +456,7 @@ window.RPG_DB = window.RPG_DB || (() => {
         if (tab === "inventory") renderHeroInventory();
         else if (tab === "profile") renderProfile();
         else if (tab === "castle") renderCitadel();
-        else if (tab === "arena") renderArena();
+        else if (tab === "arena") renderBattleArena();
         else if (tab === "world") renderWorldMap();
         else if (tab === "skills") renderSkills();
         else if (tab === "pets") renderPets();
@@ -759,6 +758,15 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
     if(!state.hero)return;
     renderTravelMap();
     updateWorldPhase();
+  }
+  // v45.0: always render the full arena panel, including the no-enemy waiting state.
+  function renderBattleArena(){
+    if(!state.hero)return;
+    renderArena();
+    const title=$("arena-title");
+    if(title&&!state.inCombat)title.textContent="На арене тихо";
+    const status=$("arena-status");
+    if(status&&!state.inCombat)status.textContent="ОЖИДАНИЕ · ИССЛЕДУЙ МИР, ЧТОБЫ НАЙТИ ВРАГА";
   }
 
   function renderCastle(){const root=$("castle-buildings");if(!root||!state.hero)return;renderCitadelWorkshop();refreshMarketEvent();processCastleIncome();$("castle-gold").textContent=state.hero.gold;const c=state.citadel||{};renderCitadelVisual();root.innerHTML=BUILDINGS.map(b=>{const level=c[b.id]||0,cost=dynamicPrice(b.base*(level+1));return `<article class="castle-building"><div class="castle-building-title"><span class="castle-building-icon">${b.icon}</span><h4>${b.name}</h4></div><span class="castle-level">Уровень ${level}/3</span><p>${b.desc}</p><div class="castle-benefit">${level?`Текущий эффект: ${b.benefit(level)}`:"Здание ещё не построено"}</div>${level<3?`<small>Следующий уровень: ${b.benefit(level+1)}</small>`:"<small>Достигнут максимальный уровень</small>"}<button class="btn btn-gold" data-upgrade="${b.id}" ${level>=3||state.hero.gold<cost?"disabled":""}>${level>=3?"Максимум":`${level===0?"Построить":"Улучшить"} · ${cost} золота`}</button></article>`;}).join("");const names={calm:"Рынок спокоен: обычные цены.",festival:"Праздник урожая: цены снижены на 20%.",shortage:"Дефицит припасов: цены повышены на 35%.",war:"Военное положение: цены повышены на 18%."};$("market-event").textContent=names[state.marketEvent]||names.calm;const market=$("castle-market");const goods=[{id:"healing_potion",name:"Лечебное зелье",base:18,desc:"Восстанавливает здоровье."},{id:"moon_herb",name:"Лунная трава",base:8,desc:"Редкий алхимический ингредиент."},{id:"iron_ore",name:"Железная руда",base:12,desc:"Материал для ремесла."},{id:"void_root",name:"Корень Бездны",base:16,desc:"Редкий корень для ядовитых масел и рун."},{id:"empty_vial",name:"Пустая склянка",base:4,desc:"Стекло для алхимических смесей."}];market.innerHTML=goods.map(g=>{const price=dynamicPrice(g.base);return `<article class="market-item"><strong>${g.name}</strong><p class="muted">${g.desc}</p><button class="btn btn-ghost" data-buy="${g.id}" data-price="${price}" ${state.hero.gold<price?"disabled":""}>Купить · ${price} золота</button></article>`;}).join("");const income=$("castle-income");if(income){const l=state.citadel.treasury||0;income.textContent=l?`Сокровищница приносит +5 золота каждые 3 перехода по карте. Прогресс: ${Number(state.treasuryStepProgress||0)}/3 шагов.`:"Построй сокровищницу, чтобы получать +5 золота каждые 3 перехода по карте.";}const merc=$("mercenary-panel");if(merc){const b=state.citadel.barracks||0;merc.innerHTML=`<p>${b===0?"Казармы нужны для найма спутников-наёмников.":`Доступно мест для наёмников: ${Math.max(0,b-1)}. Наёмники дают +${b*2} к атаке в бою.`}</p>${b>0?`<button class="btn btn-ghost" id="hire-mercenary" ${state.mercenaries>=Math.max(0,b-1)?"disabled":""}>Нанять наёмника · ${35*b} золота</button>`:""}`;}}

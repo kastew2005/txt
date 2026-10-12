@@ -3539,3 +3539,54 @@ html,body{width:100%;height:100%;height:100dvh;min-height:0;max-height:100dvh;ov
 .modal{z-index:100}.tutorial-overlay{z-index:90}
 @media(max-width:380px){.topbar .brand small{display:none}.top-stats{gap:3px}.top-stats .stat{gap:2px}.top-stats .mini-bar{width:30px}.bottom-nav .nav-tab small{font-size:8px}}
 @media(prefers-reduced-motion:reduce){#start-screen *{animation:none!important;transition:none!important}}
+
+
+/* v45.0 — Compact World Grid & Active Arena Render */
+.world-actions-grid,
+#tab-world .world-actions,
+#tab-world .world-actions-grid {
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:6px!important;
+  padding:4px 0!important;
+  align-items:stretch!important;
+}
+.world-action-card,
+#tab-world .action-card,
+#tab-world .world-action-card {
+  position:relative!important;
+  inset:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  height:auto!important;
+  max-height:none!important;
+  background:rgba(22,16,36,.95)!important;
+  border:1px solid rgba(255,215,0,.3)!important;
+  border-radius:8px!important;
+  padding:8px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:2px!important;
+  overflow-wrap:anywhere!important;
+}
+.world-action-card h3,
+#tab-world .action-card h3,
+#tab-world .action-card strong {
+  font-size:11.5px!important;
+  line-height:1.2!important;
+  color:#ffd700!important;
+  margin:0!important;
+}
+.world-action-card p,
+#tab-world .action-card p,
+#tab-world .action-card small {
+  font-size:9.5px!important;
+  line-height:1.25!important;
+  color:#bfaee0!important;
+  margin:0!important;
+}
+#tab-world .action-card .action-icon {font-size:16px!important;line-height:1.1!important;margin-bottom:2px!important}
+#tab-world .action-card button {min-height:25px!important;padding:4px 6px!important;font-size:9px!important;margin-top:4px!important}
+#tab-arena:not(.hidden) {display:flex!important;flex-direction:column!important;gap:7px!important}
+#tab-castle:not(.hidden) {display:flex!important;flex-direction:column!important;gap:7px!important}
+@media(max-width:350px){.world-actions-grid,#tab-world .world-actions,#tab-world .world-actions-grid{gap:4px!important}.world-action-card,#tab-world .action-card{padding:6px!important}}
