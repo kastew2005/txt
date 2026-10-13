@@ -1,7 +1,24 @@
-/* Пепел Королевства v52.0 — Golden v30.8 Base Restoration & UI Polish. */
+/* Dark Fantasy RPG v52.0 · Golden v30.8 Base Restoration — Ultimate Juice, Filters, Haptics & Citadel Alerts Edition. */
 "use strict";
 (() => {
+  // Telegram WebApp bootstrap; graceful fallback for standalone browser/PWA.
+  try {
+    const tg = window.Telegram && window.Telegram.WebApp;
+    if (tg) {
+      if (typeof tg.ready === "function") tg.ready();
+      if (typeof tg.expand === "function") tg.expand();
+      if (typeof tg.requestFullscreen === "function") {
+        try { const result = tg.requestFullscreen(); if (result && typeof result.catch === "function") result.catch(() => {}); } catch (_) {}
+      }
+    }
+  } catch (_) {}
   const $ = id => document.getElementById(id);
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".version-badge").forEach(node => {
+      node.textContent = "v52.0";
+      node.setAttribute("aria-label", "Версия игры 52.0");
+    });
+  });
   // Safe, progressive haptics: unsupported browsers and denied vibration are harmless.
   function triggerHaptic(type = "light") {
     try {
@@ -126,47 +143,8 @@
   function combatDelay(fn, ms, token=state.combatToken){const id=setTimeout(()=>{combatTimers.delete(id);if(token!==state.combatToken)return;fn();},Math.max(35,ms/combatSpeed));combatTimers.add(id);return id;}
   function toggleCombatSpeed(){combatMode=combatMode==="normal"?"fast":combatMode==="fast"?"auto":"normal";combatSpeed=combatMode==="fast"?2:1;const b=$("combat-speed-btn");if(b){b.textContent=combatMode==="auto"?"Авто-бой · ВКЛ":`Скорость боя · ${combatSpeed}×`;b.setAttribute("aria-pressed",String(combatMode!=="normal"));}playSfx("click");toast(combatMode==="auto"?"Авто-бой включён":combatMode==="fast"?"Быстрый бой · 2×":"Обычный бой · 1×");if(combatMode==="auto"&&state.inCombat&&!state.combatBusy)playerAttack();}
   function clearCombatTimers(){combatTimers.forEach(clearTimeout);combatTimers.clear();}
-  // Independent watchdog: not stored in combatTimers, so an animation-token reset cannot cancel recovery.
-  function clearTurnSafetyTimers(){
-    if(window.turnSafetyTimer){clearTimeout(window.turnSafetyTimer);window.turnSafetyTimer=null;}
-    if(window.turnStuckNoticeTimer){clearTimeout(window.turnStuckNoticeTimer);window.turnStuckNoticeTimer=null;}
-    const button=$("combat-unlock-btn");
-    if(button){button.classList.add("hidden");button.setAttribute("aria-hidden","true");}
-  }
-  function updateCombatUI(){
-    renderArena();
-    renderRage();
-  }
-  function forceUnlockCombatTurn(source="manual"){
-    clearTurnSafetyTimers();
-    if(!state.inCombat||!state.enemy){updateCombatUI();return;}
-    state.combatBusy=false;
-    state.turn="player";
-    state.combatPhase="player";
-    state.qteActive=false;
-    const qte=$("qte-panel");if(qte)qte.classList.add("hidden");
-    updateCombatUI();
-    updateHUD();
-    if(source==="manual"){log("Ход принудительно разблокирован. Ты снова можешь действовать.","good");toast("Бой разблокирован");}
-    else if(source==="safety"){log("Страховочный таймер восстановил управление после задержки хода.","good");}
-    saveGame(false);
-  }
-  function armTurnSafetyTimer(token=state.combatToken){
-    clearTurnSafetyTimers();
-    window.turnSafetyTimer=setTimeout(()=>{
-      window.turnSafetyTimer=null;
-      if(token!==state.combatToken||!state.inCombat||!state.enemy||!state.combatBusy)return;
-      forceUnlockCombatTurn("safety");
-    },1200);
-    window.turnStuckNoticeTimer=setTimeout(()=>{
-      window.turnStuckNoticeTimer=null;
-      if(token!==state.combatToken||!state.inCombat||!state.enemy||!state.combatBusy)return;
-      const button=$("combat-unlock-btn");
-      if(button){button.classList.remove("hidden");button.setAttribute("aria-hidden","false");}
-    },2000);
-  }
   function consumeAltarCharge(){if(state.altarBuff&&state.altarBuff.charges>0){state.altarBuff.charges--;if(state.altarBuff.charges<=0)state.altarBuff=null;}}
-  function finishCombat(){clearTurnSafetyTimers();clearCombatTimers();state.combatToken++;state.inCombat=false;state.combatBusy=false;state.turn="player";state.combatPhase="idle";state.enemy=null;document.body.classList.remove("boss-phase-two");consumeAltarCharge();$("app").classList.remove("shake","rage-flash");syncCombatTabLock();updateHUD();saveGame(false);switchTab("world");scheduleWorldReturn("Путь продолжается");}
+  function finishCombat(){clearCombatTimers();state.combatToken++;state.inCombat=false;state.combatBusy=false;state.turn="player";state.combatPhase="idle";state.enemy=null;document.body.classList.remove("boss-phase-two");consumeAltarCharge();$("app").classList.remove("shake","rage-flash");syncCombatTabLock();updateHUD();switchTab("world");scheduleWorldReturn("Путь продолжается");}
   function scheduleWorldReturn(title="Дорога зовёт"){clearTimeout(worldReturnTimer);worldReturnTimer=setTimeout(()=>{if(state.inCombat)return;switchTab("world");const roads=["Ветер гонит пепел по старой колее. Где-то впереди звенит металл.","Следы уводят в лес, а на камнях мерцают незнакомые руны.","На дороге снова тихо. Вдалеке виден свет заброшенной часовни.","Туман редеет, открывая развилку и следы тяжёлых сапог.","Ветер приносит запах дождя и далёкий звон колокола."];addEvent(title,pick(roads),"sigil");updateHUD();saveGame(false);},950);}
   function ensureAudio(){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;if(!audioContext){audioContext=new C();masterGain=audioContext.createGain();masterGain.gain.value=soundEnabled?1:0;masterGain.connect(audioContext.destination);updateRainSound();}if(audioContext.state==="suspended")audioContext.resume().catch(()=>{});return audioContext;}
   function playSfx(type="click"){
@@ -286,32 +264,17 @@
   function renderRaces(){const container=$("race-options");container.innerHTML="";RPG_DB.races.forEach(r=>{const b=document.createElement("button");b.className="race-option"+(r.id===selectedRace?" selected":"");b.innerHTML=`<span class="race-icon">${svgIcon(r.id)}</span><strong>${r.name}</strong><small>${r.summary}</small>`;b.onclick=()=>{selectedRace=r.id;renderRaces();$("race-detail").textContent=r.detail;};container.appendChild(b);});$("race-detail").textContent=RPG_DB.races[0].detail;}
   function syncCombatTabLock(){
     const combatButton=document.querySelector('.nav-tab[data-tab="arena"]');
-    if(combatButton){
-      const locked=!Boolean(state.inCombat && state.enemy);
-      combatButton.classList.toggle("locked",locked);
-      combatButton.classList.toggle("pulse-glow",!locked);
-      combatButton.setAttribute("aria-disabled",String(locked));
-      combatButton.setAttribute("aria-label",locked?"Бой заблокирован. Вокруг нет врагов":"Бой активен");
-      combatButton.title=locked?"Вокруг нет врагов. Исследуйте карту!":"Вернуться к текущему бою";
-    }
-    document.querySelectorAll('.bottom-nav .nav-tab:not([data-tab="arena"])').forEach(button=>{
-      const locked=Boolean(state.inCombat);
-      button.classList.toggle("combat-nav-locked",locked);
-      button.setAttribute("aria-label", locked ? `${button.querySelector("small")?.textContent?.trim()||"Раздел"}. Недоступно во время боя` : (button.querySelector("small")?.textContent?.trim()||"Раздел"));
-      button.title=locked?"Сначала заверши бой или отступи!":"";
-    });
+    if(!combatButton)return;
+    const locked=!Boolean(state.inCombat && state.enemy);
+    combatButton.classList.toggle("locked",locked);
+    combatButton.classList.toggle("pulse-glow",!locked);
+    combatButton.setAttribute("aria-disabled",String(locked));
+    combatButton.setAttribute("aria-label",locked?"Бой заблокирован. Вокруг нет врагов":"Бой активен");
+    combatButton.title=locked?"Вокруг нет врагов. Исследуйте карту!":"Вернуться к текущему бою";
   }
   function switchTab(requestedTab){
     let tab=requestedTab==="hero"?"inventory":requestedTab;
     if(tab==="combat")tab="arena";
-    // During an active fight, keep the player in the arena until victory or retreat.
-    // Do not set aria-disabled on these nav buttons: delegated clicks must still reach
-    // this guard so the player receives the explanatory toast.
-    if(state.inCombat && tab!=="arena"){
-      syncCombatTabLock();
-      toast("Сначала заверши бой или отступи!");
-      return;
-    }
     if(tab==="arena"&&!(state.inCombat&&state.enemy)){
       syncCombatTabLock();
       toast("Вокруг нет врагов. Исследуйте карту!");
@@ -372,7 +335,6 @@
     if(legacyModal)legacyModal.classList.add("hidden");
     state.selectedItem=null;
     document.querySelectorAll(".item-card.selected").forEach(card=>card.classList.remove("selected"));
-    if(state.hero) saveGame(false);
   }
   function showItemModal(item){
     if(!item)return;
@@ -394,23 +356,23 @@
     content.setAttribute("role","dialog");
     content.setAttribute("aria-modal","true");
     content.setAttribute("aria-label",String(item.name||"Предмет"));
-    content.style.cssText="position:relative!important;box-sizing:border-box!important;background:#1e1830!important;border:3px solid #b19ffb!important;border-radius:16px!important;box-shadow:0 0 50px rgba(0,0,0,.99)!important;padding:24px!important;width:92vw!important;max-width:420px!important;max-height:calc(100dvh - 32px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))!important;overflow:auto!important;color:#fff!important;font-family:inherit!important;filter:none!important;-webkit-filter:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;opacity:1!important;transform:none!important;isolation:isolate!important;";
+    content.style.cssText="position:relative!important;box-sizing:border-box!important;background:#1e1830!important;border:3px solid #b19ffb!important;border-radius:16px!important;box-shadow:0 0 50px rgba(0,0,0,.99)!important;padding:24px!important;width:88vw!important;max-width:340px!important;max-height:calc(100dvh - 32px)!important;overflow:auto!important;color:#fff!important;font-family:inherit!important;filter:none!important;-webkit-filter:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;opacity:1!important;transform:none!important;isolation:isolate!important;";
 
     const heading=document.createElement("h3");
     heading.textContent=String(item.name||"Неизвестный предмет");
-    heading.style.cssText="color:#fff!important;font-size:clamp(20px,5.5vw,24px)!important;margin:0 0 10px!important;font-weight:800!important;line-height:1.3!important;";
+    heading.style.cssText="color:#fff!important;font-size:20px!important;margin:0 0 10px!important;font-weight:800!important;line-height:1.3!important;";
     const description=document.createElement("p");
     description.textContent=String(item.description||item.desc||"Описание отсутствует.");
-    description.style.cssText="color:#e4deff!important;font-size:clamp(15px,4vw,17px)!important;margin:0 0 15px!important;line-height:1.45!important;white-space:pre-wrap!important;";
+    description.style.cssText="color:#e4deff!important;font-size:15px!important;margin:0 0 15px!important;line-height:1.45!important;white-space:pre-wrap!important;";
     const statsLine=document.createElement("p");
     const statsText=[item.attack?`Атака +${item.attack}`:"",item.defense?`Защита +${item.defense}`:"",item.heal?`Лечение ${item.heal} HP`:"",item.mana?`Мана +${item.mana}`:"",`Количество: ${Number(item.count)||1}`].filter(Boolean).join(" · ");
     statsLine.textContent=statsText;
-    statsLine.style.cssText="color:#d5c9ff!important;font-size:clamp(13px,3.5vw,15px)!important;margin:0 0 18px!important;line-height:1.4!important;";
+    statsLine.style.cssText="color:#d5c9ff!important;font-size:14px!important;margin:0 0 18px!important;line-height:1.4!important;";
     const actions=document.createElement("div");
     actions.style.cssText="display:flex!important;gap:10px!important;flex-direction:column!important;";
     const makeButton=(label,background,border,color)=>{
       const button=document.createElement("button");button.type="button";button.textContent=label;
-      button.style.cssText=`display:block!important;width:100%!important;box-sizing:border-box!important;background:${background}!important;color:${color}!important;border:${border}!important;min-height:48px!important;padding:12px 18px!important;font-size:clamp(15px,4vw,17px)!important;font-weight:800!important;border-radius:12px!important;cursor:pointer!important;opacity:1!important;filter:none!important;-webkit-filter:none!important;`;
+      button.style.cssText=`display:block!important;width:100%!important;box-sizing:border-box!important;background:${background}!important;color:${color}!important;border:${border}!important;padding:13px 14px!important;font-size:16px!important;font-weight:800!important;border-radius:10px!important;cursor:pointer!important;opacity:1!important;filter:none!important;-webkit-filter:none!important;`;
       return button;
     };
     let primaryLabel="Надеть / Использовать";
@@ -621,28 +583,14 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
     else if(id==="dwarf_crush"){hit(1.9);log(`Рунный раскол наносит ${damage} урона.`,"crit");}
     addRage(18);renderArena();updateHUD();if(e.hp<=0){winCombat();return;}combatDelay(()=>enemyTurn(token),350,token);}
 
-  function startCombat(monsterId){clearTurnSafetyTimers();if(state.inCombat){toast("Ты уже сражаешься");switchTab("arena");return;}clearCombatTimers();state.combatToken++;state.combatBusy=false;state.turn="player";state.combatPhase="player";state.rage=0;state.skillCooldowns={};const template=RPG_DB.monsters.find(m=>m.id===monsterId)||pick(RPG_DB.monsters.slice(0,3));const world=worldState(),danger=world.night||world.bloodMoon||world.weather==="storm",levelBonus=Math.max(0,state.hero.level-1)*5,nightHp=danger?Math.ceil(template.hp*.3):0;state.enemy={...template,attack:Math.ceil(template.attack*(danger?1.3:1)),hp:template.hp+levelBonus+nightHp,maxHp:template.hp+levelBonus+nightHp};state.inCombat=true;state.turn="player";state.combatPhase="player";syncCombatTabLock();switchTab("arena");$("combat-log").innerHTML="";log(`${state.enemy.name} преграждает дорогу! ${state.enemy.description}`);renderArena();renderRage();}
+  function startCombat(monsterId){if(state.inCombat){toast("Ты уже сражаешься");switchTab("arena");return;}clearCombatTimers();state.combatToken++;state.combatBusy=false;state.turn="player";state.combatPhase="player";state.rage=0;state.skillCooldowns={};const template=RPG_DB.monsters.find(m=>m.id===monsterId)||pick(RPG_DB.monsters.slice(0,3));const world=worldState(),danger=world.night||world.bloodMoon||world.weather==="storm",levelBonus=Math.max(0,state.hero.level-1)*5,nightHp=danger?Math.ceil(template.hp*.3):0;state.enemy={...template,attack:Math.ceil(template.attack*(danger?1.3:1)),hp:template.hp+levelBonus+nightHp,maxHp:template.hp+levelBonus+nightHp};state.inCombat=true;state.turn="player";state.combatPhase="player";syncCombatTabLock();switchTab("arena");$("combat-log").innerHTML="";log(`${state.enemy.name} преграждает дорогу! ${state.enemy.description}`);renderArena();renderRage();}
   function playerAttack(){if(!state.inCombat||!state.enemy||state.combatBusy||state.turn!=="player")return;state.combatBusy=true;state.combatPhase="player-animation";renderArena();const token=state.combatToken,s=stats(),e=state.enemy,player=$("player-combatant"),enemy=$("enemy-combatant");playSfx("sword");player.classList.remove("lunge-player");void player.offsetWidth;player.classList.add("lunge-player");combatDelay(()=>{if(!state.inCombat||!state.enemy)return;if(Math.random()*100<e.dodge){triggerHaptic("medium");shakeArena();enemy.classList.add("evade-enemy");addImpactBurst(enemy,"steel");log(`${e.name} уклоняется от удара.`);floatNumber(enemy,"ПРОМАХ!","miss");combatDelay(()=>{enemy.classList.remove("evade-enemy");enemyTurn(token);},290,token);return;}const buffMultiplier=Number(state.hero.attackBuffTurns||0)>0?Number(state.hero.attackBuffMultiplier||1):1;const bloodRank=mutationRank("dark_bloodprice");if(bloodRank>0&&state.hero.karma<=-5&&state.hero.hp>8){const sacrifice=Math.max(1,Math.floor(state.hero.hp*.05));state.hero.hp-=sacrifice;log(`Кровавая цена: −${sacrifice} HP ради силы тьмы.`,"bad");}const zone=state.targetZone||"body", hitChance=zone==="head"?72:zone==="legs"?94:86;if(Math.random()*100>hitChance){triggerHaptic("medium");shakeArena();log(`Удар в ${zoneName(zone)} не достигает цели.`);floatNumber(enemy,"ПРОМАХ!","miss");player.classList.remove("lunge-player");combatDelay(()=>enemyTurn(token),290,token);return;}const crit=Math.random()*100<(s.crit+(zone==="head"?18:zone==="legs"?-3:0));let raw=Math.max(1,Math.floor(s.attack*buffMultiplier+rand(0,4)-Math.max(0,e.defense-(e.defenseDown||0))));if(zone==="head")raw=Math.floor(raw*1.65);if(zone==="legs")raw=Math.floor(raw*.78);const holyRank=mutationRank("light_smite");const bestiaryCount=Number(state.bestiary?.[e.id]?.count||0);const bestiaryBonus=bestiaryCount>=30?.15:bestiaryCount>=15?.08:bestiaryCount>=5?.03:0;const damage=Math.max(1,Math.floor(raw*(1+bestiaryBonus)*(crit?2:1)*(bloodRank>0&&state.hero.karma<=-5?1+bloodRank*.45:1)+((holyRank>0&&state.hero.karma>=7)?holyRank*2:0)));e.hp=Math.max(0,e.hp-damage);const vampirism=mutationRank("dark_hunger")+Number(state.talents?.blood_thirst||0)*.5;if(vampirism>0&&(state.hero.karma<=-3||Number(state.talents?.blood_thirst||0)>0)){const siphon=Math.min(stats().maxHp-state.hero.hp,Math.max(1,Math.floor(damage*(.04*vampirism))));state.hero.hp+=siphon;if(siphon>0)log(`Голод тени возвращает ${siphon} HP.` ,"good");}if(mutationRank("dark_spirit")>0&&state.hero.karma<=-7&&Math.random()<.12*mutationRank("dark_spirit")){const spiritDamage=6*mutationRank("dark_spirit");e.hp=Math.max(0,e.hp-spiritDamage);e.attack=Math.max(1,e.attack-2);log(`Тёмный дух наносит ещё ${spiritDamage} урона и ослабляет врага.` ,"crit");}if(zone==="legs"){e.attack=Math.max(1,e.attack-2);log("Удар по ногам замедляет противника: его атака снижена.","good");}addRage(crit?28:18);addSlash(enemy,crit?1:0);addImpactBurst(enemy,crit?"critical":"steel");enemy.classList.remove("hit-flash");void enemy.offsetWidth;enemy.classList.add("hit-flash");floatNumber(enemy,`-${damage}`,crit?"critical":"damage");log(`${crit?"КРИТИЧЕСКИЙ УДАР! ":""}Ты наносишь ${damage} урона.`,crit?"crit":"good");if(crit){playSfx("critical");triggerHaptic("heavy");shakeArena();}renderArena();if(e.hp<=0){winCombat();return;}combatDelay(()=>{player.classList.remove("lunge-player");state.combatBusy=false;enemyTurn(token);},290,token);},210,token);}
 
   function enemyTurn(token=state.combatToken){
     if(!state.inCombat||!state.enemy||token!==state.combatToken)return;
     state.turn="enemy";state.combatPhase="enemy";state.combatBusy=true;renderArena();
-    armTurnSafetyTimer(token);
-    const e=state.enemy,enemyActor=$("enemy-combatant");
-    if(e.stunned){e.stunned=false;log(`${e.name} оглушён и пропускает ход!`,"good");floatNumber(enemyActor,"ОГЛУШЕНИЕ!","status");combatDelay(()=>{if(!state.inCombat||token!==state.combatToken)return;clearTurnSafetyTimers();state.combatBusy=false;state.turn="player";state.combatPhase="player";Object.keys(state.skillCooldowns||{}).forEach(k=>{state.skillCooldowns[k]=Math.max(0,(state.skillCooldowns[k]||0)-1);});state.hero.mp=Math.min(stats().maxMp,(state.hero.mp||0)+2);updateCombatUI();updateHUD();saveGame(false);},180,token);return;}
-    if((e.isWorldBoss||e.isPhaseBoss)&&e.phase===1&&e.hp<=e.maxHp*.5){
-      e.phase=2;e.attack=Math.ceil(e.attack*1.4);e.defense=Math.max(0,e.defense-2);e.phaseTurn=0;e.icon="wraith";
-      if(String(e.name).includes("Фаза I"))e.name=String(e.name).replace("Фаза I","Фаза II — Истинная форма");
-      document.body.classList.add("boss-phase-two");
-      log(`ФАЗА II — ${e.name} вспыхивает кроваво-красным светом: «Я выпью твою кровь до капли!» Урон босса повышен на 40%.`,"bad");
-      // Use the actual combatant element. The old code referenced an undefined `enemy` here,
-      // throwing before the enemy animation/turn-completion callbacks could be scheduled.
-      floatNumber(enemyActor,"2-Я ФАЗА!","phase");playSfx("magic");
-      // Phase change is a short intermission: return control after the boss line instead of
-      // keeping the player locked while the new phase is being rendered.
-      clearTurnSafetyTimers();state.combatBusy=false;state.turn="player";state.combatPhase="player";
-      updateCombatUI();updateHUD();saveGame(false);return;
-    }
+    const e=state.enemy;if(e.stunned){e.stunned=false;log(`${e.name} оглушён и пропускает ход!`,"good");floatNumber(enemy,"ОГЛУШЕНИЕ!","status");combatDelay(()=>{if(!state.inCombat||token!==state.combatToken)return;state.combatBusy=false;state.turn="player";state.combatPhase="player";Object.keys(state.skillCooldowns||{}).forEach(k=>{state.skillCooldowns[k]=Math.max(0,(state.skillCooldowns[k]||0)-1);});state.hero.mp=Math.min(stats().maxMp,(state.hero.mp||0)+2);updateHUD();saveGame(false);},180,token);return;}
+    if((e.isWorldBoss||e.isPhaseBoss)&&e.phase===1&&e.hp<=e.maxHp*.5){e.phase=2;e.attack=Math.ceil(e.attack*1.4);e.defense=Math.max(0,e.defense-2);e.phaseTurn=0;e.icon="wraith";if(String(e.name).includes("Фаза I"))e.name=String(e.name).replace("Фаза I","Фаза II — Истинная форма");document.body.classList.add("boss-phase-two");log(`ФАЗА II — ${e.name} вспыхивает кроваво-красным светом: «Я выпью твою кровь до капли!» Урон босса повышен на 40%.`,"bad");floatNumber(enemy,"2-Я ФАЗА!","phase");playSfx("magic");renderArena();}
     combatDelay(()=>{
       if(!state.inCombat||!state.enemy||token!==state.combatToken)return;
       const enemy=$("enemy-combatant"),player=$("player-combatant");
@@ -656,12 +604,12 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
         $("app").classList.add("damage-flash");combatDelay(()=>$("app").classList.remove("damage-flash"),340,token);
         log(`${e.name} наносит ответный удар: ${damage} урона.` ,"bad");updateHUD();
         if(state.hero.hp<=0){if(state.hardcore){openLegacyDeath();return;}state.hero.hp=1;state.hero.gold=Math.max(0,state.hero.gold-Math.ceil(Math.min(12,state.hero.gold)*(1-(state.citadel?.walls||0)*.2)));state.hero.karma-=1;log("Ты приходишь в себя у дороги. Часть золота пропала, но судьба оставила тебе шанс.","bad");playSfx("critical");finishCombat();toast("Поражение: ты спасён, но заплатил");return;}
-        combatDelay(()=>{enemy?.classList.remove("lunge-enemy");player?.classList.remove("hit-flash");if(!state.inCombat||token!==state.combatToken)return;clearTurnSafetyTimers();state.combatBusy=false;state.turn="player";state.combatPhase="player";Object.keys(state.skillCooldowns||{}).forEach(k=>{state.skillCooldowns[k]=Math.max(0,(state.skillCooldowns[k]||0)-1);});state.hero.mp=Math.min(stats().maxMp,(state.hero.mp||0)+2);updateCombatUI();updateHUD();saveGame(false);if(combatMode==="auto")combatDelay(()=>playerAttack(),220,token);},260,token);
+        combatDelay(()=>{enemy?.classList.remove("lunge-enemy");player?.classList.remove("hit-flash");if(!state.inCombat||token!==state.combatToken)return;state.combatBusy=false;state.turn="player";state.combatPhase="player";Object.keys(state.skillCooldowns||{}).forEach(k=>{state.skillCooldowns[k]=Math.max(0,(state.skillCooldowns[k]||0)-1);});state.hero.mp=Math.min(stats().maxMp,(state.hero.mp||0)+2);updateHUD();saveGame(false);if(combatMode==="auto")combatDelay(()=>playerAttack(),220,token);},260,token);
       },260,token);
     },180,token);
   }
 
-  function winCombat(){if(!state.inCombat||!state.enemy)return;clearTurnSafetyTimers();const e=state.enemy,enemy=$("enemy-combatant"),token=state.combatToken;state.combatBusy=true;enemy.classList.remove("hit-flash","lunge-enemy");enemy.classList.add("enemy-dying");addImpactBurst(enemy,"death");playSfx("victory");log(`${e.name} рассыпается в пепел.`,"good");combatDelay(()=>{if(!state.inCombat||!state.enemy)return;clearCombatTimers();state.combatToken++;state.combatBusy=false;state.inCombat=false;state.turn="player";state.combatPhase="victory";document.body.classList.remove("boss-phase-two");$("app").classList.remove("shake","rage-flash");state.hero.xp+=e.xp;const baseGold=rand(e.gold[0],e.gold[1]);const world=worldState();const petGold=(RPG_DB.pets.find(p=>p.id===state.petId)?.buff.gold)||0;const gold=Math.floor(baseGold*((world.night||world.bloodMoon)?2:1)*(1+petGold/100)*(1+(state.citadel?.treasury||0)*.05));const treasuryCap=[2000,2000,5000,10000][Math.min(3,state.citadel?.treasury||0)]||2000;const awardedGold=Math.min(gold,Math.max(0,treasuryCap-state.hero.gold));state.hero.gold+=awardedGold;addDailyProgress("gold",awardedGold);addDailyProgress("kills",1);state.kills++;recordBestiaryKill(e);const towerLevel=state.citadel?.laboratory||0;const potionEvery=towerLevel===1?3:towerLevel===2?2:towerLevel>=3?1:0;if(potionEvery&&state.kills%potionEvery===0){addItem("healing_potion");log("Алхимическая башня прислала лечебное зелье.","good");}state.quests.first_blood=Math.min(1,state.quests.first_blood+1);state.destiny+=1;let trophy=null;if(Math.random()<(state.abyss?.active?Math.min(.8,.25+Number(state.abyss.floor||1)*.02):(world.bloodMoon?.82:world.night?.56:.28))){trophy=state.abyss?.active&&Math.random()<Math.min(.65,.08+Number(state.abyss.floor||1)*.025)?pick(["blood_rune","void_rune","lightning_rune"]):pick(world.bloodMoon?["cursed_relic","wolf_ring","gold_charm"]:["moon_herb","healing_potion","gold_charm","cursed_relic"]);addItem(trophy)}if(e.isWorldBoss||e.isPhaseBoss){trophy=pick(["heart_of_ash","blood_crown","void_heart"]);addItem(trophy,1,false);triggerHaptic("heavy");playSfx("rareLoot");state.destiny+=3;state.hero.karma-=2;addEvent("Король Пепла повержен","Мировой босс пал. Сердце Пепла стало твоей добычей.","relic");}log(`Победа! Получено ${e.xp} опыта и ${awardedGold} золота.`,"good");addEvent("Победа на дороге",`${e.name} повержен. Ты получил ${e.xp} опыта и ${gold} золота.`,`sword`);if(state.dungeon.active&&String(e.name).includes("Фаза I")){state.enemy=null;state.inCombat=false;state.combatBusy=false;syncCombatTabLock();state.dungeon.phase=1;renderDungeon();switchTab("dungeon");toast("Первая фаза пройдена — босс меняет форму!");updateHUD();saveGame(false);return;}if(state.dungeon.active&&String(e.name).includes("Фаза II")){state.dungeon.active=false;state.dungeon.room=5;addEvent("Страж повержен","Две фазы древнего босса завершены. Подземелье очищено.","victory");}state.enemy=null;state.rage=0;consumeAltarCharge();syncCombatTabLock();checkLevelUp();checkQuests();updateHUD();saveGame(false);if(state.abyss?.active){state.abyss.floor++;state.abyss.best=Math.max(Number(state.abyss.best||0),state.abyss.floor-1);state.abyss.active=false;playSfx("abyss");renderAbyss();switchTab("abyss");toast(`Этаж очищен! Следующий этаж: ${state.abyss.floor}`);saveGame(false);return;}switchTab("world");showVictoryPopup({name:e.name,xp:e.xp,gold:awardedGold,trophy:trophy?RPG_DB.items[trophy]?.name||trophy:null});},560,token);}
+  function winCombat(){if(!state.inCombat||!state.enemy)return;const e=state.enemy,enemy=$("enemy-combatant"),token=state.combatToken;state.combatBusy=true;enemy.classList.remove("hit-flash","lunge-enemy");enemy.classList.add("enemy-dying");addImpactBurst(enemy,"death");playSfx("victory");log(`${e.name} рассыпается в пепел.`,"good");combatDelay(()=>{if(!state.inCombat||!state.enemy)return;clearCombatTimers();state.combatToken++;state.combatBusy=false;state.inCombat=false;state.turn="player";state.combatPhase="victory";document.body.classList.remove("boss-phase-two");$("app").classList.remove("shake","rage-flash");state.hero.xp+=e.xp;const baseGold=rand(e.gold[0],e.gold[1]);const world=worldState();const petGold=(RPG_DB.pets.find(p=>p.id===state.petId)?.buff.gold)||0;const gold=Math.floor(baseGold*((world.night||world.bloodMoon)?2:1)*(1+petGold/100)*(1+(state.citadel?.treasury||0)*.05));const treasuryCap=[2000,2000,5000,10000][Math.min(3,state.citadel?.treasury||0)]||2000;const awardedGold=Math.min(gold,Math.max(0,treasuryCap-state.hero.gold));state.hero.gold+=awardedGold;addDailyProgress("gold",awardedGold);addDailyProgress("kills",1);state.kills++;recordBestiaryKill(e);const towerLevel=state.citadel?.laboratory||0;const potionEvery=towerLevel===1?3:towerLevel===2?2:towerLevel>=3?1:0;if(potionEvery&&state.kills%potionEvery===0){addItem("healing_potion");log("Алхимическая башня прислала лечебное зелье.","good");}state.quests.first_blood=Math.min(1,state.quests.first_blood+1);state.destiny+=1;let trophy=null;if(Math.random()<(state.abyss?.active?Math.min(.8,.25+Number(state.abyss.floor||1)*.02):(world.bloodMoon?.82:world.night?.56:.28))){trophy=state.abyss?.active&&Math.random()<Math.min(.65,.08+Number(state.abyss.floor||1)*.025)?pick(["blood_rune","void_rune","lightning_rune"]):pick(world.bloodMoon?["cursed_relic","wolf_ring","gold_charm"]:["moon_herb","healing_potion","gold_charm","cursed_relic"]);addItem(trophy)}if(e.isWorldBoss||e.isPhaseBoss){trophy=pick(["heart_of_ash","blood_crown","void_heart"]);addItem(trophy,1,false);triggerHaptic("heavy");playSfx("rareLoot");state.destiny+=3;state.hero.karma-=2;addEvent("Король Пепла повержен","Мировой босс пал. Сердце Пепла стало твоей добычей.","relic");}log(`Победа! Получено ${e.xp} опыта и ${awardedGold} золота.`,"good");addEvent("Победа на дороге",`${e.name} повержен. Ты получил ${e.xp} опыта и ${gold} золота.`,`sword`);if(state.dungeon.active&&String(e.name).includes("Фаза I")){state.enemy=null;state.inCombat=false;state.combatBusy=false;syncCombatTabLock();state.dungeon.phase=1;renderDungeon();switchTab("dungeon");toast("Первая фаза пройдена — босс меняет форму!");updateHUD();return;}if(state.dungeon.active&&String(e.name).includes("Фаза II")){state.dungeon.active=false;state.dungeon.room=5;addEvent("Страж повержен","Две фазы древнего босса завершены. Подземелье очищено.","victory");}state.enemy=null;state.rage=0;consumeAltarCharge();syncCombatTabLock();checkLevelUp();checkQuests();updateHUD();saveGame(false);if(state.abyss?.active){state.abyss.floor++;state.abyss.best=Math.max(Number(state.abyss.best||0),state.abyss.floor-1);state.abyss.active=false;playSfx("abyss");renderAbyss();switchTab("abyss");toast(`Этаж очищен! Следующий этаж: ${state.abyss.floor}`);saveGame(false);return;}switchTab("world");showVictoryPopup({name:e.name,xp:e.xp,gold:awardedGold,trophy:trophy?RPG_DB.items[trophy]?.name||trophy:null});},560,token);}
 
   function showVictoryPopup(reward){
     const modal=$("modal"),content=$("modal-content");if(!modal||!content){toast(`Победа: +${reward.xp} опыта, +${reward.gold} золота`);scheduleWorldReturn("Победа на дороге");return;}
@@ -689,7 +637,7 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
     },240,token);
   }
   function useCombatPotion(){if(!state.inCombat||!state.enemy||state.combatBusy||state.turn!=="player")return;const item=state.inventory.find(i=>i.id==="healing_potion");if(!item){toast("Нет зелий");return;}const amount=Math.min(item.heal+((state.citadel?.laboratory||0)*3),stats().maxHp-state.hero.hp);if(amount<=0){toast("Здоровье уже полное");return;}state.combatBusy=true;state.turn="enemy";playSfx("potion");removeItem(item.id);state.hero.hp+=amount;addDailyProgress("potions",1);floatNumber($("player-combatant"),`+${amount}`,"heal");log(`Ты выпиваешь зелье и восстанавливаешь ${amount} здоровья.`,"good");updateHUD();combatDelay(()=>enemyTurn(state.combatToken),500,state.combatToken);}
-  function flee(){if(!state.inCombat||state.combatBusy)return;if(Math.random()<.65){log("Ты отступаешь в туман, избежав худшего.");finishCombat();saveGame(false);toast("Удалось отступить");}else{state.combatBusy=true;log("Путь к отступлению перекрыт!","bad");enemyTurn(state.combatToken);}updateHUD();}
+  function flee(){if(!state.inCombat||state.combatBusy)return;if(Math.random()<.65){log("Ты отступаешь в туман, избежав худшего.");finishCombat();toast("Удалось отступить");}else{state.combatBusy=true;log("Путь к отступлению перекрыт!","bad");enemyTurn(state.combatToken);}updateHUD();}
   function crushingBlow(){if(!state.inCombat||!state.enemy||state.combatBusy||state.turn!=="player"||(state.rage||0)<100)return;state.combatBusy=true;state.turn="enemy";const token=state.combatToken,e=state.enemy,player=$("player-combatant"),enemy=$("enemy-combatant"),damage=Math.max(1,Math.floor((stats().attack+rand(0,6)-e.defense)*3));state.rage=0;playSfx("rage");shakeArena();$("app").classList.add("rage-flash");player.classList.remove("lunge-player");void player.offsetWidth;player.classList.add("lunge-player");addSlash(enemy,0);combatDelay(()=>addSlash(enemy,1),95,token);combatDelay(()=>addSlash(enemy,0),190,token);addImpactBurst(enemy,"death");floatNumber(enemy,`-${damage}`,"critical");e.hp=Math.max(0,e.hp-damage);log(`СОКРУШИТЕЛЬНЫЙ УДАР! Ярость обрушивается на врага: ${damage} урона!`,"crit");combatDelay(()=>$("app").classList.remove("rage-flash","shake"),450,token);renderArena();if(e.hp<=0){winCombat();return;}combatDelay(()=>enemyTurn(token),500,token);}
   function showRoadEncounter(encounter){
     const content=$("modal-content");
@@ -789,59 +737,8 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   }
   function renderProfile(){if(!state.hero)return;const h=state.hero,s=stats();const doll=$("profile-paper-doll");if(doll)doll.innerHTML=paperDollSVG();const raceAvatar=$("profile-race-avatar");if(raceAvatar)raceAvatar.innerHTML=racePortraitSVG(state.race?.id||"human");$("profile-name").textContent=h.name;$("profile-lore").textContent=`${state.race.lore} Твоё имя уже известно нескольким людям, но они ещё не решили, кем тебя считать.`;$("profile-grid").innerHTML=[["Уровень",h.level],["Победы",state.kills],["Золото",h.gold],["Карма",h.karma],["Судьба",state.destiny],["Здоровье",`${h.hp}/${s.maxHp}`]].map(([a,b])=>`<div class="profile-stat"><small>${a}</small><strong>${b}</strong></div>`).join("");const reps=[["Простые люди",state.reputation.common],["Торговцы",state.reputation.merchants],["Королевская стража",state.reputation.watch]];$("reputation-list").innerHTML=reps.map(([name,val])=>`<div class="rep-row"><span>${name}</span><div class="rep-bar"><i style="width:${clamp(50+val,0,100)}%"></i></div><strong>${val>0?"+":""}${val}</strong></div>`).join("");let destinyText= h.karma>=8?"Светлая нить: люди могут увидеть в тебе последнюю надежду королевства.":h.karma<=-6?"Чёрная нить: страх открывает двери, которые милосердие не найдёт.":"Серая нить: твои поступки ещё не определили, каким будет финал.";if(state.destiny>=8)destinyText+=" Судьба часто сталкивает тебя с редкими находками.";if(state.destiny<=-5)destinyText+=" Тёмные встречи становятся всё чаще.";$("destiny-box").textContent=destinyText;}
   function checkQuests(){const defs=RPG_DB.quests;defs.forEach(q=>{if(state.quests[q.id]>=q.goal&&!state.questClaimed[q.id]){state.questClaimed[q.id]=true;state.hero.gold+=q.reward.gold;state.hero.xp+=q.reward.xp;addEvent(`Задание выполнено: ${q.name}`,`${q.description} Награда: ${q.reward.gold} золота и ${q.reward.xp} опыта.`,"✦");checkLevelUp();}});}
-  function saveGame(show=true){
-    if(!state.hero)return false;
-    const data={
-      version:"v32.1", timestamp:Date.now(),
-      hero:state.hero, raceId:state.race?.id||state.hero.raceId||"human",
-      inventory:state.inventory, equipment:state.equipment,
-      reputation:state.reputation, quests:state.quests, questClaimed:state.questClaimed,
-      kills:state.kills, goodActs:state.goodActs, travelCount:state.travelCount, destiny:state.destiny,
-      daily:state.daily, altarBuff:state.altarBuff, skillPoints:state.skillPoints, skills:state.skills,
-      petId:state.petId, resources:state.resources, treasuryStepProgress:state.treasuryStepProgress||0,
-      dungeon:state.dungeon, injuries:state.injuries, mutations:state.mutations, anomaly:state.anomaly,
-      anomalyTravelExpiry:state.anomalyTravelExpiry, citadel:state.citadel, citadelAlert:!!state.citadelAlert,
-      marketEvent:state.marketEvent, marketDay:state.marketDay, castleIncomeAt:state.castleIncomeAt,
-      mercenaries:state.mercenaries, locationId:state.locationId, mapKeys:state.mapKeys,
-      discoveredLocations:state.discoveredLocations, unlockedMapNodes:state.unlockedMapNodes,
-      hardcore:state.hardcore, talents:state.talents, abyss:state.abyss, bestiary:state.bestiary,
-      legacy:state.legacy,
-      map:{locationId:state.locationId,travelCount:state.travelCount,discoveredLocations:state.discoveredLocations,unlockedMapNodes:state.unlockedMapNodes},
-      stats:{kills:state.kills,goodActs:state.goodActs,destiny:state.destiny,skillPoints:state.skillPoints},
-      events:Array.from($("event-feed")?.children||[]).map(x=>x.innerText),
-      tavernEvents:Array.from($("tavern-feed")?.children||[]).map(x=>x.innerText)
-    };
-    try{
-      localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
-      if(show)toast("💾 Игра сохранена");
-      return true;
-    }catch(e){
-      console.error("Ошибка сохранения:",e);
-      if(show)toast("Не удалось сохранить игру: память браузера недоступна");
-      return false;
-    }
-  }
-  function loadGame(){
-    try{
-      const raw=localStorage.getItem(STORAGE_KEY);
-      if(!raw)return false;
-      const d=JSON.parse(raw);
-      if(!d||typeof d!=="object"||!d.hero||!d.raceId)return false;
-      // Saves without a version are legacy saves and remain supported. Refuse only a newer major schema.
-      if(d.version){
-        const match=String(d.version).match(/^v?(\d+)(?:\.(\d+))?/i);
-        if(!match||Number(match[1])>31){console.warn("Сохранение создано более новой версией игры:",d.version);return false;}
-      }
-      Object.assign(state,{hero:d.hero,race:RPG_DB.races.find(r=>r.id===d.raceId)||RPG_DB.races[0],inventory:Array.isArray(d.inventory)?d.inventory:[],equipment:d.equipment||{weapon:null,armor:null,helmet:null,shield:null,ring:null},reputation:d.reputation||{common:0,merchants:0,watch:0},quests:d.quests||{first_blood:0,kind_heart:0,road_wanderer:0},questClaimed:d.questClaimed||{},kills:d.kills||0,goodActs:d.goodActs||0,travelCount:d.travelCount||d.map?.travelCount||0,destiny:d.destiny||0,daily:d.daily||{date:todayKey(),progress:{kills:0,potions:0,gold:0,travel:0},claimed:{}},altarBuff:d.altarBuff||null,skillPoints:d.skillPoints||0,skills:d.skills||{},petId:d.petId||"fox",resources:{moon_herb:0,iron_ore:0,ember_dust:0,void_root:0,empty_vial:0,...(d.resources||{})},treasuryStepProgress:Number(d.treasuryStepProgress||0),dungeon:d.dungeon||{active:false,room:0,phase:0,loot:0,bossHp:0},injuries:d.injuries||[],mutations:d.mutations||{},anomaly:d.anomaly||null,anomalyTravelExpiry:d.anomalyTravelExpiry||0,citadel:{forge:0,laboratory:0,treasury:0,barracks:0,walls:0,...(d.citadel||{})},citadelAlert:!!d.citadelAlert,marketEvent:d.marketEvent||"calm",marketDay:d.marketDay||todayKey(),castleIncomeAt:d.castleIncomeAt||Date.now(),mercenaries:d.mercenaries||0,locationId:MAP_LOCATIONS[d.locationId||d.map?.locationId]? (d.locationId||d.map.locationId):"tavern",mapKeys:Number(d.mapKeys||0),discoveredLocations:Array.isArray(d.discoveredLocations)?d.discoveredLocations:(Array.isArray(d.map?.discoveredLocations)?d.map.discoveredLocations:["tavern","forest"]),unlockedMapNodes:Array.isArray(d.unlockedMapNodes)?d.unlockedMapNodes:(d.map?.unlockedMapNodes||[]),hardcore:!!d.hardcore,talents:d.talents||{},abyss:d.abyss||{active:false,floor:1,best:0},bestiary:d.bestiary||{},legacy:d.legacy||{shards:0,upgrades:{hp:0,potion:0,weapon:0},dead:false}});
-      Object.keys(state.equipment||{}).forEach(slot=>{const equipped=state.equipment[slot];if(equipped&&!raceCanUse(equipped)){addItem(equipped.id);state.equipment[slot]=null;}});
-      currentLocation=state.locationId;state.inCombat=false;state.combatBusy=false;state.turn="player";state.rage=0;state.enemy=null;
-      $("start-screen").classList.add("hidden");$("game-screen").classList.remove("hidden");
-      (d.events||[]).slice().reverse().forEach(str=>{const parts=str.split("\n");addEvent(parts[0]||"Запись",parts.slice(1).join(" ")||str,"✦");});
-      (d.tavernEvents||[]).slice().reverse().forEach(str=>addEvent("Запись из таверны",str,"♨","tavern-feed"));
-      ensureDaily();updateHUD();renderTravelMap();syncCombatTabLock();switchTab("world");
-      return true;
-    }catch(e){console.error("Ошибка загрузки сохранения:",e);return false;}
-  }
+  function saveGame(show=true){if(!state.hero)return;const data={hero:state.hero,raceId:state.race.id,inventory:state.inventory,equipment:state.equipment,reputation:state.reputation,quests:state.quests,questClaimed:state.questClaimed,kills:state.kills,goodActs:state.goodActs,travelCount:state.travelCount,destiny:state.destiny,daily:state.daily,altarBuff:state.altarBuff,skillPoints:state.skillPoints,skills:state.skills,petId:state.petId,resources:state.resources,treasuryStepProgress:state.treasuryStepProgress||0,dungeon:state.dungeon,injuries:state.injuries,mutations:state.mutations,anomaly:state.anomaly,anomalyTravelExpiry:state.anomalyTravelExpiry,citadel:state.citadel,citadelAlert:!!state.citadelAlert,marketEvent:state.marketEvent,marketDay:state.marketDay,castleIncomeAt:state.castleIncomeAt,mercenaries:state.mercenaries,locationId:state.locationId,mapKeys:state.mapKeys,discoveredLocations:state.discoveredLocations,unlockedMapNodes:state.unlockedMapNodes,hardcore:state.hardcore,talents:state.talents,abyss:state.abyss,bestiary:state.bestiary,legacy:state.legacy,events:Array.from($("event-feed").children).map(x=>x.innerText),tavernEvents:Array.from($("tavern-feed").children).map(x=>x.innerText)};try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data));if(show)toast("Игра сохранена");}catch(e){if(show)toast("Не удалось сохранить игру");}}
+  function loadGame(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return false;const d=JSON.parse(raw);if(!d.hero||!d.raceId)return false;Object.assign(state,{hero:d.hero,race:RPG_DB.races.find(r=>r.id===d.raceId)||RPG_DB.races[0],inventory:d.inventory||[],equipment:d.equipment||{weapon:null,armor:null,helmet:null,shield:null,ring:null},reputation:d.reputation||{common:0,merchants:0,watch:0},quests:d.quests||{first_blood:0,kind_heart:0,road_wanderer:0},questClaimed:d.questClaimed||{},kills:d.kills||0,goodActs:d.goodActs||0,travelCount:d.travelCount||0,destiny:d.destiny||0,daily:d.daily||{date:todayKey(),progress:{kills:0,potions:0,gold:0,travel:0},claimed:{}},altarBuff:d.altarBuff||null,skillPoints:d.skillPoints||0,skills:d.skills||{},petId:d.petId||"fox",resources:{moon_herb:0,iron_ore:0,ember_dust:0,void_root:0,empty_vial:0,...(d.resources||{})},treasuryStepProgress:Number(d.treasuryStepProgress||0),dungeon:d.dungeon||{active:false,room:0,phase:0,loot:0,bossHp:0},injuries:d.injuries||[],mutations:d.mutations||{},anomaly:d.anomaly||null,anomalyTravelExpiry:d.anomalyTravelExpiry||0,citadel:{forge:0,laboratory:0,treasury:0,barracks:0,walls:0,...(d.citadel||{})},citadelAlert:!!d.citadelAlert,marketEvent:d.marketEvent||"calm",marketDay:d.marketDay||todayKey(),castleIncomeAt:d.castleIncomeAt||Date.now(),mercenaries:d.mercenaries||0,locationId:MAP_LOCATIONS[d.locationId]?d.locationId:"tavern",mapKeys:Number(d.mapKeys||0),discoveredLocations:Array.isArray(d.discoveredLocations)?d.discoveredLocations:["tavern","forest"],unlockedMapNodes:Array.isArray(d.unlockedMapNodes)?d.unlockedMapNodes:[],hardcore:!!d.hardcore,talents:d.talents||{},abyss:d.abyss||{active:false,floor:1,best:0},bestiary:d.bestiary||{},legacy:d.legacy||{shards:0,upgrades:{hp:0,potion:0,weapon:0},dead:false}});Object.keys(state.equipment||{}).forEach(slot=>{const equipped=state.equipment[slot];if(equipped&&!raceCanUse(equipped)){addItem(equipped.id);state.equipment[slot]=null;}});currentLocation=state.locationId;state.inCombat=false;state.combatBusy=false;state.turn="player";state.rage=0;state.enemy=null;$("start-screen").classList.add("hidden");$("game-screen").classList.remove("hidden");(d.events||[]).reverse().forEach(str=>{const parts=str.split("\n");addEvent(parts[0]||"Запись",parts.slice(1).join(" ")||str,"✦");});(d.tavernEvents||[]).reverse().forEach(str=>addEvent("Запись из таверны",str,"♨","tavern-feed"));ensureDaily();updateHUD();renderTravelMap();syncCombatTabLock();switchTab("world");return true;}catch(e){return false;}}
   function resetGame(){
     const modal=$("modal"),content=$("modal-content");if(!modal||!content)return;
     content.innerHTML=`<p class="eyebrow">НЕОБРАТИМОЕ ДЕЙСТВИЕ</p><h3>Начать заново?</h3><p class="reset-warning-copy">Все достижения, предметы, золото и текущий прогресс будут удалены с этого устройства.</p><div class="reset-confirm-actions"><button id="confirm-reset-game" class="btn btn-danger" type="button">⚠️ Да, сбросить прогресс</button><button id="cancel-reset-game" class="btn btn-ghost" type="button">Отмена</button></div>`;modal.classList.remove("hidden");
@@ -868,7 +765,6 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   function showEnding(){const h=state.hero;let title,text;if(h.karma>=8&&state.reputation.watch>=5){title="Защитник рассвета";text="Люди вспоминают тебя как того, кто не отвернулся от слабых. Корона остаётся пустой, но королевство впервые за долгие годы надеется.";}else if(h.karma<=-6){title="Король пепла";text="Твоё имя произносят шёпотом. Ты получил власть над дорогами, но ни один очаг не приветствует тебя как друга.";}else{title="Странник между мирами";text="Ты не стал святым и не превратился в чудовище. Легенды спорят о твоём имени, как спорила с тобой сама судьба.";}state.ending={title,text};$("modal-content").innerHTML=`<p class="eyebrow">ВОЗМОЖНЫЙ ФИНАЛ ПУТЕШЕСТВИЯ</p><h3>${title}</h3><p class="muted">${text}</p><button class="btn btn-gold" id="ending-close">Продолжить странствие</button>`;$("modal").classList.remove("hidden");$("ending-close").onclick=()=>$("modal").classList.add("hidden");}
   function bindEvents(){
     document.addEventListener("click", handleDelegatedClick);
-    $("combat-unlock-btn")?.addEventListener("click",()=>forceUnlockCombatTurn("manual"));
     // SVG <g> map nodes need an explicit touch path on iOS. preventDefault suppresses
     // the synthetic click where supported; a short dedupe guard protects browsers that emit both.
     document.addEventListener("touchend", e=>{
@@ -891,8 +787,6 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
       if((e.key==="Enter"||e.key===" ")&&e.target.matches(".map-location")){e.preventDefault();selectMapLocation(e.target.dataset.location);}
     });
     window.addEventListener("beforeunload",()=>saveGame(false));
-    window.addEventListener("pagehide",()=>saveGame(false));
-    document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")saveGame(false);});
     const tutorialNext=$("tutorial-next"),tutorialSkip=$("tutorial-skip");
     if(tutorialNext)tutorialNext.addEventListener("click",nextTutorialStep);
     if(tutorialSkip)tutorialSkip.addEventListener("click",finishTutorial);
@@ -900,15 +794,9 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
   }
   function handleDelegatedClick(e){
     const el=e.target.closest("button,a,[role=button],.map-location");
-    if(!el||el.disabled)return;
+    if(!el||el.disabled||el.getAttribute("aria-disabled")==="true")return;
     if(el.closest("#tutorial-overlay"))return;
     const id=el.id,tab=el.dataset.tab,action=el.dataset.action;
-    if(state.inCombat && (el.matches(".bottom-nav .nav-tab:not([data-tab=\"arena\"])") || id==="more-nav-btn" || el.matches("[data-more-tab]"))){
-      e.preventDefault();
-      toast("Сначала заверши бой или отступи!");
-      return;
-    }
-    if(el.getAttribute("aria-disabled")==="true")return;
     if(el.matches("[data-event-v30]")){resolveV30Event(el.dataset.eventV30);return;}
     if(id==="legacy-new-heir"){return;}
     if(id==="abyss-start"||id==="abyss-next"){launchAbyssFloor();return;}
@@ -955,8 +843,8 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
     if(id==="dungeon-leave"){state.dungeon.active=false;addEvent("Возвращение из подземелья","Ты выбрался на поверхность с тем, что удалось сохранить.","sigil");renderDungeon();updateHUD();saveGame(false);return;}
     if(id==="gather-resources"){gatherResources();return;}
     if(id==="combat-speed-btn"){toggleCombatSpeed();return;}
-    if(id==="save-btn"||id==="more-save-btn"){saveGame(true);return;}
-    if(id==="reset-btn"||id==="more-reset-btn"){resetGame();return;}
+    if(id==="save-btn"){saveGame(true);return;}
+    if(id==="reset-btn"){resetGame();return;}
     if(id==="modal-close"){if($("claim-victory-btn")){toast("Сначала забери награду за победу.");return;}$("modal").classList.add("hidden");return;}
     if(id==="travel-btn"){if(!mapNodeUnlocked(selectedLocation)){openRouteChoice(selectedLocation);return;}openRouteChoice(selectedLocation);return;}
     if(id==="attack-btn"||id==="btn-attack"){playerAttack();return;}
