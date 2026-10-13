@@ -1,24 +1,7 @@
-/* Dark Fantasy RPG v52.0 · Golden v30.8 Base Restoration — Ultimate Juice, Filters, Haptics & Citadel Alerts Edition. */
+/* Dark Fantasy RPG v30.7 — Ultimate Juice, Filters, Haptics & Citadel Alerts Edition. */
 "use strict";
 (() => {
-  // Telegram WebApp bootstrap; graceful fallback for standalone browser/PWA.
-  try {
-    const tg = window.Telegram && window.Telegram.WebApp;
-    if (tg) {
-      if (typeof tg.ready === "function") tg.ready();
-      if (typeof tg.expand === "function") tg.expand();
-      if (typeof tg.requestFullscreen === "function") {
-        try { const result = tg.requestFullscreen(); if (result && typeof result.catch === "function") result.catch(() => {}); } catch (_) {}
-      }
-    }
-  } catch (_) {}
   const $ = id => document.getElementById(id);
-  document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".version-badge").forEach(node => {
-      node.textContent = "v52.0";
-      node.setAttribute("aria-label", "Версия игры 52.0");
-    });
-  });
   // Safe, progressive haptics: unsupported browsers and denied vibration are harmless.
   function triggerHaptic(type = "light") {
     try {

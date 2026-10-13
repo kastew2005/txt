@@ -2650,3 +2650,93 @@ button, .btn, .nav-tab, .action-card { max-width: 100%; }
     max-height: 90px !important;
   }
 }
+
+
+/* v53.0 — Absolute Overlap Fix & Clean Flex Flow */
+.install-pwa-btn, #install-btn, #install-app, .install-app, .pwa-install-container { display:none !important; }
+
+/* Compact, predictable header flow */
+.top-stats-bar-v53,
+.topbar .top-stats {
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:4px !important;
+  padding:4px 6px !important;
+  background:#140e24 !important;
+  border-bottom:1px solid rgba(255,215,0,.2) !important;
+  flex-shrink:0 !important;
+  min-width:0 !important;
+}
+.topbar { position:relative !important; display:flex !important; flex-direction:column !important; align-items:stretch !important; gap:5px !important; margin:0 !important; }
+.brand { min-width:0 !important; flex-shrink:0 !important; }
+.top-stats .stat { min-width:0 !important; gap:4px !important; overflow:hidden !important; }
+.top-stats .stat > div { min-width:0 !important; }
+.top-stats .stat small, .top-stats .stat strong { white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important; }
+.top-stats .sound-toggle { min-width:0 !important; padding:4px !important; font-size:9px !important; }
+
+/* Remove absolute/negative positioning from headings and keep map in normal flow */
+.game-screen {
+  display:flex !important;
+  flex-direction:column !important;
+  gap:8px !important;
+  padding:8px 10px 20px !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  min-height:0 !important;
+}
+.section-title-clean { position:static !important; inset:auto !important; transform:none !important; font-size:11px !important; color:#ffd700 !important; font-weight:700 !important; margin:4px 0 2px !important; }
+.travel-map-heading, .travel-map-panel > .travel-map-heading, .section-heading { position:relative !important; inset:auto !important; transform:none !important; flex-shrink:0 !important; margin:4px 0 2px !important; }
+.travel-map-panel, .map-container, .map-box {
+  position:relative !important;
+  width:100% !important;
+  border-radius:8px !important;
+  overflow:hidden !important;
+  flex-shrink:0 !important;
+  margin:4px 0 !important;
+}
+.travel-map-panel { height:auto !important; min-height:0 !important; display:flex !important; flex-direction:column !important; gap:4px !important; }
+.travel-map, #travel-map, .map-container svg, .map-box svg { display:block !important; position:relative !important; inset:auto !important; width:100% !important; height:90px !important; min-height:90px !important; max-height:90px !important; flex:0 0 90px !important; margin:0 !important; }
+.travel-map-heading h3 { margin:0 !important; line-height:1.25 !important; }
+.map-footer { position:relative !important; inset:auto !important; flex-shrink:0 !important; flex-wrap:wrap !important; }
+.map-overhaul-hint { margin:2px 0 0 !important; line-height:1.35 !important; }
+
+/* Bottom navigation: one line per label, no overflow */
+.bottom-nav-v53, .bottom-nav {
+  display:grid !important;
+  grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+  background:#110a1f !important;
+  border-top:1px solid rgba(255,215,0,.2) !important;
+  padding:3px 2px !important;
+  gap:1px !important;
+  flex-shrink:0 !important;
+  min-width:0 !important;
+}
+.nav-btn-v53, .bottom-nav .nav-tab {
+  background:transparent !important;
+  border:0 !important;
+  color:#9a8bb5 !important;
+  font-size:9.5px !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:1px !important;
+  padding:3px 0 !important;
+  min-width:0 !important;
+  max-width:none !important;
+  border-radius:0 !important;
+}
+.nav-btn-v53.active, .bottom-nav .nav-tab.active { color:#ffd700 !important; }
+.bottom-nav .nav-tab span { font-size:16px !important; line-height:1.1 !important; }
+.bottom-nav .nav-tab small { display:block !important; max-width:100% !important; font-size:9px !important; line-height:1.15 !important; white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important; }
+@media(max-width:380px) {
+  .app-shell { padding-left:5px !important; padding-right:5px !important; }
+  .topbar .top-stats { grid-template-columns:repeat(4,minmax(0,1fr)) !important; }
+  .top-stats .stat > span { font-size:13px !important; }
+  .top-stats .stat small { font-size:7px !important; }
+  .top-stats .stat strong { font-size:10px !important; }
+  .bottom-nav .nav-tab small { font-size:8px !important; }
+}
