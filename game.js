@@ -184,7 +184,7 @@
   function mapNodeUnlocked(id){return id!=="vault"||(state.unlockedMapNodes||[]).includes(id);}
   function revealMapAround(id){state.discoveredLocations=Array.from(new Set([...(state.discoveredLocations||["tavern","forest"]),id,...(MAP_LINKS[id]||[])]));}
   function renderTravelMap(){
-    const loc=MAP_LOCATIONS[state.locationId]||MAP_LOCATIONS.tavern;currentLocation=state.locationId||"tavern";
+    const loc=MAP_LOCATIONS[state.locationId]||MAP_LOCATIONS.tavern;currentLocation=state.locationId||"tavern";const placeTitle=$("current-place-title"),placeDesc=$("current-place-desc"),placeStatus=$("current-place-status");if(placeTitle)placeTitle.textContent=loc.name;if(placeDesc)placeDesc.textContent=loc.description||"Старая тропа уходит в туман. Впереди ждут новые события и опасности.";if(placeStatus)placeStatus.textContent=state.inCombat?"Опасность рядом":"Путь открыт";
     if(!state.discoveredLocations||!state.discoveredLocations.length)state.discoveredLocations=["tavern","forest"];
     revealMapAround(currentLocation);
     if(!MAP_LOCATIONS[selectedLocation]||!state.discoveredLocations.includes(selectedLocation)||!(MAP_LINKS[currentLocation]||[]).includes(selectedLocation))selectedLocation=(MAP_LINKS[currentLocation]||[]).find(id=>state.discoveredLocations.includes(id)&&mapNodeUnlocked(id))||currentLocation;
@@ -273,7 +273,7 @@
     syncCombatTabLock();
     document.querySelectorAll(".tab-view").forEach(v=>v.classList.add("hidden"));
     $(`tab-${tab}`).classList.remove("hidden");
-    const titles={world:["ЗЕМЛИ СЕВЕРА","Перекрёсток судьбы"],arena:["КРОВАВЫЙ ПЕСОК","Арена боя"],inventory:["СНАРЯЖЕНИЕ","Герой · Инвентарь"],profile:["ХРОНИКИ СТРАННИКА","Герой · Профиль"],tavern:["УБЕЖИЩЕ ПУТНИКА","Таверна"],skills:["ПУТЬ МАСТЕРСТВА","Древо навыков"],pets:["ВЕРНЫЕ СПУТНИКИ","Питомцы и спутники"],dungeon:["ЗАБЫТЫЕ ГЛУБИНЫ","Подземелье"],craft:["ЛАГЕРНАЯ МАСТЕРСКАЯ","Крафт и алхимия"],castle:["ВОЗРОЖДЕНИЕ КОРОЛЕВСТВА","Цитадель и торговец"],abyss:["БЕСКОНЕЧНЫЙ СПУСК","Врата Бездны"],bestiary:["ДНЕВНИК ОХОТНИКА","Бестиарий и трофеи"],legacy:["ПАМЯТЬ ПОКОЛЕНИЙ","Наследие"]};
+    const titles={world:["ЗЕМЛИ СЕВЕРА",(MAP_LOCATIONS[state.locationId]||MAP_LOCATIONS.tavern).name],"full-map":["ПУТЕШЕСТВИЕ","Карта северных земель"],arena:["КРОВАВЫЙ ПЕСОК","Арена боя"],inventory:["СНАРЯЖЕНИЕ","Герой · Инвентарь"],profile:["ХРОНИКИ СТРАННИКА","Герой · Профиль"],tavern:["УБЕЖИЩЕ ПУТНИКА","Таверна"],skills:["ПУТЬ МАСТЕРСТВА","Древо навыков"],pets:["ВЕРНЫЕ СПУТНИКИ","Питомцы и спутники"],dungeon:["ЗАБЫТЫЕ ГЛУБИНЫ","Подземелье"],craft:["ЛАГЕРНАЯ МАСТЕРСКАЯ","Крафт и алхимия"],castle:["ВОЗРОЖДЕНИЕ КОРОЛЕВСТВА","Цитадель и торговец"],abyss:["БЕСКОНЕЧНЫЙ СПУСК","Врата Бездны"],bestiary:["ДНЕВНИК ОХОТНИКА","Бестиарий и трофеи"],legacy:["ПАМЯТЬ ПОКОЛЕНИЙ","Наследие"]};
     $("scene-eyebrow").textContent=titles[tab][0];$("scene-title").textContent=titles[tab][1];
     const more=$("more-menu");if(more)more.classList.add("hidden");const moreBtn=$("more-nav-btn");if(moreBtn)moreBtn.setAttribute("aria-expanded","false");
   }
@@ -780,6 +780,9 @@ root.innerHTML=`<svg viewBox="0 0 320 240" role="img" aria-label="${stage===1?"�
     if(!el||el.disabled||el.getAttribute("aria-disabled")==="true")return;
     if(el.closest("#tutorial-overlay"))return;
     const id=el.id,tab=el.dataset.tab,action=el.dataset.action;
+    if(id==="open-full-map-btn"){e.preventDefault();switchTab("full-map");renderTravelMap();return;}
+    if(id==="back-to-world-btn"){e.preventDefault();switchTab("world");return;}
+    if(el.matches("[data-quick-tab]")){e.preventDefault();switchTab(el.dataset.quickTab);return;}
     if(el.matches("[data-event-v30]")){resolveV30Event(el.dataset.eventV30);return;}
     if(id==="legacy-new-heir"){return;}
     if(id==="abyss-start"||id==="abyss-next"){launchAbyssFloor();return;}
