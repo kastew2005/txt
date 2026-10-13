@@ -2760,3 +2760,84 @@ button, .btn, .nav-tab, .action-card { max-width: 100%; }
 #tab-full-map .travel-map{width:100%;height:auto;max-height:none;display:block}
 #tab-full-map .map-footer{flex-wrap:wrap}
 @media(max-width:480px){.location-status-card{padding:11px}.current-place-title{font-size:14px}.btn-open-map{padding:10px}.full-map-topline h3{font-size:12px}#tab-full-map .travel-map-panel{padding:8px}}
+
+
+/* v55.0 — Micro Stats Bar, Inline Icons & Clean Layout */
+.top-stats-bar-v55 {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 3px !important;
+  padding: 4px 6px !important;
+  background: #120a1f !important;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.25) !important;
+  flex-shrink: 0 !important;
+  min-width: 0 !important;
+}
+.stat-pill {
+  min-width: 0 !important;
+  background: rgba(25, 18, 42, 0.95) !important;
+  border: 1px solid rgba(255, 215, 0, 0.3) !important;
+  border-radius: 5px !important;
+  padding: 3px 2px !important;
+  text-align: center !important;
+  font-size: 9.5px !important;
+  font-weight: bold !important;
+  color: #ebdffc !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.topbar { display:flex !important; flex-direction:column !important; gap:4px !important; min-width:0 !important; }
+.topbar .brand { min-width:0 !important; padding:4px 8px !important; }
+.topbar .brand strong { font-size:11px !important; }
+.bottom-nav-v55 {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  background: #110a1f !important;
+  border-top: 1px solid rgba(255, 215, 0, 0.2) !important;
+  padding: 2px 4px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  flex-shrink: 0 !important;
+  gap: 0 !important;
+}
+.nav-btn-v55 {
+  min-width:0 !important;
+  background: transparent !important;
+  border: none !important;
+  color: #8a7b9e !important;
+  font-size: 8.5px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 1px !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  overflow:hidden !important;
+}
+.nav-btn-v55 > span { line-height:1 !important; }
+.nav-btn-v55 small { display:block !important; max-width:100% !important; font-size:8.5px !important; line-height:1 !important; white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important; }
+.nav-btn-v55 .ui-icon { width:13px !important; height:13px !important; }
+.nav-btn-v55.active { color:#ffd700 !important; }
+.game-screen, .tab-view {
+  position:relative !important;
+  display:flex;
+  flex-direction:column !important;
+  min-width:0 !important;
+  gap:6px !important;
+}
+.game-screen { flex:1 !important; overflow-y:auto !important; padding:6px 10px 16px !important; }
+.game-screen:not(.active) { display:none !important; }
+.game-screen.active { display:flex !important; }
+.location-status-card { flex-shrink:0 !important; margin:0 !important; }
+.location-status-card, .current-place-title, .current-place-desc { position:relative !important; inset:auto !important; transform:none !important; }
+#tab-world { gap:6px !important; }
+/* Keep existing game panes in the normal flow; prevent decorative layers from intercepting taps. */
+#app, .app-shell, .tab-view { min-height:0 !important; }
+.visual-fx-layer { pointer-events:none !important; }
+@media (max-width:360px) {
+  .top-stats-bar-v55 { padding:3px 4px !important; gap:2px !important; }
+  .stat-pill { font-size:9px !important; }
+  .nav-btn-v55 small { font-size:8px !important; }
+}
